@@ -18,11 +18,13 @@ Outputs:
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 
 import pandas as pd
 
 from . import config
+from .known_facilities import resolve_facility
 from .patterns import classify_unusual, guess_state
 
 log = logging.getLogger(__name__)
@@ -80,6 +82,13 @@ def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
+    # Patch up known reference-file artifacts:
+    # FIPS 11001 row has state_name "Columbia" because the original
+    # "District of Columbia" was split on the comma during the CSV export.
+    dc_rows = fips["fips"] == "11001"
+    if dc_rows.any():
+        fips.loc[dc_rows, "state_name"] = "District of Columbia"
+        fips.loc[dc_rows, "state_abbr"] = "DC"
     return fips, state_abbr_map
 
 
@@ -201,6 +210,26 @@ def build_crosswalk(
     )
     facilities[["unusual_flag_auto", "unusual_type_auto"]] = flags
 
+    # 1b. Auto-resolve county from the known-facility table + name patterns.
+    auto_hits = facilities.apply(
+        lambda r: resolve_facility(r["facility_name"], r["facility_code"]), axis=1
+    )
+    facilities["state_auto_kf"] = auto_hits.map(
+        lambda h: h.state_abbr if h is not None else ""
+    )
+    facilities["county_name_auto_kf"] = auto_hits.map(
+        lambda h: h.county_name if h is not None else ""
+    )
+    facilities["county_source_auto_kf"] = auto_hits.map(
+        lambda h: h.source if h is not None else ""
+    )
+    # Promote the known-facility state to state_abbr_auto when the simple
+    # state heuristic missed it.
+    facilities["state_abbr_auto"] = facilities.apply(
+        lambda r: r["state_abbr_auto"] if r["state_abbr_auto"] else r["state_auto_kf"],
+        axis=1,
+    )
+
     # 2. Apply academic-team overrides (highest priority).
     if not overrides.empty:
         facilities = facilities.merge(
@@ -237,10 +266,85 @@ def build_crosswalk(
         facilities["county_fips"] != "", ""
     )
 
+    # Capture origin BEFORE resolution overwrites the columns. We need this
+    # to distinguish "came from CSV override" vs "came from known-facilities
+    # auto-resolution" in the provenance column.
+    facilities["_origin_override_county"] = (
+        (facilities["county_fips"] != "")
+        | (facilities["county_name"].astype(str).str.strip() != "")
+    )
+
     # 3. Resolve county info from the FIPS file when an override county is set
     #    OR when the user has supplied a county_name in the override row.
     fips_lookup = fips_df[["county_fips", "county_name", "state_name", "state_abbr"]].copy()
     fips_lookup["county_name_lc"] = fips_lookup["county_name"].str.lower()
+
+    # Build a regex that strips trailing whitespace + any prefix of
+    # "county"/"parish"/"borough"/"municipality". The FIPS reference
+    # truncates names at 16 chars, so we see "Miami-Dade count" (drop
+    # " count"), "San Bernardino c" (drop " c"), "St. Tammany pari"
+    # (drop " pari"), etc.
+    _decoration_words = ("county", "parish", "borough", "municipality")
+    _decoration_prefixes = sorted(
+        {w[:n] for w in _decoration_words for n in range(1, len(w) + 1)},
+        key=len, reverse=True,
+    )
+    _decoration_re = re.compile(
+        r"\s+(?:" + "|".join(_decoration_prefixes) + r"|census area|city and borough)$"
+    )
+
+    def _norm_county(s: str) -> str:
+        s = s.strip().lower().replace(".", "").replace(",", "")
+        s = " ".join(s.split())
+        prev = None
+        while prev != s:
+            prev = s
+            s = _decoration_re.sub("", s)
+        # Also produce a space-stripped form so "lasalle" matches "la salle"
+        # and "saint johns" matches "stjohns".
+        return s
+
+    def _norm_compact(s: str) -> str:
+        return _norm_county(s).replace(" ", "").replace("-", "").replace("'", "")
+
+    fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(_norm_county)
+    fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(_norm_compact)
+
+    def _lookup_fips(state: str, county: str) -> pd.Series | None:
+        if not (state and county):
+            return None
+        sa = state.upper()
+        cn = _norm_county(county)
+        cnc = _norm_compact(county)
+        same_state = fips_lookup[fips_lookup["state_abbr"] == sa]
+        if same_state.empty:
+            return None
+        # 1. Exact normalized match.
+        match = same_state[same_state["county_name_norm"] == cn]
+        if match.empty:
+            # 2. Compact-form match (handles "LaSalle" vs "La Salle").
+            match = same_state[same_state["county_name_compact"] == cnc]
+        if match.empty:
+            # 3. Prefix match — FIPS names are clipped to 16 chars, so
+            # accept any FIPS row whose normalized name is a prefix of ours.
+            match = same_state[
+                same_state["county_name_norm"].apply(
+                    lambda c: cn.startswith(c) and len(c) >= 5
+                )
+            ]
+        if match.empty:
+            # 4. Compact prefix match.
+            match = same_state[
+                same_state["county_name_compact"].apply(
+                    lambda c: cnc.startswith(c) and len(c) >= 5
+                )
+            ]
+        if not match.empty:
+            m = match.iloc[0]
+            return pd.Series(
+                [m["county_fips"], m["county_name"], m["state_name"], m["state_abbr"]]
+            )
+        return None
 
     def _resolve_county(row):
         cf = row["county_fips"]
@@ -252,20 +356,16 @@ def build_crosswalk(
                 return pd.Series(
                     [cf, m["county_name"], m["state_name"], m["state_abbr"]]
                 )
-        cn = row["county_name"].lower()
-        sa = row["state_abbr"].upper()
-        if cn and sa:
-            match = fips_lookup[
-                (fips_lookup["state_abbr"] == sa)
-                & (fips_lookup["county_name_lc"].str.replace(" county", "", regex=False)
-                   == cn.replace(" county", ""))
-            ]
-            if not match.empty:
-                m = match.iloc[0]
-                return pd.Series(
-                    [m["county_fips"], m["county_name"], m["state_name"], m["state_abbr"]]
-                )
-        # State-only: at least populate state_name where possible.
+        # 1. Override-supplied (state, county_name)
+        result = _lookup_fips(row["state_abbr"], row["county_name"])
+        if result is not None:
+            return result
+        # 2. Auto-resolved (state, county) from known_facilities lookup.
+        result = _lookup_fips(row["state_auto_kf"], row["county_name_auto_kf"])
+        if result is not None:
+            return result
+        # 3. State-only: at least populate state_name where possible.
+        sa = (row["state_abbr"] or row["state_auto_kf"]).upper()
         if sa:
             sn = fips_lookup.loc[fips_lookup["state_abbr"] == sa, "state_name"]
             if not sn.empty:
@@ -279,9 +379,11 @@ def build_crosswalk(
     # 4. Provenance: where did each piece of info come from?
     def _source(row):
         if row["county_fips"]:
-            # County is only ever populated by an override or by FIPS lookup
-            # of an override-supplied (state_abbr, county_name) pair.
-            return "override"
+            if row["_origin_override_county"]:
+                return "override"
+            if row["county_source_auto_kf"]:
+                return f"auto:{row['county_source_auto_kf']}"
+            return "auto"
         sa = row["state_abbr"]
         if sa:
             if row["state_abbr_auto"] and row["state_abbr_auto"] == sa:
