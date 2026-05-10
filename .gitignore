@@ -1,0 +1,26 @@
+# virtual environment
+.venv/
+
+# raw FOIA workbooks (large, not for version control)
+*.xlsx
+*.xls
+
+# pipeline outputs
+data/interim/
+data/processed/
+
+# override files (contain researcher annotations — keep templates, not filled copies)
+references/facility_overrides.csv
+references/site_overrides.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# OS
+.DS_Store
+Thumbs.db
