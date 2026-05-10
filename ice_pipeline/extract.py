@@ -1,10 +1,4 @@
-"""Stream one ICE FOIA xlsx into a slim per-FY CSV.
-
-Each input workbook is ~120-180 MB and contains hundreds of thousands of
-detention rows. We use openpyxl's read-only iterator to stay flat in
-memory and keep only the five columns the downstream crosswalk and
-aggregation need.
-"""
+"""Stream FOIA xlsx workbooks into slim CSVs."""
 
 from __future__ import annotations
 
@@ -23,10 +17,7 @@ from . import config
 log = logging.getLogger(__name__)
 
 
-# --- Helpers -----------------------------------------------------------------
-
 def _coerce_date(value) -> str:
-    """Return an ISO date string for Excel date cells, '' otherwise."""
     if value is None or value == "":
         return ""
     if isinstance(value, dt.datetime):
@@ -34,7 +25,7 @@ def _coerce_date(value) -> str:
     if isinstance(value, dt.date):
         return value.isoformat()
     if isinstance(value, (int, float)):
-        # Treat plausible Excel serials (year >= 1900-ish, < 2100-ish) as dates.
+        # Plausible Excel serial range.
         if 1 <= float(value) <= 80000:
             try:
                 base = dt.datetime(1899, 12, 30)
@@ -59,7 +50,6 @@ def fiscal_year_from_filename(path: Path) -> int | None:
     fy = int(raw)
     if len(raw) == 4:
         return fy
-    # Two-digit FY -> four-digit (12 -> 2012, 25 -> 2025).
     return 2000 + fy if fy < 50 else 1900 + fy
 
 
@@ -68,10 +58,7 @@ def fiscal_year_from_sheet(sheet_name: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
-# --- Main extraction ---------------------------------------------------------
-
 def _validate_header(row_values: list) -> None:
-    """Raise if the header row's text doesn't match the documented FOIA layout."""
     actual = [_coerce_text(v) for v in row_values[: len(config.EXPECTED_HEADERS)]]
     if actual != config.EXPECTED_HEADERS:
         mismatches = [
@@ -86,7 +73,6 @@ def _validate_header(row_values: list) -> None:
 
 
 def _iter_data_rows(sheet) -> Iterator[tuple]:
-    """Yield (book_in, facility, code, book_out, person_id) for each data row."""
     cols = (
         config.COL_DETENTION_BOOK_IN,
         config.COL_DETENTION_FACILITY,
@@ -106,14 +92,9 @@ def _iter_data_rows(sheet) -> Iterator[tuple]:
 
 
 def extract_workbook(xlsx_path: Path, out_path: Path, gzip_output: bool = True) -> dict:
-    """Stream one workbook into a CSV (gzipped by default).
-
-    Returns a small stats dict with row counts and the resolved fiscal year.
-    """
     log.info("opening %s", xlsx_path.name)
     wb = load_workbook(filename=str(xlsx_path), read_only=True, data_only=True)
     try:
-        # Find the FY<YYYY> sheet — every FOIA file has exactly one.
         target = next(
             (s for s in wb.sheetnames if re.match(config.SHEET_NAME_RE, s)),
             None,
@@ -174,10 +155,6 @@ def extract_workbook(xlsx_path: Path, out_path: Path, gzip_output: bool = True) 
 
 
 def discover_inputs(input_dir: Path) -> list[Path]:
-    """Return *Detentions_FY*.xlsx workbooks under input_dir, sorted by FY.
-
-    Excel lockfiles (``~$<name>.xlsx``) are dropped automatically.
-    """
     candidates = sorted(input_dir.glob("*Detentions_FY*.xlsx"))
     return [
         p for p in candidates
@@ -186,16 +163,12 @@ def discover_inputs(input_dir: Path) -> list[Path]:
     ]
 
 
-# --- ERO Encounters workbook -------------------------------------------------
-
 def _encounters_period_tag(sheet_name: str) -> str:
-    """Map the verbose sheet name to a stable filesystem-safe tag."""
     s = (sheet_name or "").lower()
     if "<" in s and "10012024" in s:
         return "pre_20241001"
     if ">=" in s and "10012024" in s:
         return "from_20241001"
-    # Fallback: slugify the sheet name.
     safe = re.sub(r"[^a-z0-9]+", "_", s).strip("_")
     return safe or "unknown"
 
@@ -238,7 +211,6 @@ def _iter_encounter_rows(sheet) -> Iterator[tuple]:
 
 
 def discover_encounters(input_dir: Path) -> list[Path]:
-    """Return ``*ERO Encounters*.xlsx`` workbooks (skipping lockfiles)."""
     candidates = sorted(input_dir.glob(config.ENCOUNTERS_FILENAME_GLOB))
     return [p for p in candidates if not p.name.startswith("~$")]
 
@@ -246,12 +218,6 @@ def discover_encounters(input_dir: Path) -> list[Path]:
 def extract_encounters_workbook(
     xlsx_path: Path, out_path: Path, gzip_output: bool = True
 ) -> dict:
-    """Stream both sheets of an Encounters workbook into one combined CSV.
-
-    The ``period_tag`` column flags which sheet a row came from
-    (``pre_20241001`` or ``from_20241001``) so downstream filters can
-    keep them separate.
-    """
     log.info("opening %s (encounters)", xlsx_path.name)
     wb = load_workbook(filename=str(xlsx_path), read_only=True, data_only=True)
     try:

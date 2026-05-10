@@ -1,19 +1,4 @@
-"""Known-facility resolution: map facility name/code to (state, county).
-
-This is the actual crosswalk content — the published list of where ICE
-detention facilities, contract jails, and field-office hold rooms are
-physically located. Built from ICE's public detention-facility lists,
-DHS OIG inspection reports, and prior FOIA datasets.
-
-Entries are keyed by facility_code where possible (the codes are stable
-across the FY12-FY23 FOIA releases). When the code is ambiguous or the
-facility appears under different codes over time, we fall back to
-matching the facility name.
-
-The functions here only return ``(state_abbr, county_name)`` pairs;
-the crosswalk module is responsible for looking up the FIPS code from
-the FIPS reference CSV.
-"""
+"""Facility-code → (state, county) lookup."""
 
 from __future__ import annotations
 
@@ -23,90 +8,86 @@ from typing import NamedTuple
 
 class CountyHit(NamedTuple):
     state_abbr: str
-    county_name: str  # bare county name, no "County" suffix; matches FIPS file
-    source: str       # "code", "name", "city", "county_jail_pattern"
+    county_name: str
+    source: str
 
 
-# --- Hardcoded major detention facilities (by facility_code) ----------------
-# State + county for facilities that account for the bulk of detention
-# episodes. Names in comments are the most-common facility_name string.
 KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
-    # Texas - South & Rio Grande Valley
-    "PIC": ("TX", "Cameron"),         # Port Isabel SPC (Los Fresnos)
+    "PIC": ("TX", "Cameron"),
     "PIRGS": ("TX", "Cameron"),
-    "RGS": ("TX", "Hidalgo"),         # Rio Grande Valley Staging (McAllen)
-    "RGRNDTX": ("TX", "Webb"),        # Rio Grande Detention Center (Laredo)
-    "LRDICDF": ("TX", "Webb"),        # Laredo Processing Center
+    "RGS": ("TX", "Hidalgo"),
+    "RGRNDTX": ("TX", "Webb"),
+    "LRDICDF": ("TX", "Webb"),
     "LRDHOLD": ("TX", "Webb"),
     "LRDMCTX": ("TX", "Webb"),
-    "EHDLGTX": ("TX", "Hidalgo"),     # East Hidalgo Detention (La Villa)
-    "ELVDFTX": ("TX", "Willacy"),     # El Valle Detention (Raymondville)
-    "WCRDFTX": ("TX", "Willacy"),     # Willacy Co Regional Det
-    "VALVETX": ("TX", "Val Verde"),   # Val Verde Det Center
-    "BROKSTX": ("TX", "Brooks"),      # Brooks County Jail
-    "BSCORTX": ("TX", "Brooks"),      # BSCC airpark
-    "BSFLTTX": ("TX", "Brooks"),      # BSCC flightline
-    "HSF": ("TX", "Cameron"),         # Harlingen Staging
+    "EHDLGTX": ("TX", "Hidalgo"),
+    "ELVDFTX": ("TX", "Willacy"),
+    "WCRDFTX": ("TX", "Willacy"),
+    "VALVETX": ("TX", "Val Verde"),
+    "BROKSTX": ("TX", "Brooks"),
+    "BSCORTX": ("TX", "Brooks"),
+    "BSFLTTX": ("TX", "Brooks"),
+    "HSF": ("TX", "Cameron"),
     "HLGHOLD": ("TX", "Cameron"),
-    "HMCHOTX": ("TX", "Cameron"),     # Harlingen Medical
+    "HMCHOTX": ("TX", "Cameron"),
     "HRLGNTX": ("TX", "Cameron"),
-    "VBHOSTX": ("TX", "Cameron"),     # Valley Baptist
+    "VBHOSTX": ("TX", "Cameron"),
     "PTISBTX": ("TX", "Cameron"),
-    "LSFHOLD": ("TX", "Cameron"),     # Los Fresnos Hold Room
-    "LFRESTX": ("TX", "Cameron"),     # Los Fresnos PD
-    "SBNTOTX": ("TX", "Cameron"),     # San Benito PD
-    "BRWNSTX": ("TX", "Cameron"),     # Brownsville PD
-    "MRCDSTX": ("TX", "Hidalgo"),     # Mercedes PD
-    "EDNBGTX": ("TX", "Hidalgo"),     # Edinburg PD
-    "MCAHOLD": ("TX", "Hidalgo"),     # McAllen Hold
-    "PLMVWTX": ("TX", "Hidalgo"),     # Palmview PD
-    "ALAMOTX": ("TX", "Hidalgo"),     # Alamo PD
-    "HDLGOTX": ("TX", "Hidalgo"),     # Hidalgo PD
-    "SJUANTX": ("TX", "Hidalgo"),     # San Juan PD
-    "LAFERTX": ("TX", "Cameron"),     # La Feria PD
-    "WESLTX": ("TX", "Hidalgo"),      # Weslaco
-    "SP8WWTX": ("TX", "Hidalgo"),     # Super 8 Weslaco
-    "HISMCTX": ("TX", "Hidalgo"),     # Hampton Inn McAllen
-    "LCIMCTX": ("TX", "Hidalgo"),     # La Copa McAllen
-    "HTLPPTX": ("TX", "Hidalgo"),     # Pharr Plaza
-    "RGHOSTX": ("TX", "Hidalgo"),     # Rio Grande State Hospital
-    "HIDALTX": ("TX", "Hidalgo"),     # Hidalgo County Sheriff
-    "SPIPDTX": ("TX", "Cameron"),     # South Padre Island PD
-    "STDHOLD": ("TX", "Frio"),        # South Texas/Pearsall
-    "STCDFTX": ("TX", "Frio"),        # Dilley
-    "STFRCTX": ("TX", "Frio"),        # South Texas Family (Dilley)
+    "LSFHOLD": ("TX", "Cameron"),
+    "LFRESTX": ("TX", "Cameron"),
+    "SBNTOTX": ("TX", "Cameron"),
+    "BRWNSTX": ("TX", "Cameron"),
+    "MRCDSTX": ("TX", "Hidalgo"),
+    "EDNBGTX": ("TX", "Hidalgo"),
+    "MCAHOLD": ("TX", "Hidalgo"),
+    "PLMVWTX": ("TX", "Hidalgo"),
+    "ALAMOTX": ("TX", "Hidalgo"),
+    "HDLGOTX": ("TX", "Hidalgo"),
+    "SJUANTX": ("TX", "Hidalgo"),
+    "LAFERTX": ("TX", "Cameron"),
+    "WESLTX": ("TX", "Hidalgo"),
+    "SP8WWTX": ("TX", "Hidalgo"),
+    "HISMCTX": ("TX", "Hidalgo"),
+    "LCIMCTX": ("TX", "Hidalgo"),
+    "HTLPPTX": ("TX", "Hidalgo"),
+    "RGHOSTX": ("TX", "Hidalgo"),
+    "HIDALTX": ("TX", "Hidalgo"),
+    "SPIPDTX": ("TX", "Cameron"),
+    "STDHOLD": ("TX", "Frio"),
+    "STCDFTX": ("TX", "Frio"),
+    "STFRCTX": ("TX", "Frio"),
     "TASTDTX": ("TX", "Frio"),
     "TAKARTX": ("TX", "Karnes"),
-    "KRNRCTX": ("TX", "Karnes"),      # Karnes Co Immigration Process
-    "KCCDCTX": ("TX", "Karnes"),      # Karnes Civil Det
-    "KARNETX": ("TX", "Karnes"),      # Karnes Cty Corr
+    "KRNRCTX": ("TX", "Karnes"),
+    "KCCDCTX": ("TX", "Karnes"),
+    "KARNETX": ("TX", "Karnes"),
     "KINNETX": ("TX", "Kinney"),
-    "POLKCTX": ("TX", "Polk"),        # IAH (Livingston)
-    "JCRLYTX": ("TX", "Montgomery"),  # Joe Corley Processing
-    "MTGPCTX": ("TX", "Montgomery"),  # Montgomery Processing
-    "MONTGTX": ("TX", "Montgomery"),  # Montgomery Co Jail (Conroe)
-    "MTGHOLD": ("TX", "Montgomery"),  # Montgomery Hold
-    "HCAHCTX": ("TX", "Montgomery"),  # HCA Conroe
-    "HUNMHTX": ("TX", "Walker"),      # Huntsville Memorial
-    "HOUICDF": ("TX", "Harris"),      # Houston Contract Det
+    "POLKCTX": ("TX", "Polk"),
+    "JCRLYTX": ("TX", "Montgomery"),
+    "MTGPCTX": ("TX", "Montgomery"),
+    "MONTGTX": ("TX", "Montgomery"),
+    "MTGHOLD": ("TX", "Montgomery"),
+    "HCAHCTX": ("TX", "Montgomery"),
+    "HUNMHTX": ("TX", "Walker"),
+    "HOUICDF": ("TX", "Harris"),
     "HOUHOLD": ("TX", "Harris"),
-    "HOUGTTX": ("TX", "Harris"),      # Greentree IAH
-    "IAHSFTX": ("TX", "Harris"),      # George Bush Intercontinental
-    "HARRIGA": ("GA", "Harris"),      # Harris County GA - careful, different state
-    "HHBTHTX": ("TX", "Harris"),      # Harris Health Ben Taub
-    "HCPSYTX": ("TX", "Harris"),      # Harris Co Psychiatric
-    "MEMRHFL": ("FL", "Broward"),     # Memorial Regional (Hollywood)
-    "MHNHHTX": ("TX", "Harris"),      # Memorial Hermann NW
-    "EPC": ("TX", "El Paso"),         # El Paso SPC
+    "HOUGTTX": ("TX", "Harris"),
+    "IAHSFTX": ("TX", "Harris"),
+    "HARRIGA": ("GA", "Harris"),
+    "HHBTHTX": ("TX", "Harris"),
+    "HCPSYTX": ("TX", "Harris"),
+    "MEMRHFL": ("FL", "Broward"),
+    "MHNHHTX": ("TX", "Harris"),
+    "EPC": ("TX", "El Paso"),
     "EPCJUVI": ("TX", "El Paso"),
     "EPCDFTX": ("TX", "El Paso"),
     "EPLTATX": ("TX", "El Paso"),
     "EPBHSTX": ("TX", "El Paso"),
-    "TNGLPOE": ("TX", "El Paso"),     # Tornillo POE
-    "TORHOLD": ("TX", "El Paso"),     # Tornillo
-    "DSMCNTX": ("TX", "El Paso"),     # Del Sol Medical
-    "UMCEPTX": ("TX", "El Paso"),     # UMC El Paso
-    "RDHEATX": ("TX", "El Paso"),     # Radisson ELP airport
+    "TNGLPOE": ("TX", "El Paso"),
+    "TORHOLD": ("TX", "El Paso"),
+    "DSMCNTX": ("TX", "El Paso"),
+    "UMCEPTX": ("TX", "El Paso"),
+    "RDHEATX": ("TX", "El Paso"),
     "HSEPTX": ("TX", "El Paso"),
     "CSHEPTX": ("TX", "El Paso"),
     "CISAETX": ("TX", "El Paso"),
@@ -115,52 +96,50 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "HIELPTX": ("TX", "El Paso"),
     "RAMEPTX": ("TX", "El Paso"),
     "ELPCOTX": ("TX", "El Paso"),
-    "WTXDFTX": ("TX", "Hudspeth"),    # West Texas Det Fac (Sierra Blanca)
+    "WTXDFTX": ("TX", "Hudspeth"),
     "HUDSPTX": ("TX", "Hudspeth"),
-    "BOPLTL": ("TX", "El Paso"),      # La Tuna FCI satellite
-    "EPCPCTX": ("TX", "El Paso"),     # EGP CPC
-
-    # Texas - Dallas/Ft Worth/Central
-    "DALHOLD": ("TX", "Dallas"),      # Dallas FO Hold
+    "BOPLTL": ("TX", "El Paso"),
+    "EPCPCTX": ("TX", "El Paso"),
+    "DALHOLD": ("TX", "Dallas"),
     "DALCOTX": ("TX", "Dallas"),
-    "EULESTX": ("TX", "Tarrant"),     # Euless City Jail
-    "BEDCITX": ("TX", "Tarrant"),     # Bedford City Jail
-    "JOHNSTX": ("TX", "Johnson"),     # Johnson Co Jail
-    "PRLDCTX": ("TX", "Johnson"),     # Prairieland Det (Alvarado)
+    "EULESTX": ("TX", "Tarrant"),
+    "BEDCITX": ("TX", "Tarrant"),
+    "JOHNSTX": ("TX", "Johnson"),
+    "PRLDCTX": ("TX", "Johnson"),
     "PRLHOLD": ("TX", "Johnson"),
-    "JHRWLTX": ("TX", "McLennan"),    # Jack Harwell (Waco)
-    "WCTHOLD": ("TX", "McLennan"),    # Waco DRO
-    "WACLATX": ("TX", "Bexar"),       # Central Texas Det (San Antonio)
+    "JHRWLTX": ("TX", "McLennan"),
+    "WCTHOLD": ("TX", "McLennan"),
+    "WACLATX": ("TX", "Bexar"),
     "MCCLETX": ("TX", "McLennan"),
     "RNDLLTX": ("TX", "Randall"),
-    "AMTHOLD": ("TX", "Potter"),      # Amarillo Hold
+    "AMTHOLD": ("TX", "Potter"),
     "LBKHOLD": ("TX", "Lubbock"),
     "LUBBOTX": ("TX", "Lubbock"),
-    "ABTHOLD": ("TX", "Taylor"),      # Abilene Hold
+    "ABTHOLD": ("TX", "Taylor"),
     "ABRMCTX": ("TX", "Taylor"),
     "TAYLOTX": ("TX", "Taylor"),
     "WINCOTX": ("TX", "Winkler"),
     "MIDLATX": ("TX", "Midland"),
     "MLDHOLD": ("TX", "Midland"),
-    "BSTAYTX": ("TX", "Williamson"),  # Baylor Scott White Round Rock
+    "BSTAYTX": ("TX", "Williamson"),
     "BSWRRTX": ("TX", "Williamson"),
-    "ANSGHTX": ("TX", "Jones"),       # Anson General (Anson)
-    "ECLECTX": ("TX", "Ector"),       # Ector Co LEC
+    "ANSGHTX": ("TX", "Jones"),
+    "ECLECTX": ("TX", "Ector"),
     "ODESSTX": ("TX", "Ector"),
     "ECTORTX": ("TX", "Ector"),
     "BURNETX": ("TX", "Burnet"),
-    "PECOSTX": ("TX", "Reeves"),      # Pecos Criminal Justice
-    "REDETTX": ("TX", "Reeves"),      # Reeves Co Det (3 facilities)
+    "PECOSTX": ("TX", "Reeves"),
+    "REDETTX": ("TX", "Reeves"),
     "REJUVTX": ("TX", "Reeves"),
-    "DRCPCTX": ("TX", "Val Verde"),   # Del Rio CPC
+    "DRCPCTX": ("TX", "Val Verde"),
     "DLRHOLD": ("TX", "Val Verde"),
-    "EDNDCTX": ("TX", "Concho"),      # Eden Detention (Concho County)
+    "EDNDCTX": ("TX", "Concho"),
     "EDNHOLD": ("TX", "Concho"),
     "EDCHOLD": ("TX", "Concho"),
-    "SAGHOLD": ("TX", "Tom Green"),   # San Angelo
+    "SAGHOLD": ("TX", "Tom Green"),
     "SAGRSTX": ("TX", "Tom Green"),
     "TGREETX": ("TX", "Tom Green"),
-    "SHNMCTX": ("TX", "Tom Green"),   # Shannon Medical (San Angelo)
+    "SHNMCTX": ("TX", "Tom Green"),
     "GRYLATX": ("TX", "Grayson"),
     "GUADATX": ("TX", "Guadalupe"),
     "BSQUETX": ("TX", "Bosque"),
@@ -172,49 +151,47 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "SMRVLTX": ("TX", "Somervell"),
     "ANDRWTX": ("TX", "Andrews"),
     "CULBETX": ("TX", "Culberson"),
-    "CRYCCTX": ("TX", "Zavala"),      # Crystal City (Zavala County)
+    "CRYCCTX": ("TX", "Zavala"),
     "VICTOTX": ("TX", "Victoria"),
-    "CCCSSTX": ("TX", "Nueces"),      # Christus Spohn CC South
+    "CCCSSTX": ("TX", "Nueces"),
     "CRPHOLD": ("TX", "Nueces"),
-    "CBENDTX": ("TX", "Nueces"),      # Coastal Bend (Robstown is in Nueces)
-    "TVMSATX": ("TX", "Bexar"),       # Texas Vista Medical (San Antonio)
+    "CBENDTX": ("TX", "Nueces"),
+    "TVMSATX": ("TX", "Bexar"),
     "MSTHSTX": ("TX", "Bexar"),
-    "OKMHKTX": ("TX", "Karnes"),      # Otto Kaiser (Kenedy is in Karnes)
+    "OKMHKTX": ("TX", "Karnes"),
     "BMCSATX": ("TX", "Bexar"),
-    "BWMARCA": ("CA", "Monterey"),    # Best Western Marina
-    "FRIRHTX": ("TX", "Frio"),        # Frio Regional Hospital
-    "PTISATX": ("TX", "Bexar"),       # Pear Tree Inn SAT
+    "BWMARCA": ("CA", "Monterey"),
+    "FRIRHTX": ("TX", "Frio"),
+    "PTISATX": ("TX", "Bexar"),
     "PRESITX": ("TX", "Presidio"),
     "WARCOTX": ("TX", "Ward"),
-    "DRHCSTX": ("TX", "Dimmit"),      # Dimmit Regional
+    "DRHCSTX": ("TX", "Dimmit"),
     "JEFFETX": ("TX", "Jefferson"),
     "WAYNENY": ("NY", "Wayne"),
     "HARDJIA": ("IA", "Hardin"),
-
-    # New York / Northeast
-    "VRK": ("NY", "New York"),        # Varick St SPC
-    "BTV": ("NY", "Genesee"),         # Buffalo SPC = Batavia
-    "CMDHOLD": ("NY", "Genesee"),     # Batavia Cmd Center
+    "VRK": ("NY", "New York"),
+    "BTV": ("NY", "Genesee"),
+    "CMDHOLD": ("NY", "Genesee"),
     "BUFHOLD": ("NY", "Erie"),
     "NYCHOLD": ("NY", "New York"),
     "JFKTSNY": ("NY", "Queens"),
     "JHMCJNY": ("NY", "Queens"),
     "QUEHONY": ("NY", "Queens"),
-    "BEHOSNY": ("NY", "New York"),    # Bellevue
-    "ISHOSNY": ("NY", "New York"),    # Beth Israel
+    "BEHOSNY": ("NY", "New York"),
+    "ISHOSNY": ("NY", "New York"),
     "KCHOSNY": ("NY", "Kings"),
     "BXCHSNY": ("NY", "Bronx"),
-    "BOPBRO": ("NY", "Kings"),        # Brooklyn MDC
+    "BOPBRO": ("NY", "Kings"),
     "ALBHOLD": ("NY", "Albany"),
     "ALBCONY": ("NY", "Albany"),
     "ONONDNY": ("NY", "Onondaga"),
     "RENSSNY": ("NY", "Rensselaer"),
-    "CIPHOLD": ("NY", "Suffolk"),     # Central Islip
+    "CIPHOLD": ("NY", "Suffolk"),
     "CHMCINY": ("NY", "Suffolk"),
     "SUFFONY": ("NY", "Suffolk"),
     "NASSANY": ("NY", "Nassau"),
     "ORANGNY": ("NY", "Orange"),
-    "OGRMCNY": ("NY", "Orange"),      # Orange Reg Med
+    "OGRMCNY": ("NY", "Orange"),
     "NWHNVNC": ("NC", "New Hanover"),
     "WHITFGA": ("GA", "Whitfield"),
     "ALLEGNY": ("NY", "Allegany"),
@@ -236,7 +213,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "CHEMUNY": ("NY", "Chemung"),
     "CHENANY": ("NY", "Chenango"),
     "MADISNY": ("NY", "Madison"),
-    "ECMCBNY": ("NY", "Erie"),        # Erie County Med Center
+    "ECMCBNY": ("NY", "Erie"),
     "NYULSTC": ("NY", "Ulster"),
     "NYBUFFC": ("NY", "Erie"),
     "NYFISHC": ("NY", "Dutchess"),
@@ -250,26 +227,22 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "NYOGDNC": ("NY", "St. Lawrence"),
     "NYLIVIC": ("NY", "Livingston"),
     "NYADIRC": ("NY", "Essex"),
-    "CSYJVNY": ("NY", "New York"),    # Casey House
-
-    # New Jersey
-    "ELZICDF": ("NJ", "Union"),       # Elizabeth Contract DF
+    "CSYJVNY": ("NY", "New York"),
+    "ELZICDF": ("NJ", "Union"),
     "ESSEXNJ": ("NJ", "Essex"),
     "HUDSONJ": ("NJ", "Hudson"),
     "BERGENJ": ("NJ", "Bergen"),
     "MONMONJ": ("NJ", "Monmouth"),
-    "DHDFNJ": ("NJ", "Essex"),        # Delaney Hall (Newark)
-    "MLJHOLD": ("NJ", "Burlington"),  # Mt Laurel hold
+    "DHDFNJ": ("NJ", "Essex"),
+    "MLJHOLD": ("NJ", "Burlington"),
     "SUSSENJ": ("NJ", "Sussex"),
     "SALEMNJ": ("NJ", "Salem"),
-    "TRRMCNJ": ("NJ", "Union"),       # Trinitas Regional
-    "AKPSYNJ": ("NJ", "Mercer"),      # Anne Klein Psych
-    "JYCMCNJ": ("NJ", "Hudson"),      # Jersey City Med
-    "HACMCNJ": ("NJ", "Bergen"),      # Hackensack Med
-    "UNIVHNJ": ("NJ", "Essex"),       # University Hospital Newark
-    "BOPFAI": ("NJ", "Cumberland"),   # Fairton FCI
-
-    # Pennsylvania
+    "TRRMCNJ": ("NJ", "Union"),
+    "AKPSYNJ": ("NJ", "Mercer"),
+    "JYCMCNJ": ("NJ", "Hudson"),
+    "HACMCNJ": ("NJ", "Bergen"),
+    "UNIVHNJ": ("NJ", "Essex"),
+    "BOPFAI": ("NJ", "Cumberland"),
     "YORCOPA": ("PA", "York"),
     "YRKHOLD": ("PA", "York"),
     "PIKCOPA": ("PA", "Pike"),
@@ -293,20 +266,18 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "ALLEGPA": ("PA", "Allegheny"),
     "PITHOLD": ("PA", "Allegheny"),
     "PHIHOLD": ("PA", "Philadelphia"),
-    "MSVPCPA": ("PA", "Clearfield"),  # Moshannon Valley
+    "MSVPCPA": ("PA", "Clearfield"),
     "BOPMVC": ("PA", "Clearfield"),
-    "MVPNHPA": ("PA", "Clearfield"),  # Penn Highlands Clearfield
+    "MVPNHPA": ("PA", "Clearfield"),
     "CARBOPA": ("PA", "Carbon"),
     "COLUMPA": ("PA", "Columbia"),
-    "MTNITPA": ("PA", "Centre"),      # Mt Nittany (State College)
+    "MTNITPA": ("PA", "Centre"),
     "MONTGPA": ("PA", "Montgomery"),
-    "BOPCAA": ("PA", "Wayne"),        # USP Canaan
-
-    # Virginia
-    "HRREGVA": ("VA", "Portsmouth city"),  # Hampton Roads (Portsmouth)
-    "CARDFVA": ("VA", "Caroline"),    # ICA Farmville is in Prince Edward, but Caroline DF is in Caroline
-    "FRMVLVA": ("VA", "Prince Edward"),  # Farmville is in Prince Edward
-    "RAPPSVA": ("VA", "Stafford"),    # Rappahannock Sec Center
+    "BOPCAA": ("PA", "Wayne"),
+    "HRREGVA": ("VA", "Portsmouth city"),
+    "CARDFVA": ("VA", "Caroline"),
+    "FRMVLVA": ("VA", "Prince Edward"),
+    "RAPPSVA": ("VA", "Stafford"),
     "PWILLVA": ("VA", "Prince William"),
     "FAICOVA": ("VA", "Fairfax"),
     "FXADCVA": ("VA", "Fairfax"),
@@ -327,26 +298,22 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "ROCKIVA": ("VA", "Rockingham"),
     "HBGHOLD": ("VA", "Harrisonburg city"),
     "MWASHVA": ("VA", "Fredericksburg city"),
-    "MRREGVA": ("VA", "Augusta"),     # Middle River Regional
+    "MRREGVA": ("VA", "Augusta"),
     "CSSCHVA": ("VA", "Prince Edward"),
-    "WVIRGVA": ("VA", "Roanoke"),     # Western VA Reg
+    "WVIRGVA": ("VA", "Roanoke"),
     "NRJDCVA": ("VA", "Roanoke"),
-    "CVREGVA": ("VA", "Orange"),      # Central VA Regional (Orange)
-    "NVJDCVA": ("VA", "Fairfax"),     # Northern VA Juvenile
-    "NNREGVA": ("VA", "Warsaw"),      # Northern Neck (Richmond County actually)
+    "CVREGVA": ("VA", "Orange"),
+    "NVJDCVA": ("VA", "Fairfax"),
+    "NNREGVA": ("VA", "Warsaw"),
     "LOUCOVA": ("VA", "Loudoun"),
     "CHFLDVA": ("VA", "Chesterfield"),
     "CULPEVA": ("VA", "Culpeper"),
-
-    # West Virginia
-    "WVSCENT": ("WV", "Kanawha"),     # South Central Reg (Charleston)
-    "WVNORTH": ("WV", "Marshall"),    # Northern Reg Jail
-    "WVEASTR": ("WV", "Berkeley"),    # Eastern Reg
+    "WVSCENT": ("WV", "Kanawha"),
+    "WVNORTH": ("WV", "Marshall"),
+    "WVEASTR": ("WV", "Berkeley"),
     "WVREGWV": ("WV", "Berkeley"),
     "CENTRWV": ("WV", "Braxton"),
-    "BOPMRG": ("WV", "Monongalia"),   # Morgantown FCI
-
-    # Maryland / DC / Delaware
+    "BOPMRG": ("WV", "Monongalia"),
     "WORCEMD": ("MD", "Worcester"),
     "HOWARMD": ("MD", "Howard"),
     "FREDEMD": ("MD", "Frederick"),
@@ -359,60 +326,56 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "DIIHBMD": ("MD", "Baltimore city"),
     "DCDOCDC": ("DC", "District of Columbia"),
     "WASHOLD": ("DC", "District of Columbia"),
-    "DECCSMY": ("DE", "Sussex"),      # Delaware Correctional (Sussex)
+    "DECCSMY": ("DE", "Sussex"),
     "SUSSEDE": ("DE", "Sussex"),
-    "DVDHOLD": ("DE", "Kent"),        # Dover hold
-
-    # Massachusetts / Rhode Island / Connecticut / Maine / NH / VT
-    "BPC": ("MA", "Suffolk"),         # Boston SPC
+    "DVDHOLD": ("DE", "Kent"),
+    "BPC": ("MA", "Suffolk"),
     "BOSHOLD": ("MA", "Suffolk"),
     "BIDHPMA": ("MA", "Suffolk"),
     "SUFFOMA": ("MA", "Suffolk"),
     "BRINDMA": ("MA", "Bristol"),
     "PLYMOMA": ("MA", "Plymouth"),
-    "GREENMA": ("MA", "Franklin"),    # Franklin HoC (Greenfield)
+    "GREENMA": ("MA", "Franklin"),
     "HAMPDMA": ("MA", "Hampden"),
     "BARNSMA": ("MA", "Barnstable"),
     "NORFOMA": ("MA", "Norfolk"),
-    "MABSHOS": ("MA", "Plymouth"),    # Bridgewater State (technically Plymouth Co)
+    "MABSHOS": ("MA", "Plymouth"),
     "MATEWKS": ("MA", "Middlesex"),
-    "MATSHOS": ("MA", "Bristol"),     # Taunton State
-    "LSHOSMA": ("MA", "Suffolk"),     # Lemuel Shattuck
+    "MATSHOS": ("MA", "Bristol"),
+    "LSHOSMA": ("MA", "Suffolk"),
     "HOTELMA": ("MA", "Suffolk"),
-    "NASHUMA": ("MA", "Suffolk"),     # Nashua St Jail (Boston)
-    "WYATTRI": ("RI", "Providence"),  # Wyatt is in Central Falls
+    "NASHUMA": ("MA", "Suffolk"),
+    "WYATTRI": ("RI", "Providence"),
     "RICRANS": ("RI", "Providence"),
     "MIRHPRI": ("RI", "Providence"),
     "HARFOCT": ("CT", "Hartford"),
     "HARHOLD": ("CT", "Hartford"),
     "CTLAFSL": ("CT", "Hartford"),
     "CUMBEME": ("ME", "Cumberland"),
-    "POMHOLD": ("ME", "Cumberland"),  # Portland ME
-    "MEYTHCT": ("ME", "Cumberland"),  # Long Creek (S Portland)
+    "POMHOLD": ("ME", "Cumberland"),
+    "MEYTHCT": ("ME", "Cumberland"),
     "PISCAME": ("ME", "Piscataquis"),
     "AROOSME": ("ME", "Aroostook"),
     "PENOBME": ("ME", "Penobscot"),
     "SOMERME": ("ME", "Somerset"),
     "YORKCME": ("ME", "York"),
     "STRAFNH": ("NH", "Strafford"),
-    "MANHOLD": ("NH", "Hillsborough"),  # Manchester
+    "MANHOLD": ("NH", "Hillsborough"),
     "COOCONH": ("NH", "Coos"),
     "ROCKINH": ("NH", "Rockingham"),
-    "WWDHDNH": ("NH", "Strafford"),   # Wentworth Douglas
-    "VTSTALB": ("VT", "Franklin"),    # NW State CF (St Albans)
-    "STAHOLD": ("VT", "Franklin"),    # St Albans
+    "WWDHDNH": ("NH", "Strafford"),
+    "VTSTALB": ("VT", "Franklin"),
+    "STAHOLD": ("VT", "Franklin"),
     "VTCHTDN": ("VT", "Chittenden"),
-    "VTDCORR": ("VT", "Washington"),  # VT Dept of Corrections (Waterbury HQ)
+    "VTDCORR": ("VT", "Washington"),
     "FRACOVT": ("VT", "Franklin"),
     "ADDCOVT": ("VT", "Addison"),
-
-    # Florida
-    "KRO": ("FL", "Miami-Dade"),      # Krome North SPC
+    "KRO": ("FL", "Miami-Dade"),
     "KROHOLD": ("FL", "Miami-Dade"),
     "KRHUBFL": ("FL", "Miami-Dade"),
-    "MIAHOLD": ("FL", "Broward"),     # Miami (Miramar) Hold = Broward
-    "MSF": ("FL", "Broward"),         # Miami Staging
-    "WCCPBFL": ("FL", "Broward"),     # Broward Transitional (Pompano)
+    "MIAHOLD": ("FL", "Broward"),
+    "MSF": ("FL", "Broward"),
+    "WCCPBFL": ("FL", "Broward"),
     "BROCRFL": ("FL", "Broward"),
     "BROJAFL": ("FL", "Broward"),
     "BRGMCFL": ("FL", "Broward"),
@@ -430,32 +393,32 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "BOPMIA": ("FL", "Miami-Dade"),
     "MERCYFL": ("FL", "Miami-Dade"),
     "WMDBHFL": ("FL", "Miami-Dade"),
-    "PMHOSFL": ("FL", "Miami-Dade"),  # Palmetto
-    "WKBHMFL": ("FL", "Miami-Dade"),  # West Kendall Baptist
-    "CKHOSFL": ("FL", "Miami-Dade"),  # HCA Kendall
+    "PMHOSFL": ("FL", "Miami-Dade"),
+    "WKBHMFL": ("FL", "Miami-Dade"),
+    "CKHOSFL": ("FL", "Miami-Dade"),
     "METROFL": ("FL", "Miami-Dade"),
     "CEMEDFL": ("FL", "Miami-Dade"),
     "NBRMCFL": ("FL", "Broward"),
     "NFMIGFL": ("FL", "Miami-Dade"),
-    "GLADEFL": ("FL", "Glades"),      # Glades Det (Moore Haven)
+    "GLADEFL": ("FL", "Glades"),
     "COLLIFL": ("FL", "Collier"),
     "HRCMCFL": ("FL", "Collier"),
     "BAKERFL": ("FL", "Baker"),
     "FLBAKCI": ("FL", "Baker"),
     "ORLHOLD": ("FL", "Orange"),
     "ORANGFL": ("FL", "Orange"),
-    "HCAFMFL": ("FL", "Duval"),       # Jacksonville
+    "HCAFMFL": ("FL", "Duval"),
     "JAXHOLD": ("FL", "Duval"),
     "TAMHOLD": ("FL", "Hillsborough"),
     "PINELFL": ("FL", "Pinellas"),
-    "TALHOLD": ("FL", "Leon"),        # Tallahassee
+    "TALHOLD": ("FL", "Leon"),
     "PUTMAFL": ("FL", "Putnam"),
     "STJONFL": ("FL", "St. Johns"),
     "MARTIFL": ("FL", "Martin"),
-    "STUHOLD": ("FL", "Martin"),      # Stuart hold
+    "STUHOLD": ("FL", "Martin"),
     "HENDRFL": ("FL", "Hendry"),
     "HNRMCFL": ("FL", "Hendry"),
-    "FMYHOLD": ("FL", "Lee"),         # Fort Myers
+    "FMYHOLD": ("FL", "Lee"),
     "MNRMCFL": ("FL", "Broward"),
     "MONROFL": ("FL", "Monroe"),
     "LRKMCFL": ("FL", "Monroe"),
@@ -469,25 +432,23 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "MANATFL": ("FL", "Manatee"),
     "BRADEFL": ("FL", "Manatee"),
     "HERNAFL": ("FL", "Hernando"),
-    "EFMHMFL": ("FL", "Baker"),       # Ed Fraser (Macclenny)
+    "EFMHMFL": ("FL", "Baker"),
     "FLBREVC": ("FL", "Brevard"),
     "FLDADCI": ("FL", "Miami-Dade"),
     "FLMARIC": ("FL", "Marion"),
-    "FLSPSTA": ("FL", "Bradford"),    # FL State Prison Starke
-    "BOPCNV": ("TN", "Davidson"),     # Nashville Comm Corr
-
-    # Georgia
+    "FLSPSTA": ("FL", "Bradford"),
+    "BOPCNV": ("TN", "Davidson"),
     "STWRTGA": ("GA", "Stewart"),
     "IRWINGA": ("GA", "Irwin"),
-    "FIPCMGA": ("GA", "Charlton"),    # Folkston main
+    "FIPCMGA": ("GA", "Charlton"),
     "JAMESGA": ("GA", "Charlton"),
     "FIPCAGA": ("GA", "Charlton"),
     "ATLHOLD": ("GA", "Fulton"),
-    "ATLANGA": ("GA", "Fulton"),      # Atlanta Pretrial
-    "GMHATGA": ("GA", "Fulton"),      # Grady Memorial
-    "RADDFGA": ("GA", "Henry"),       # Robert Deyton (Lovejoy)
-    "NGDCTGA": ("GA", "Hall"),        # North GA Det Center (Gainesville)
-    "HASHENE": ("GA", "Hall"),        # Hall County Sheriff (NE - typo)
+    "ATLANGA": ("GA", "Fulton"),
+    "GMHATGA": ("GA", "Fulton"),
+    "RADDFGA": ("GA", "Henry"),
+    "NGDCTGA": ("GA", "Hall"),
+    "HASHENE": ("GA", "Hall"),
     "HALLJGA": ("GA", "Hall"),
     "WHITFGA": ("GA", "Whitfield"),
     "FLOYDGA": ("GA", "Floyd"),
@@ -496,76 +457,70 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "BARTOGA": ("GA", "Bartow"),
     "GWINNGA": ("GA", "Gwinnett"),
     "CHATHGA": ("GA", "Chatham"),
-    "BOPRAE": ("GA", "Telfair"),      # McRae Correctional
-    "GADRYJM": ("GA", "Charlton"),    # D Ray James (Folkston)
-
-    # Louisiana
-    "JENATLA": ("LA", "Rapides"),     # Alexandria Staging
-    "JENADLA": ("LA", "LaSalle"),     # Central Louisiana ICE Proc (Jena)
-    "BASILLA": ("LA", "Acadia"),      # South Louisiana ICE Proc (Basile, in Acadia Parish)
-    "SNDHOLD": ("CA", "San Diego"),   # SD field office staging
-    "SNJHOLD": ("CA", "San Diego"),   # alt SD field office hold
-    "CCAHUTX": ("TX", "Williamson"),  # T. Don Hutto (Taylor, TX = Williamson Co)
-    "IWAHOLD": ("AZ", "Maricopa"),    # AZ Removal Op Coord Center (Phoenix)
-    "FCLT8CA": ("CA", "San Diego"),   # Facility 8 - SD
-    "LQWCSTX": ("TX", "Frio"),        # La Quinta Pearsall
-    "SUPHDTX": ("TX", "Webb"),        # Super 8 Wyndham (Laredo area)
-    "COMFTFL": ("FL", "Miami-Dade"),  # Comfort Suites Hotel (Miami)
-    "GUDOCHG": ("GU", "Guam"),        # Dept of Corrections Hagatna
-    "CHAHOLD": ("VI", "St. Thomas"),  # Charlotte Amalie hold
-    "APIBHCA": ("CA", "San Diego"),   # Alvarado Parkway (La Mesa, SD County)
+    "BOPRAE": ("GA", "Telfair"),
+    "GADRYJM": ("GA", "Charlton"),
+    "JENATLA": ("LA", "Rapides"),
+    "JENADLA": ("LA", "LaSalle"),
+    "BASILLA": ("LA", "Acadia"),
+    "SNDHOLD": ("CA", "San Diego"),
+    "SNJHOLD": ("CA", "San Diego"),
+    "CCAHUTX": ("TX", "Williamson"),
+    "IWAHOLD": ("AZ", "Maricopa"),
+    "FCLT8CA": ("CA", "San Diego"),
+    "LQWCSTX": ("TX", "Frio"),
+    "SUPHDTX": ("TX", "Webb"),
+    "COMFTFL": ("FL", "Miami-Dade"),
+    "GUDOCHG": ("GU", "Guam"),
+    "CHAHOLD": ("VI", "St. Thomas"),
+    "APIBHCA": ("CA", "San Diego"),
     "SAIHOLD": ("MP", "Saipan"),
     "MPSIPAN": ("MP", "Saipan"),
-    "LTVHOLD": ("VA", "Fairfax"),     # Lorton, VA hold (Fairfax County)
-    "SALHOLD": ("MD", "Wicomico"),    # Salisbury, MD
+    "LTVHOLD": ("VA", "Fairfax"),
+    "SALHOLD": ("MD", "Wicomico"),
     "SAJHOLD": ("PR", "San Juan"),
-    "SJUHOLD": ("PR", "Carolina"),    # San Juan Airport
+    "SJUHOLD": ("PR", "Carolina"),
     "BOPGUA": ("PR", "Guaynabo"),
-    "SJS": ("PR", "Bayamon"),         # San Juan Staging
+    "SJS": ("PR", "Bayamon"),
     "HCAFCC": ("FL", "Miami-Dade"),
     "ANCHOAK": ("AK", "Anchorage"),
     "AKCOOKI": ("AK", "Anchorage"),
     "ANCHOLD": ("AK", "Anchorage"),
-    "PINEPLA": ("LA", "Evangeline"),  # Pine Prairie
-    "RWCCMLA": ("LA", "Ouachita"),    # Richwood (Monroe)
-    "LAWINCI": ("LA", "Winn"),        # Winn Correctional
-    "OLACCLA": ("LA", "Catahoula"),   # LaSalle Corr Olla (Catahoula Parish)
+    "PINEPLA": ("LA", "Evangeline"),
+    "RWCCMLA": ("LA", "Ouachita"),
+    "LAWINCI": ("LA", "Winn"),
+    "OLACCLA": ("LA", "Catahoula"),
     "TENSALA": ("LA", "Tensas"),
     "CATAHLA": ("LA", "Catahoula"),
     "BOSSRLA": ("LA", "Bossier"),
     "JKPCCLA": ("LA", "Jackson"),
-    "APPSCLA": ("LA", "Allen"),       # Allen Parish PSC (Kinder)
-    "RVRCCLA": ("LA", "Concordia"),   # River Correctional (Ferriday)
+    "APPSCLA": ("LA", "Allen"),
+    "RVRCCLA": ("LA", "Concordia"),
     "CONCOLA": ("LA", "Concordia"),
-    "BOPOAD": ("LA", "Allen"),        # Oakdale FDC (Allen Parish)
+    "BOPOAD": ("LA", "Allen"),
     "AVPARLA": ("LA", "Avoyelles"),
     "ORPARLA": ("LA", "Orleans"),
     "STTAMLA": ("LA", "St. Tammany"),
     "NATCHLA": ("LA", "Natchitoches"),
-    "USMWDLA": ("LA", "Caddo"),       # USMS WDLA Shreveport
-    "VVSHOLD": ("LA", "Caddo"),       # Shreveport
+    "USMWDLA": ("LA", "Caddo"),
+    "VVSHOLD": ("LA", "Caddo"),
     "LKLNDLA": ("LA", "Caddo"),
-    "CSANOLA": ("LA", "Rapides"),     # Comfort Suites Alexandria
-    "HIRAYTX": ("TX", "Frio"),        # Holiday Inn Pearsall
-    "CISEPTX": ("TX", "El Paso"),     # Comfort Suites
-    "CSCLQTX": ("TX", "Frio"),        # La Quinta Casa De Paz Pearsall
-    "BWEPATX": ("TX", "Frio"),        # Best Western Pearsall
-    "HAVACTX": ("TX", "Frio"),        # Hotel AVA
-    "WINWYAZ": ("AZ", "Pinal"),       # Wingate Wyndham Casa Esperanza
-    "QLTYSCA": ("CA", "Imperial"),    # Quality Suites Calexico
-    "HESPCAZ": ("AZ", "Pima"),        # Holiday Inn Express Tucson
-    "ALESSAZ": ("AZ", "Maricopa"),    # Stes Scottsdale
+    "CSANOLA": ("LA", "Rapides"),
+    "HIRAYTX": ("TX", "Frio"),
+    "CISEPTX": ("TX", "El Paso"),
+    "CSCLQTX": ("TX", "Frio"),
+    "BWEPATX": ("TX", "Frio"),
+    "HAVACTX": ("TX", "Frio"),
+    "WINWYAZ": ("AZ", "Pinal"),
+    "QLTYSCA": ("CA", "Imperial"),
+    "HESPCAZ": ("AZ", "Pima"),
+    "ALESSAZ": ("AZ", "Maricopa"),
     "NOLHOLD": ("LA", "Orleans"),
-
-    # Mississippi
-    "ADAMSMS": ("MS", "Adams"),       # Adams Co Det (Natchez)
+    "ADAMSMS": ("MS", "Adams"),
     "TALLAMS": ("MS", "Tallahatchie"),
     "MADISMS": ("MS", "Madison"),
     "HCPSCMS": ("MS", "Hancock"),
-    "JAKHOLD": ("MS", "Hinds"),       # Jackson MS
+    "JAKHOLD": ("MS", "Hinds"),
     "USMSDMS": ("MS", "Hinds"),
-
-    # Alabama
     "ETOWAAL": ("AL", "Etowah"),
     "ETWHOLD": ("AL", "Etowah"),
     "DEKALAL": ("AL", "DeKalb"),
@@ -575,10 +530,8 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "MONCJAL": ("AL", "Montgomery"),
     "BHMHOLD": ("AL", "Jefferson"),
     "MONTGAL": ("AL", "Montgomery"),
-    "ALEXAAL": ("AL", "Cleburne"),    # Alexandria AL is in Calhoun actually - wait, Alexandria, AL is in Calhoun County
+    "ALEXAAL": ("AL", "Cleburne"),
     # Actually I'm not sure about Alexandria AL - leaving as is
-
-    # South Carolina
     "CHARLSC": ("SC", "Charleston"),
     "CHLHOLD": ("SC", "Charleston"),
     "DORCDSC": ("SC", "Dorchester"),
@@ -586,10 +539,8 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "YORCOSC": ("SC", "York"),
     "ANDERSC": ("SC", "Anderson"),
     "PCKSNAL": ("AL", "Pickens"),
-    "COAHOLD": ("SC", "Richland"),    # Columbia SC
+    "COAHOLD": ("SC", "Richland"),
     "COLCASC": ("SC", "Lexington"),
-
-    # North Carolina
     "MECKLNC": ("NC", "Mecklenburg"),
     "CLTHOLD": ("NC", "Mecklenburg"),
     "CBRRSNC": ("NC", "Cabarrus"),
@@ -600,18 +551,14 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "WAKECNC": ("NC", "Wake"),
     "RDUHOLD": ("NC", "Wake"),
     "ASHECNC": ("NC", "Ashe"),
-
-    # Tennessee
-    "TNWESDF": ("TN", "Hardeman"),    # Western TN Det (Mason)
+    "TNWESDF": ("TN", "Hardeman"),
     "DAVIDTN": ("TN", "Davidson"),
     "KNXDFTN": ("TN", "Knox"),
     "KNXHOLD": ("TN", "Knox"),
-    "SILERTN": ("TN", "Hamilton"),    # Silverdale (Hamilton County)
+    "SILERTN": ("TN", "Hamilton"),
     "MEMHOLD": ("TN", "Shelby"),
     "JACKSTN": ("TN", "Madison"),
-    "CNGHOLD": ("TN", "Hamilton"),    # Chattanooga
-
-    # Kentucky
+    "CNGHOLD": ("TN", "Hamilton"),
     "BOONEKY": ("KY", "Boone"),
     "OLDHAKY": ("KY", "Oldham"),
     "FAYETKY": ("KY", "Fayette"),
@@ -621,8 +568,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "ADAIRKY": ("KY", "Adair"),
     "LOUHOLD": ("KY", "Jefferson"),
     "BOPLEX": ("KY", "Fayette"),
-
-    # Ohio
     "MOROWOH": ("OH", "Morrow"),
     "BUTLEOH": ("OH", "Butler"),
     "GEAUGOH": ("OH", "Geauga"),
@@ -630,17 +575,15 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "SENECOH": ("OH", "Seneca"),
     "PICKJOH": ("OH", "Pickaway"),
     "MAHONOH": ("OH", "Mahoning"),
-    "BEDFOOH": ("OH", "Cuyahoga"),    # Bedford Hts
-    "MAPLEOH": ("OH", "Cuyahoga"),    # Maple Hts
-    "CCANOOH": ("OH", "Mahoning"),    # NE Ohio Corr (Youngstown)
+    "BEDFOOH": ("OH", "Cuyahoga"),
+    "MAPLEOH": ("OH", "Cuyahoga"),
+    "CCANOOH": ("OH", "Mahoning"),
     "BOPNEO": ("OH", "Mahoning"),
     "CLEHOLD": ("OH", "Cuyahoga"),
     "CINHOLD": ("OH", "Hamilton"),
     "CLMHOLD": ("OH", "Franklin"),
-
-    # Michigan
     "MNROEMI": ("MI", "Monroe"),
-    "CALHOMI": ("MI", "Calhoun"),     # Battle Creek
+    "CALHOMI": ("MI", "Calhoun"),
     "MSKGNMI": ("MI", "Muskegon"),
     "ELKHAIN": ("IN", "Elkhart"),
     "WASHTMI": ("MI", "Washtenaw"),
@@ -649,15 +592,13 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "DEAPDMI": ("MI", "Wayne"),
     "BHFLDMI": ("MI", "Kalamazoo"),
     "MLPHHMI": ("MI", "St. Clair"),
-    "GRMHOLD": ("MI", "Kent"),        # Grand Rapids
+    "GRMHOLD": ("MI", "Kent"),
     "KENTCMI": ("MI", "Kent"),
     "CHIPPMI": ("MI", "Chippewa"),
     "SAMBCMI": ("MI", "Wayne"),
-    "MIWPRPH": ("MI", "Wayne"),       # Walter Reuther (Westland)
+    "MIWPRPH": ("MI", "Wayne"),
     "BRANCMI": ("MI", "Branch"),
-    "SSMHOLD": ("MI", "Chippewa"),    # Sault Ste Marie
-
-    # Wisconsin
+    "SSMHOLD": ("MI", "Chippewa"),
     "WIDODGE": ("WI", "Dodge"),
     "DODGEWI": ("WI", "Dodge"),
     "KENOSWI": ("WI", "Kenosha"),
@@ -666,33 +607,29 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "FNDDUWI": ("WI", "Fond du Lac"),
     "DOUGLWI": ("WI", "Douglas"),
     "MILHOLD": ("WI", "Milwaukee"),
-
-    # Illinois
     "MCHENIL": ("IL", "McHenry"),
     "KANKEIL": ("IL", "Kankakee"),
     "PULASIL": ("IL", "Pulaski"),
-    "TRICOIL": ("IL", "Effingham"),   # Tri-County (Ullin) - actually Tri-County is in Pulaski
+    "TRICOIL": ("IL", "Effingham"),
     "JEFFEIL": ("IL", "Jefferson"),
     "ELGPDIL": ("IL", "Cook"),
     "ROCKIIL": ("IL", "Rock Island"),
     "RIIHOLD": ("IL", "Rock Island"),
     "RCKISIL": ("IL", "Rock Island"),
-    "BSAHOLD": ("IL", "Cook"),        # Broadview Service (Broadview = Cook)
+    "BSAHOLD": ("IL", "Cook"),
     "CHIHOLD": ("IL", "Cook"),
-    "CCHHSIL": ("IL", "Cook"),        # Cook Co Hospital
+    "CCHHSIL": ("IL", "Cook"),
     "OGLECIL": ("IL", "Ogle"),
     "MERCEIL": ("IL", "Mercer"),
-    "HLYCHIL": ("IL", "Cook"),        # Holy Cross
+    "HLYCHIL": ("IL", "Cook"),
     "SANJAIL": ("IL", "Sangamon"),
-    "ILPICKN": ("IL", "Perry"),       # Pinckneyville
-    "REHOSIL": ("IL", "Cook"),        # Riveredge (Forest Park)
+    "ILPICKN": ("IL", "Perry"),
+    "REHOSIL": ("IL", "Cook"),
     "PCJDCIL": ("IL", "Peoria"),
-    "RRIVRIL": ("IL", "Lee"),         # Rock River (Sterling)
+    "RRIVRIL": ("IL", "Lee"),
     "KANECIL": ("IL", "Kane"),
     "CNTGRIL": ("IL", "McHenry"),
-    "LYOLAIL": ("IL", "Cook"),        # Loyola
-
-    # Iowa
+    "LYOLAIL": ("IL", "Cook"),
     "POTTAIA": ("IA", "Pottawattamie"),
     "MARSHIA": ("IA", "Marshall"),
     "POLKJIA": ("IA", "Polk"),
@@ -706,8 +643,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "MUSCAIA": ("IA", "Muscatine"),
     "SCOTTIA": ("IA", "Scott"),
     "CHIHMIA": ("IA", "Pottawattamie"),
-
-    # Minnesota
     "SHERBMN": ("MN", "Sherburne"),
     "CARJAMN": ("MN", "Carver"),
     "CAJUVMN": ("MN", "Carver"),
@@ -715,13 +650,11 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "FREEBMN": ("MN", "Freeborn"),
     "NOBLEMN": ("MN", "Nobles"),
     "RAADCMN": ("MN", "Ramsey"),
-    "SPMHOLD": ("MN", "Ramsey"),      # St Paul Bishop Whipple
+    "SPMHOLD": ("MN", "Ramsey"),
     "WAJAIMN": ("MN", "Washington"),
-    "NWRCCMN": ("MN", "Polk"),        # NW Regional (Crookston)
-    "ANWHMMN": ("MN", "Hennepin"),    # Abbott Northwestern
+    "NWRCCMN": ("MN", "Polk"),
+    "ANWHMMN": ("MN", "Hennepin"),
     "DULHOLD": ("MN", "St. Louis"),
-
-    # Missouri
     "MORGNMO": ("MO", "Morgan"),
     "CHRISMO": ("MO", "Christian"),
     "MONTGMO": ("MO", "Montgomery"),
@@ -735,18 +668,14 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "KANHOLD": ("MO", "Jackson"),
     "SPGHOLD": ("MO", "Greene"),
     "BOPSPG": ("MO", "Greene"),
-
-    # Arkansas
     "LRAHOLD": ("AR", "Pulaski"),
     "WASHIAR": ("AR", "Washington"),
     "FAYHOLD": ("AR", "Washington"),
     "FSAHOLD": ("AR", "Sebastian"),
     "SEBASAR": ("AR", "Sebastian"),
-    "MILLRAR": ("AR", "Miller"),      # Texarkana AR
+    "MILLRAR": ("AR", "Miller"),
     "TXAHOLD": ("AR", "Miller"),
     "LONPDAR": ("AR", "Lonoke"),
-
-    # Oklahoma
     "TULCOOK": ("OK", "Tulsa"),
     "TULHOLD": ("OK", "Tulsa"),
     "OKCHOLD": ("OK", "Oklahoma"),
@@ -756,8 +685,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "GCLECOK": ("OK", "Grady"),
     "OKMULOK": ("OK", "Okmulgee"),
     "CHEROOK": ("OK", "Cherokee"),
-
-    # Kansas
     "CHASEKS": ("KS", "Chase"),
     "SHACOKS": ("KS", "Shawnee"),
     "SHAJUKS": ("KS", "Shawnee"),
@@ -766,9 +693,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "RICECKS": ("KS", "Rice"),
     "WICHOLD": ("KS", "Sedgwick"),
     "BUTLEKS": ("KS", "Butler"),
-    "OSAHOKS": ("KS", "Miami"),       # Osawatomie State Hospital
-
-    # Nebraska
+    "OSAHOKS": ("KS", "Miami"),
     "DOCORNE": ("NE", "Douglas"),
     "OMAHOLD": ("NE", "Douglas"),
     "DAKOTNE": ("NE", "Dakota"),
@@ -781,9 +706,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "GRIHOLD": ("NE", "Hall"),
     "SARJUNE": ("NE", "Sarpy"),
     "SALINNE": ("NE", "Saline"),
-
-    # Colorado
-    "DENICDF": ("CO", "Adams"),       # GEO Aurora is in Adams County
+    "DENICDF": ("CO", "Adams"),
     "DENIICO": ("CO", "Adams"),
     "DENVECO": ("CO", "Denver"),
     "DENHOLD": ("CO", "Denver"),
@@ -801,7 +724,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "ALMHOLD": ("CO", "Alamosa"),
     "ALAMOCO": ("CO", "Alamosa"),
     "PARKJCO": ("CO", "Park"),
-    "GSCHOLD": ("CO", "Garfield"),    # Glenwood Springs
+    "GSCHOLD": ("CO", "Garfield"),
     "EAGLECO": ("CO", "Eagle"),
     "FREMOCO": ("CO", "Fremont"),
     "DOUGLCO": ("CO", "Douglas"),
@@ -810,15 +733,13 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "LAPLACO": ("CO", "La Plata"),
     "OTEROCO": ("CO", "Otero"),
     "CONEJCO": ("CO", "Conejos"),
-    "LDFHOLD": ("CO", "Larimer"),     # Loveland
+    "LDFHOLD": ("CO", "Larimer"),
     "LARIMCO": ("CO", "Larimer"),
-    "BRCHOLD": ("CO", "Morgan"),      # Brush
-    "CSDHOLD": ("CO", "El Paso"),     # Colorado Springs
+    "BRCHOLD": ("CO", "Morgan"),
+    "CSDHOLD": ("CO", "El Paso"),
     "UCHUHCO": ("CO", "Denver"),
     "EMBSYCO": ("CO", "Denver"),
     "DRURYCO": ("CO", "Denver"),
-
-    # Wyoming
     "NATROWY": ("WY", "Natrona"),
     "CSPHOLD": ("WY", "Natrona"),
     "PLATTWY": ("WY", "Platte"),
@@ -827,8 +748,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "TETONWY": ("WY", "Teton"),
     "SWEETWY": ("WY", "Sweetwater"),
     "FRFLDWY": ("WY", "Laramie"),
-
-    # Montana
     "CASCAMT": ("MT", "Cascade"),
     "BILHOLD": ("MT", "Yellowstone"),
     "YELLOMT": ("MT", "Yellowstone"),
@@ -842,8 +761,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "SHERIMT": ("MT", "Sheridan"),
     "TOOLEMT": ("MT", "Toole"),
     "HILLCMT": ("MT", "Hill"),
-
-    # Idaho
     "HAILEID": ("ID", "Twin Falls"),
     "TFALLID": ("ID", "Twin Falls"),
     "TFIHOLD": ("ID", "Twin Falls"),
@@ -854,10 +771,8 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "IFIHOLD": ("ID", "Bonneville"),
     "BONNEID": ("ID", "Bonneville"),
     "MADISID": ("ID", "Madison"),
-    "MINICID": ("ID", "Cassia"),      # Minicassia (Burley)
+    "MINICID": ("ID", "Cassia"),
     "GOODCID": ("ID", "Gooding"),
-
-    # Utah
     "SLSLCUT": ("UT", "Salt Lake"),
     "SLCHOLD": ("UT", "Salt Lake"),
     "CACHEUT": ("UT", "Cache"),
@@ -871,20 +786,16 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "WEBERUT": ("UT", "Weber"),
     "OGUHOLD": ("UT", "Weber"),
     "UINTCUT": ("UT", "Uintah"),
-
-    # Nevada
     "HENDENV": ("NV", "Clark"),
     "LVGHOLD": ("NV", "Clark"),
     "WASHONV": ("NV", "Washoe"),
     "RENHOLD": ("NV", "Washoe"),
-    "NVSDCNV": ("NV", "Nye"),         # Nevada Southern (Pahrump)
+    "NVSDCNV": ("NV", "Nye"),
     "NYEPANV": ("NV", "Nye"),
     "DVHSPNV": ("NV", "Nye"),
     "NOLVGNV": ("NV", "Clark"),
     "HDHSPNV": ("NV", "Clark"),
     "NNVMCNV": ("NV", "Clark"),
-
-    # Arizona
     "FSF": ("AZ", "Pinal"),
     "FLO": ("AZ", "Pinal"),
     "EAZ": ("AZ", "Pinal"),
@@ -910,9 +821,9 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "STMARAZ": ("AZ", "Pima"),
     "BOPPHX": ("AZ", "Maricopa"),
     "YUMHOLD": ("AZ", "Yuma"),
-    "SLRDCAZ": ("AZ", "Yuma"),        # San Luis (Yuma County)
+    "SLRDCAZ": ("AZ", "Yuma"),
     "LAPAZAZ": ("AZ", "La Paz"),
-    "CGRMCAZ": ("AZ", "Pinal"),       # Casa Grande
+    "CGRMCAZ": ("AZ", "Pinal"),
     "CAMEDAZ": ("AZ", "Pinal"),
     "BIMDCAZ": ("AZ", "Pinal"),
     "YAVCVAZ": ("AZ", "Yavapai"),
@@ -926,9 +837,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "GLEPDCA": ("CA", "Los Angeles"),
     "CHANRAZ": ("AZ", "Maricopa"),
     "AZSVCPC": ("AZ", "Pinal"),
-
-    # New Mexico
-    "OTRPCNM": ("NM", "Otero"),       # Otero Co Processing (Chaparral)
+    "OTRPCNM": ("NM", "Otero"),
     "OTROPNM": ("NM", "Otero"),
     "OTERONM": ("NM", "Otero"),
     "TOORANM": ("NM", "Torrance"),
@@ -948,14 +857,12 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "RSWHOLD": ("NM", "Chaves"),
     "ARTSINM": ("NM", "Eddy"),
     "ARTESNM": ("NM", "Eddy"),
-    "LASHOLD": ("NM", "Dona Ana"),    # Las Cruces
+    "LASHOLD": ("NM", "Dona Ana"),
     "ABQHOLD": ("NM", "Bernalillo"),
     "PRSHANM": ("NM", "Bernalillo"),
     "HIDALNM": ("NM", "Hidalgo"),
-
-    # California - SoCal
-    "CCASDCA": ("CA", "San Diego"),   # Otay Mesa
-    "SOBAYCA": ("CA", "San Diego"),   # South Bay
+    "CCASDCA": ("CA", "San Diego"),
+    "SOBAYCA": ("CA", "San Diego"),
     "SDPROCA": ("CA", "San Diego"),
     "SNDCOCA": ("CA", "San Diego"),
     "SDHOSCA": ("CA", "San Diego"),
@@ -971,61 +878,59 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "UCSDHCA": ("CA", "San Diego"),
     "HISDBCA": ("CA", "San Diego"),
     "BWDGICA": ("CA", "San Diego"),
-    "CACFMES": ("CA", "Kern"),        # Mesa Verde
-    "GLDSACA": ("CA", "Kern"),        # Golden State Annex
-    "CADESVI": ("CA", "Kern"),        # Desert View
-    "BKLHOLD": ("CA", "Kern"),        # Bakersfield
+    "CACFMES": ("CA", "Kern"),
+    "GLDSACA": ("CA", "Kern"),
+    "CADESVI": ("CA", "Kern"),
+    "BKLHOLD": ("CA", "Kern"),
     "KERCOCA": ("CA", "Kern"),
     "KERNHCA": ("CA", "Kern"),
-    "ADLNTCA": ("CA", "San Bernardino"),  # Adelanto
+    "ADLNTCA": ("CA", "San Bernardino"),
     "SBDHOLD": ("CA", "San Bernardino"),
     "SBERNCA": ("CA", "San Bernardino"),
     "ARRMCCA": ("CA", "San Bernardino"),
     "DSRTVCA": ("CA", "San Bernardino"),
     "VVGMCCA": ("CA", "San Bernardino"),
-    "WMHOSCA": ("CA", "Los Angeles"), # White Memorial
-    "LANCACA": ("CA", "Los Angeles"), # Mira Loma in Lancaster
-    "LOSCJCA": ("CA", "Los Angeles"), # LA Co Jail
+    "WMHOSCA": ("CA", "Los Angeles"),
+    "LANCACA": ("CA", "Los Angeles"),
+    "LOSCJCA": ("CA", "Los Angeles"),
     "BARRECA": ("CA", "Los Angeles"),
     "LOSHOLD": ("CA", "Los Angeles"),
     "BOPLOS": ("CA", "Los Angeles"),
     "ALHAMCA": ("CA", "Los Angeles"),
-    "BHCALCA": ("CA", "Los Angeles"), # Alhambra BHC
+    "BHCALCA": ("CA", "Los Angeles"),
     "POMONCA": ("CA", "Los Angeles"),
     "TEMPLCA": ("CA", "Los Angeles"),
     "PASADCA": ("CA", "Los Angeles"),
     "LPD77CA": ("CA", "Los Angeles"),
     "PLRMCCA": ("CA", "Los Angeles"),
     "PALMDCA": ("CA", "Los Angeles"),
-    "TLACYCA": ("CA", "Orange"),      # Theo Lacy
-    "MUSIKCA": ("CA", "Orange"),      # James A Musick
+    "TLACYCA": ("CA", "Orange"),
+    "MUSIKCA": ("CA", "Orange"),
     "OCIRCCA": ("CA", "Orange"),
     "OCCWJCA": ("CA", "Orange"),
-    "WSTMCCA": ("CA", "Orange"),      # Western Med (Santa Ana)
+    "WSTMCCA": ("CA", "Orange"),
     "OGCMCCA": ("CA", "Orange"),
-    "AGMDCCA": ("CA", "Orange"),      # Anaheim Global
+    "AGMDCCA": ("CA", "Orange"),
     "COSTACA": ("CA", "Orange"),
-    "WESHOLD": ("CA", "Orange"),      # Westminster
-    "SAAHOLD": ("CA", "Orange"),      # Santa Ana DRO
-    "SACITCA": ("CA", "Orange"),      # Santa Ana City
+    "WESHOLD": ("CA", "Orange"),
+    "SAAHOLD": ("CA", "Orange"),
+    "SACITCA": ("CA", "Orange"),
     "IRADFCA": ("CA", "Imperial"),
     "ECC": ("CA", "Imperial"),
     "IMPCOCA": ("CA", "Imperial"),
     "IMPHOLD": ("CA", "Imperial"),
-    "CADCCAL": ("CA", "Imperial"),    # CDC Calipatria
+    "CADCCAL": ("CA", "Imperial"),
     "VENTUCA": ("CA", "Ventura"),
     "VENHOLD": ("CA", "Ventura"),
     "STMARCA": ("CA", "Ventura"),
     "SBARBCA": ("CA", "Santa Barbara"),
-    "BOPLOM": ("CA", "Santa Barbara"),  # Lompoc USP
-    "BOPLOF": ("CA", "Santa Barbara"),  # Lompoc FCI
+    "BOPLOM": ("CA", "Santa Barbara"),
+    "BOPLOF": ("CA", "Santa Barbara"),
     "SLOBICA": ("CA", "San Luis Obispo"),
     "SLJUVCA": ("CA", "San Luis Obispo"),
-    "ENLMCCA": ("CA", "Butte"),       # Enloe Med (Chico)
-    "REDHOLD": ("CA", "Shasta"),      # Redding
-
-    # California - NorCal
-    "CACFDON": ("CA", "San Diego"),   # RJ Donovan
+    "ENLMCCA": ("CA", "Butte"),
+    "REDHOLD": ("CA", "Shasta"),
+    "CACFDON": ("CA", "San Diego"),
     "SFRHOLD": ("CA", "San Francisco"),
     "RIOCCCA": ("CA", "Sacramento"),
     "SACHOLD": ("CA", "Sacramento"),
@@ -1038,28 +943,26 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "YUBAJCA": ("CA", "Yuba"),
     "CONWECA": ("CA", "Contra Costa"),
     "CONCOCA": ("CA", "Contra Costa"),
-    "CACFLEO": ("CA", "Yuba"),        # CCF Leo Chesney (Live Oak/Sutter, but treat as Yuba)
+    "CACFLEO": ("CA", "Yuba"),
     "RIVERCA": ("CA", "Riverside"),
-    "CACTYCA": ("CA", "Kern"),        # Cal City Corrections (Kern)
-    "CAIRONW": ("CA", "Riverside"),   # Ironwood (Blythe)
+    "CACTYCA": ("CA", "Kern"),
+    "CAIRONW": ("CA", "Riverside"),
     "CAWVALL": ("CA", "Riverside"),
     "CAMENCW": ("CA", "San Luis Obispo"),
     "CAMENCE": ("CA", "San Luis Obispo"),
-    "CCJAMA": ("CA", "Tehama"),       # SCC/Jamestown - actually Tuolumne
+    "CCJAMA": ("CA", "Tehama"),
     "CACCJAM": ("CA", "Tuolumne"),
     "LASWOCA": ("CA", "San Diego"),
     "BPS": ("CA", "Imperial"),
-    "STK": ("CA", "San Joaquin"),     # Stockton Staging
-
-    # Pacific NW
-    "CSCNWWA": ("WA", "Pierce"),      # NW ICE Processing (Tacoma)
+    "STK": ("CA", "San Joaquin"),
+    "CSCNWWA": ("WA", "Pierce"),
     "SEAHOLD": ("WA", "King"),
-    "BOPSET": ("WA", "King"),         # SeaTac FDC
+    "BOPSET": ("WA", "King"),
     "FPSSAWA": ("WA", "King"),
     "YIKIMWA": ("WA", "Yakima"),
     "YAKHOLD": ("WA", "Yakima"),
     "CHELAWA": ("WA", "Chelan"),
-    "WNTHOLD": ("WA", "Chelan"),      # Wenatchee
+    "WNTHOLD": ("WA", "Chelan"),
     "OKANOWA": ("WA", "Okanogan"),
     "KITTIWA": ("WA", "Kittitas"),
     "STEVEWA": ("WA", "Stevens"),
@@ -1067,13 +970,13 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "RRFINWA": ("WA", "Yakima"),
     "ADAMSWA": ("WA", "Adams"),
     "COWJVWA": ("WA", "Cowlitz"),
-    "FDLHOLD": ("WA", "Whatcom"),     # Ferndale
-    "BLHHOLD": ("WA", "Whatcom"),     # Bellingham
-    "SUNNYWA": ("WA", "Yakima"),      # Sunnyside
-    "RICHOLD": ("WA", "Benton"),      # Richland (Benton County)
+    "FDLHOLD": ("WA", "Whatcom"),
+    "BLHHOLD": ("WA", "Whatcom"),
+    "SUNNYWA": ("WA", "Yakima"),
+    "RICHOLD": ("WA", "Benton"),
     "SPOHOLD": ("WA", "Spokane"),
 
-    "NORCOOR": ("OR", "Umatilla"),    # Northern Oregon Corr (The Dalles - Wasco)
+    "NORCOOR": ("OR", "Umatilla"),
     "NOJUVOR": ("OR", "Wasco"),
     "JOSEPOR": ("OR", "Josephine"),
     "JACKSOR": ("OR", "Jackson"),
@@ -1086,39 +989,33 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "LINNCOR": ("OR", "Linn"),
     "UMATCOR": ("OR", "Umatilla"),
     "COLUMOR": ("OR", "Columbia"),
-    "SPRNGOR": ("OR", "Lane"),        # Springfield
-    "BOPSHE": ("OR", "Yamhill"),      # Sheridan FCI
-
-    # Alaska
+    "SPRNGOR": ("OR", "Lane"),
+    "BOPSHE": ("OR", "Yamhill"),
     "AKCOOKI": ("AK", "Anchorage"),
     "ANCHOAK": ("AK", "Anchorage"),
     "ANCHOLD": ("AK", "Anchorage"),
-    "AKHIGHL": ("AK", "Anchorage"),   # Highland Mt CC (Eagle River)
-    "AKLEMON": ("AK", "Juneau"),      # Lemon Creek
+    "AKHIGHL": ("AK", "Anchorage"),
+    "AKLEMON": ("AK", "Juneau"),
     "SITKAAK": ("AK", "Sitka"),
     "AKKETCH": ("AK", "Ketchikan Gateway"),
     "AKFAIRB": ("AK", "Fairbanks North Star"),
     "AKPALMC": ("AK", "Matanuska-Susitna"),
-    "AKWILPT": ("AK", "Kenai Peninsula"),  # Wildwood Pre-Trial
+    "AKWILPT": ("AK", "Kenai Peninsula"),
     "AKWILCC": ("AK", "Kenai Peninsula"),
-    "AKGSCCC": ("AK", "Matanuska-Susitna"),  # Goose Creek
+    "AKGSCCC": ("AK", "Matanuska-Susitna"),
     "KODIAAK": ("AK", "Kodiak Island"),
-
-    # Hawaii
     "BOPHON": ("HI", "Honolulu"),
     "HHWHOLD": ("HI", "Honolulu"),
     "PMMCAHI": ("HI", "Honolulu"),
-
-    # Puerto Rico / VI / Guam / MP
-    "AGC": ("PR", "Aguadilla"),       # Aguadilla SPC
-    "SJS": ("PR", "Bayamon"),         # San Juan Staging (Bayamon)
+    "AGC": ("PR", "Aguadilla"),
+    "SJS": ("PR", "Bayamon"),
     "BOPGUA": ("PR", "Guaynabo"),
     "BAYAMPR": ("PR", "Bayamon"),
     "PAVHRPR": ("PR", "San Juan"),
     "HOSPSPR": ("PR", "San Juan"),
     "CMEDHPR": ("PR", "Bayamon"),
     "PRVEGAL": ("PR", "Vega Alta"),
-    "AIRHOPR": ("PR", "Carolina"),    # San Juan Airport
+    "AIRHOPR": ("PR", "Carolina"),
     "SAJHOLD": ("PR", "San Juan"),
     "SJUHOLD": ("PR", "Carolina"),
     "GUDOCHG": ("GU", "Guam"),
@@ -1128,43 +1025,39 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "CHAHOLD": ("VI", "St. Thomas"),
     "MPSIPAN": ("MP", "Saipan"),
     "SAIHOLD": ("MP", "Saipan"),
-
-    # Federal BOP facilities
-    "BOPDAL": ("TX", "Childress"),    # Dalby (Post is in Garza, but Dalby is in Post which is Garza). Actually Dalby Correctional is in Post, TX = Garza County.
+    "BOPDAL": ("TX", "Childress"),
     "BOPMCR": ("KY", "McCreary"),
-    "BOPTRV": ("TX", "Live Oak"),     # Three Rivers FCI
-    "BOPVIM": ("CA", "San Bernardino"),  # Victorville
+    "BOPTRV": ("TX", "Live Oak"),
+    "BOPVIM": ("CA", "San Bernardino"),
     "BOPSDC": ("CA", "San Diego"),
     "BOPSPG": ("MO", "Greene"),
     "BOPGIL": ("WV", "Gilmer"),
-    "BOPALM": ("PA", "Union"),        # Allenwood
-    "BOPTHA": ("IN", "Vigo"),         # Terre Haute
-    "BOPPOL": ("LA", "Grant"),        # Pollock USP
+    "BOPALM": ("PA", "Union"),
+    "BOPTHA": ("IN", "Vigo"),
+    "BOPPOL": ("LA", "Grant"),
     "BOPLEM": ("PA", "Union"),
-    "BOPRBK": ("NY", "Essex"),        # Ray Brook
-    "BOPPET": ("VA", "Dinwiddie"),    # Petersburg
-
-    # Other
+    "BOPRBK": ("NY", "Essex"),
+    "BOPPET": ("VA", "Dinwiddie"),
     "DESERFL": ("FL", "Polk"),
     "WINWYAZ": ("AZ", "Pinal"),
-    "RDRVHTX": ("TX", "Wichita"),     # Red River (Wichita Falls)
-    "PKLDHTX": ("TX", "Dallas"),      # Parkland
-    "LAURITX": ("TX", "Bexar"),       # Laurel Ridge
-    "PLMBHTX": ("TX", "Bexar"),       # Palms BH
+    "RDRVHTX": ("TX", "Wichita"),
+    "PKLDHTX": ("TX", "Dallas"),
+    "LAURITX": ("TX", "Bexar"),
+    "PLMBHTX": ("TX", "Bexar"),
     "LIMMCTX": ("TX", "Limestone"),
     "LIMESTX": ("TX", "Limestone"),
     "LIMCJTX": ("TX", "Limestone"),
-    "WOAKSTX": ("TX", "Harris"),      # West Oaks (Houston)
-    "RVBHHTX": ("TX", "El Paso"),     # Rio Vista BH
+    "WOAKSTX": ("TX", "Harris"),
+    "RVBHHTX": ("TX", "El Paso"),
     "LRDMCTX": ("TX", "Webb"),
-    "ASWHRTX": ("TX", "Williamson"),  # Ascension Seton Williamson
-    "CCHRTTX": ("TX", "Bell"),        # Cedar Crest (Belton/Killeen)
-    "BFGHITX": ("TX", "Bexar"),       # Byrd's Foster Grp Home (San Antonio)
-    "TRYOSCA": ("CA", "San Bernardino"),  # Trinity Youth Svcs
-    "NIXHCTX": ("TX", "Bexar"),       # Nix Home Care (San Antonio)
-    "LLUMCCA": ("CA", "San Bernardino"),  # Loma Linda
-    "GSAMHCA": ("CA", "Los Angeles"), # Good Samaritan
-    "CWHCCMP": ("MP", "Saipan"),      # Commonwealth Healthcare (CNMI)
+    "ASWHRTX": ("TX", "Williamson"),
+    "CCHRTTX": ("TX", "Bell"),
+    "BFGHITX": ("TX", "Bexar"),
+    "TRYOSCA": ("CA", "San Bernardino"),
+    "NIXHCTX": ("TX", "Bexar"),
+    "LLUMCCA": ("CA", "San Bernardino"),
+    "GSAMHCA": ("CA", "Los Angeles"),
+    "CWHCCMP": ("MP", "Saipan"),
     "PIERCND": ("ND", "Pierce"),
     "GFCORND": ("ND", "Grand Forks"),
     "GRFHOLD": ("ND", "Grand Forks"),
@@ -1176,7 +1069,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "BOTTIND": ("ND", "Bottineau"),
     "MOUNTND": ("ND", "Mountrail"),
     "WALSHND": ("ND", "Walsh"),
-    "HACTCND": ("ND", "Cass"),        # Heart of America (Mandan = Morton actually) - hmm
+    "HACTCND": ("ND", "Cass"),
     "PENNISD": ("SD", "Pennington"),
     "RPCHOLD": ("SD", "Pennington"),
     "MINNESD": ("SD", "Minnehaha"),
@@ -1188,21 +1081,12 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "UNIONSD": ("SD", "Union"),
     "TURNESD": ("SD", "Turner"),
 
-    # NC
     "NCWESDF": ("NC", "Anson"),
-    "GRRHOLD": ("SC", "Greenville"),  # Greer
-
-    "ALAMOCO": ("CO", "Alamosa"),
-
-    # Oregon (already listed above)
-    # WA (already listed)
+    "GRRHOLD": ("SC", "Greenville"),
 }
 
 
-# Patterns: facility-name keyword that uniquely identifies a county.
-# Used when the code-based lookup misses but the name is distinctive.
 KNOWN_NAME_KEYWORDS: list[tuple[str, str, str]] = [
-    # (regex, state_abbr, county_name)
     (r"PORT\s+ISABEL", "TX", "Cameron"),
     (r"FLORENCE\s+(SPC|STAGING|SERVICE)", "AZ", "Pinal"),
     (r"ELOY", "AZ", "Pinal"),
@@ -1276,10 +1160,7 @@ KNOWN_NAME_KEYWORDS: list[tuple[str, str, str]] = [
 ]
 
 
-# City → (state, county). Used for hold rooms named "{CITY} HOLD ROOM".
-# The keys are uppercase city names as they appear in the facility names.
 CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
-    # Texas
     "DALLAS": ("TX", "Dallas"),
     "HOUSTON": ("TX", "Harris"),
     "SAN ANTONIO": ("TX", "Bexar"),
@@ -1317,13 +1198,11 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "LIVINGSTON": ("TX", "Polk"),
     "EAGLE PASS": ("TX", "Maverick"),
     "ATHENS": ("TX", "Henderson"),
-    # New Mexico
     "ALBUQUERQUE": ("NM", "Bernalillo"),
     "LAS CRUCES": ("NM", "Dona Ana"),
     "ROSWELL": ("NM", "Chaves"),
     "ARTESIA": ("NM", "Eddy"),
     "SANTA FE": ("NM", "Santa Fe"),
-    # Arizona
     "PHOENIX": ("AZ", "Maricopa"),
     "TUCSON": ("AZ", "Pima"),
     "FLORENCE": ("AZ", "Pinal"),
@@ -1334,7 +1213,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "MESA": ("AZ", "Maricopa"),
     "SCOTTSDALE": ("AZ", "Maricopa"),
     "TEMPE": ("AZ", "Maricopa"),
-    # California
     "LOS ANGELES": ("CA", "Los Angeles"),
     "SAN DIEGO": ("CA", "San Diego"),
     "SAN FRANCISCO": ("CA", "San Francisco"),
@@ -1359,7 +1237,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "CALIPATRIA": ("CA", "Imperial"),
     "LOMPOC": ("CA", "Santa Barbara"),
     "VICTORVILLE": ("CA", "San Bernardino"),
-    # Florida
     "MIAMI": ("FL", "Miami-Dade"),
     "ORLANDO": ("FL", "Orange"),
     "TAMPA": ("FL", "Hillsborough"),
@@ -1375,23 +1252,19 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "FOLKSTON": ("GA", "Charlton"),
     "MOORE HAVEN": ("FL", "Glades"),
     "DANIA BEACH": ("FL", "Broward"),
-    # Georgia
     "ATLANTA": ("GA", "Fulton"),
     "SAVANNAH": ("GA", "Chatham"),
     "GAINESVILLE": ("GA", "Hall"),
     "MACON": ("GA", "Bibb"),
     "DALTON": ("GA", "Whitfield"),
     "STEWART": ("GA", "Stewart"),
-    # Alabama
     "BIRMINGHAM": ("AL", "Jefferson"),
     "MOBILE": ("AL", "Mobile"),
     "MONTGOMERY": ("AL", "Montgomery"),
     "ETOWAH": ("AL", "Etowah"),
-    # Mississippi
     "JACKSON": ("MS", "Hinds"),
     "GULFPORT": ("MS", "Harrison"),
     "ADAMS": ("MS", "Adams"),
-    # Louisiana
     "NEW ORLEANS": ("LA", "Orleans"),
     "BATON ROUGE": ("LA", "East Baton Rouge"),
     "ALEXANDRIA": ("LA", "Rapides"),
@@ -1404,7 +1277,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "LAFAYETTE": ("LA", "Lafayette"),
     "SHREVEPORT": ("LA", "Caddo"),
     "MONROE": ("LA", "Ouachita"),
-    # New York
     "NEW YORK": ("NY", "New York"),
     "MANHATTAN": ("NY", "New York"),
     "BUFFALO": ("NY", "Erie"),
@@ -1424,7 +1296,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "CENTRAL ISLIP": ("NY", "Suffolk"),
     "LONG ISLAND": ("NY", "Suffolk"),
     "NEWBURGH": ("NY", "Orange"),
-    # New Jersey
     "ELIZABETH": ("NJ", "Union"),
     "NEWARK": ("NJ", "Essex"),
     "JERSEY CITY": ("NJ", "Hudson"),
@@ -1434,7 +1305,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "MOUNT LAUREL": ("NJ", "Burlington"),
     "MT. LAUREL": ("NJ", "Burlington"),
     "MT LAUREL": ("NJ", "Burlington"),
-    # PA
     "PHILADELPHIA": ("PA", "Philadelphia"),
     "PITTSBURGH": ("PA", "Allegheny"),
     "PITTSBURG": ("PA", "Allegheny"),
@@ -1442,10 +1312,8 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "WILLIAMSPORT": ("PA", "Lycoming"),
     "ALLENTOWN": ("PA", "Lehigh"),
     "ERIE": ("PA", "Erie"),
-    # Maryland / DC
     "BALTIMORE": ("MD", "Baltimore city"),
     "WASHINGTON": ("DC", "District of Columbia"),
-    # Virginia
     "RICHMOND": ("VA", "Richmond city"),
     "ROANOKE": ("VA", "Roanoke city"),
     "NORFOLK": ("VA", "Norfolk city"),
@@ -1454,31 +1322,23 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "HARRISONBURG": ("VA", "Harrisonburg city"),
     "FAIRFAX": ("VA", "Fairfax"),
     "VIRGINIA BEACH": ("VA", "Virginia Beach city"),
-    # Massachusetts
     "BOSTON": ("MA", "Suffolk"),
     "WORCESTER": ("MA", "Worcester"),
     "SPRINGFIELD, MA": ("MA", "Hampden"),
     "BRIDGEWATER": ("MA", "Plymouth"),
     "BARNSTABLE": ("MA", "Barnstable"),
-    # Connecticut
     "HARTFORD": ("CT", "Hartford"),
     "NEW HAVEN": ("CT", "New Haven"),
-    # Rhode Island
     "PROVIDENCE": ("RI", "Providence"),
-    # NH
     "MANCHESTER": ("NH", "Hillsborough"),
     "DOVER, NH": ("NH", "Strafford"),
-    # Vermont
     "ST. ALBANS": ("VT", "Franklin"),
     "ST ALBANS": ("VT", "Franklin"),
     "BURLINGTON, VT": ("VT", "Chittenden"),
-    # Maine
     "PORTLAND, ME": ("ME", "Cumberland"),
     "BANGOR": ("ME", "Penobscot"),
-    # Delaware
     "DOVER": ("DE", "Kent"),
     "WILMINGTON, DE": ("DE", "New Castle"),
-    # Washington State
     "SEATTLE": ("WA", "King"),
     "TACOMA": ("WA", "Pierce"),
     "SPOKANE": ("WA", "Spokane"),
@@ -1487,39 +1347,32 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "YAKIMA": ("WA", "Yakima"),
     "FERNDALE": ("WA", "Whatcom"),
     "BELLINGHAM": ("WA", "Whatcom"),
-    # Oregon
     "PORTLAND, OR": ("OR", "Multnomah"),
-    "PORTLAND": ("OR", "Multnomah"),  # default
+    "PORTLAND": ("OR", "Multnomah"),
     "EUGENE": ("OR", "Lane"),
     "SALEM": ("OR", "Marion"),
     "MEDFORD": ("OR", "Jackson"),
     "BEND": ("OR", "Deschutes"),
     "SHERIDAN": ("OR", "Yamhill"),
-    # Idaho
     "BOISE": ("ID", "Ada"),
     "TWIN FALLS": ("ID", "Twin Falls"),
     "IDAHO FALLS": ("ID", "Bonneville"),
-    # Utah
     "SALT LAKE CITY": ("UT", "Salt Lake"),
     "PROVO": ("UT", "Utah"),
     "OGDEN": ("UT", "Weber"),
     "ST. GEORGE": ("UT", "Washington"),
     "ST GEORGE": ("UT", "Washington"),
-    # Nevada
     "LAS VEGAS": ("NV", "Clark"),
     "RENO": ("NV", "Washoe"),
     "HENDERSON": ("NV", "Clark"),
     "PAHRUMP": ("NV", "Nye"),
-    # Wyoming
     "CHEYENNE": ("WY", "Laramie"),
     "CASPER": ("WY", "Natrona"),
     "CASPAR": ("WY", "Natrona"),
-    # Montana
     "BILLINGS": ("MT", "Yellowstone"),
     "HELENA": ("MT", "Lewis and Clark"),
     "MISSOULA": ("MT", "Missoula"),
     "GREAT FALLS": ("MT", "Cascade"),
-    # Colorado
     "DENVER": ("CO", "Denver"),
     "AURORA": ("CO", "Adams"),
     "COLORADO SPRINGS": ("CO", "El Paso"),
@@ -1533,7 +1386,6 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "BRUSH": ("CO", "Morgan"),
     "FREDERICK": ("CO", "Weld"),
     "FORT COLLINS": ("CO", "Larimer"),
-    # North/South Dakota
     "FARGO": ("ND", "Cass"),
     "GRAND FORKS": ("ND", "Grand Forks"),
     "BISMARCK": ("ND", "Burleigh"),
@@ -1542,29 +1394,24 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "SIOUX FALLS": ("SD", "Minnehaha"),
     "SIOUX CITY": ("IA", "Woodbury"),
     "ABERDEEN": ("SD", "Brown"),
-    # Nebraska
     "OMAHA": ("NE", "Douglas"),
     "LINCOLN": ("NE", "Lancaster"),
     "GRAND ISLAND": ("NE", "Hall"),
     "NORTH PLATTE": ("NE", "Lincoln"),
-    # Iowa
     "DES MOINES": ("IA", "Polk"),
     "CEDAR RAPIDS": ("IA", "Linn"),
     "DAVENPORT": ("IA", "Scott"),
-    # Minnesota
     "MINNEAPOLIS": ("MN", "Hennepin"),
     "ST. PAUL": ("MN", "Ramsey"),
     "ST PAUL": ("MN", "Ramsey"),
     "DULUTH": ("MN", "St. Louis"),
     "ROCHESTER, MN": ("MN", "Olmsted"),
-    # Wisconsin
     "MILWAUKEE": ("WI", "Milwaukee"),
     "MADISON": ("WI", "Dane"),
     "GREEN BAY": ("WI", "Brown"),
     "KENOSHA": ("WI", "Kenosha"),
     "WAUKESHA": ("WI", "Waukesha"),
     "JUNEAU, WI": ("WI", "Dodge"),
-    # Illinois
     "CHICAGO": ("IL", "Cook"),
     "BROADVIEW": ("IL", "Cook"),
     "ROCKFORD": ("IL", "Winnebago"),
@@ -1572,11 +1419,9 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "PEORIA": ("IL", "Peoria"),
     "SPRINGFIELD, IL": ("IL", "Sangamon"),
     "ELGIN": ("IL", "Cook"),
-    # Indiana
     "INDIANAPOLIS": ("IN", "Marion"),
     "FORT WAYNE": ("IN", "Allen"),
     "EVANSVILLE": ("IN", "Vanderburgh"),
-    # Ohio
     "COLUMBUS": ("OH", "Franklin"),
     "CLEVELAND": ("OH", "Cuyahoga"),
     "CINCINNATI": ("OH", "Hamilton"),
@@ -1584,24 +1429,20 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "DAYTON": ("OH", "Montgomery"),
     "AKRON": ("OH", "Summit"),
     "YOUNGSTOWN": ("OH", "Mahoning"),
-    # Michigan
     "DETROIT": ("MI", "Wayne"),
     "GRAND RAPIDS": ("MI", "Kent"),
     "LANSING": ("MI", "Ingham"),
     "ANN ARBOR": ("MI", "Washtenaw"),
     "BATTLE CREEK": ("MI", "Calhoun"),
     "MONROE, MI": ("MI", "Monroe"),
-    # Kentucky
     "LOUISVILLE": ("KY", "Jefferson"),
     "LEXINGTON": ("KY", "Fayette"),
     "BOWLING GREEN": ("KY", "Warren"),
-    # Tennessee
     "NASHVILLE": ("TN", "Davidson"),
     "MEMPHIS": ("TN", "Shelby"),
     "KNOXVILLE": ("TN", "Knox"),
     "CHATTANOOGA": ("TN", "Hamilton"),
-    "CHATANOOGA": ("TN", "Hamilton"),  # typo seen in data
-    # North Carolina
+    "CHATANOOGA": ("TN", "Hamilton"),
     "RALEIGH": ("NC", "Wake"),
     "CHARLOTTE": ("NC", "Mecklenburg"),
     "GREENSBORO": ("NC", "Guilford"),
@@ -1610,50 +1451,41 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "ASHEVILLE": ("NC", "Buncombe"),
     "FAYETTEVILLE, NC": ("NC", "Cumberland"),
     "HENDERSONVILLE": ("NC", "Henderson"),
-    # South Carolina
     "CHARLESTON": ("SC", "Charleston"),
     "COLUMBIA": ("SC", "Richland"),
     "GREENVILLE": ("SC", "Greenville"),
     "GREER": ("SC", "Greenville"),
-    # Arkansas
     "LITTLE ROCK": ("AR", "Pulaski"),
     "FAYETTEVILLE": ("AR", "Washington"),
     "FORT SMITH": ("AR", "Sebastian"),
     "TEXARKANA": ("AR", "Miller"),
-    # Missouri
     "ST. LOUIS": ("MO", "St. Louis city"),
     "ST LOUIS": ("MO", "St. Louis city"),
     "KANSAS CITY": ("MO", "Jackson"),
-    "KANSAS": ("MO", "Jackson"),         # FOIA encounters file uses "KANSAS, MO" for Kansas City
-    "VARRICK": ("NY", "New York"),       # Varrick/Varick Street SPC, NYC
+    "KANSAS": ("MO", "Jackson"),
+    "VARRICK": ("NY", "New York"),
     "VARICK": ("NY", "New York"),
     "MOUNT LAUREL NJ": ("NJ", "Burlington"),
-    "HUNTSVILLE": ("TX", "Walker"),      # ERO - Huntsville TX IRP Sub-Office
+    "HUNTSVILLE": ("TX", "Walker"),
     "CASPER": ("WY", "Natrona"),
     "SPRINGFIELD": ("MO", "Greene"),
     "SPRINGFIELD, MO": ("MO", "Greene"),
-    # Kansas
     "WICHITA": ("KS", "Sedgwick"),
     "TOPEKA": ("KS", "Shawnee"),
     "GARDEN CITY": ("KS", "Finney"),
-    # Oklahoma
     "OKLAHOMA CITY": ("OK", "Oklahoma"),
     "TULSA": ("OK", "Tulsa"),
     "OK CITY": ("OK", "Oklahoma"),
-    # Alaska
     "ANCHORAGE": ("AK", "Anchorage"),
     "FAIRBANKS": ("AK", "Fairbanks North Star"),
     "JUNEAU": ("AK", "Juneau"),
     "SITKA": ("AK", "Sitka"),
     "KETCHIKAN": ("AK", "Ketchikan Gateway"),
     "KODIAK": ("AK", "Kodiak Island"),
-    # Hawaii
     "HONOLULU": ("HI", "Honolulu"),
-    # PR
     "SAN JUAN": ("PR", "San Juan"),
     "AGUADILLA": ("PR", "Aguadilla"),
     "BAYAMON": ("PR", "Bayamon"),
-    # Guam / VI / NMI
     "AGANA": ("GU", "Guam"),
     "HAGATNA": ("GU", "Guam"),
     "SAIPAN": ("MP", "Saipan"),
@@ -1661,27 +1493,19 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
 }
 
 
-# Pattern: extract county name from "{COUNTY} COUNTY JAIL" / "{COUNTY} CO. JAIL".
-# We deliberately match a *strict* phrasing so we don't overfire on names like
-# "MONTGOMERY COUNTY SHERIFF" (which doesn't tell us the state — those still
-# need a state hint from the code suffix).
 _COUNTY_NAME_PATTERNS = [
-    # captures the county name before "COUNTY JAIL/SHERIFF/DET..."
     re.compile(r"\b([A-Z][A-Z .'-]*?)\s+CO(?:UNTY|\.|)\s+(?:SHERIFF|JAIL|DET|CORR|REGIONAL|JUSTICE)"),
     re.compile(r"\b([A-Z][A-Z .'-]*?)\s+CO(?:UNTY|\.|)\s+J\b"),
 ]
 
 
 def _normalize_county(raw: str) -> str:
-    """Strip trailing punctuation and normalize the captured county phrase."""
     s = raw.strip().rstrip(".,").strip()
-    # Common words that get swept into the capture - drop them.
     s = re.sub(r"\s+(JAIL|SHERIFF|DET|CORR|REGIONAL|JUSTICE)\b.*$", "", s)
     return s.title()
 
 
 def _extract_county_from_pattern(name: str) -> str | None:
-    """If the name encodes a "{X} COUNTY ..." pattern, return X."""
     upper = name.upper()
     for pat in _COUNTY_NAME_PATTERNS:
         m = pat.search(upper)
@@ -1691,9 +1515,6 @@ def _extract_county_from_pattern(name: str) -> str | None:
 
 
 def lookup_city_county(city: str) -> tuple[str, str] | None:
-    """Look up (state, county) for a city name. Tries exact match first,
-    then word-boundary search across the multi-word keys in CITY_COUNTY_HINTS.
-    Returns None when the city isn't recognized."""
     if not city:
         return None
     upper = city.upper().strip()
@@ -1705,26 +1526,18 @@ def lookup_city_county(city: str) -> tuple[str, str] | None:
     return None
 
 
-# --- FIPS-reference normalization (shared across crosswalk + encounters) ----
-
-# Build a regex that strips trailing whitespace + any prefix of
-# "county"/"parish"/"borough"/"municipality". The FIPS reference truncates
-# names at 16 chars, so we see "Miami-Dade count" (drop " count"),
-# "San Bernardino c" (drop " c"), "St. Tammany pari" (drop " pari"), etc.
 _DECORATION_WORDS = ("county", "parish", "borough", "municipality")
 _DECORATION_PREFIXES = sorted(
     {w[:n] for w in _DECORATION_WORDS for n in range(1, len(w) + 1)},
     key=len, reverse=True,
 )
+# FIPS reference truncates county names at 16 chars.
 _DECORATION_RE = re.compile(
     r"\s+(?:" + "|".join(_DECORATION_PREFIXES) + r"|census area|city and borough)$"
 )
 
 
 def norm_county(s: str) -> str:
-    """Normalize a county name for comparison: lowercase, strip punctuation,
-    strip trailing 'county'/'parish'/etc. decoration. Anchored at end of
-    string so 'dade count' doesn't lose its 't' to a mid-string match."""
     if s is None:
         return ""
     s = s.strip().lower().replace(".", "").replace(",", "")
@@ -1737,21 +1550,19 @@ def norm_county(s: str) -> str:
 
 
 def norm_compact(s: str) -> str:
-    """Compact form (no spaces/hyphens/apostrophes) so 'LaSalle' matches
-    'La Salle' and 'St. Johns' matches 'StJohns'."""
     return norm_county(s).replace(" ", "").replace("-", "").replace("'", "")
 
 
-def resolve_facility(name: str, code: str | None) -> CountyHit | None:
-    """Return (state, county, source) for a facility, or None if unresolvable.
+_USPS = {
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+    "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN",
+    "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
+    "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+    "WV", "WI", "WY", "PR", "GU", "VI", "AS", "MP",
+}
 
-    Resolution order:
-      1. Exact facility code match (most reliable).
-      2. Distinctive name keyword (handles facilities with stable names but
-         varying codes across FY).
-      3. "{COUNTY} COUNTY JAIL" pattern + state hint from code suffix.
-      4. City keyword from CITY_COUNTY_HINTS + state hint check.
-    """
+
+def resolve_facility(name: str, code: str | None) -> CountyHit | None:
     code_clean = (code or "").strip().upper()
     if code_clean in KNOWN_FACILITY_CODES:
         st, county = KNOWN_FACILITY_CODES[code_clean]
@@ -1762,31 +1573,19 @@ def resolve_facility(name: str, code: str | None) -> CountyHit | None:
         if re.search(regex_str, upper):
             return CountyHit(st, county, "name")
 
-    # State from code suffix (e.g., DALCOTX -> TX)
     code_state = ""
     if code_clean and len(code_clean) >= 2 and code_clean[-2:].isalpha():
         candidate = code_clean[-2:]
-        if candidate in {"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC",
-                         "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY",
-                         "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
-                         "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
-                         "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
-                         "VT", "VA", "WA", "WV", "WI", "WY", "PR", "GU", "VI",
-                         "AS", "MP"}:
+        if candidate in _USPS:
             code_state = candidate
 
-    # "{X} COUNTY JAIL" pattern
     extracted = _extract_county_from_pattern(upper)
     if extracted and code_state:
         return CountyHit(code_state, extracted, "county_jail_pattern")
 
-    # City keyword (try longer multi-word cities first)
-    sorted_cities = sorted(CITY_COUNTY_HINTS, key=len, reverse=True)
-    for city in sorted_cities:
+    for city in sorted(CITY_COUNTY_HINTS, key=len, reverse=True):
         if re.search(rf"\b{re.escape(city)}\b", upper):
             st, county = CITY_COUNTY_HINTS[city]
-            # If we have a code state and it disagrees, only accept the city
-            # hint when there's no code-suffix conflict.
             if code_state and code_state != st:
                 continue
             return CountyHit(st, county, "city")

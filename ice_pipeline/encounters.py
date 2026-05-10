@@ -1,23 +1,4 @@
-"""ERO Encounters site crosswalk + county-level aggregation.
-
-The Encounters workbook is structurally different from the detention
-files — see ``config.py`` for the column layout. The unit of analysis
-here is *encounters*, which include detainers, prosecutorial discretion,
-and other non-detention actions in addition to actual book-ins.
-
-This module runs in parallel to the detention pipeline:
-  * ``build_site_crosswalk()`` reads the encounters interim CSV(s),
-    extracts unique ``Responsible Site`` strings, parses out city/state
-    where the format permits (e.g. ``CHICAGO, IL, DOCKET CONTROL OFFICE``),
-    flags ambiguous site types (hold rooms, hotels, sub-offices, ...),
-    and writes ``site_crosswalk.csv`` (+ a ``review`` and ``template``
-    pair).
-  * ``aggregate()`` joins the crosswalk back to the encounter rows and
-    rolls up to county × year and county × year-month panels.
-
-All output filenames carry an ``encounters`` suffix so they cannot be
-confused with the detention panels.
-"""
+"""ERO Encounters site crosswalk and county roll-up."""
 
 from __future__ import annotations
 
@@ -53,24 +34,10 @@ SITE_OVERRIDE_COLUMNS = [
 ]
 
 
-# --- Site string parsing -----------------------------------------------------
-
 def parse_site(site: str) -> dict:
-    """Pull (city, state, suffix) out of a Responsible Site string.
-
-    Handles both common formats:
-      ``CHICAGO, IL, DOCKET CONTROL OFFICE``    -> {city: CHICAGO, state: IL,
-                                                   suffix: DOCKET CONTROL OFFICE}
-      ``Fort Wayne, IN sub-office``             -> {city: Fort Wayne, state: IN,
-                                                   suffix: sub-office}
-
-    Returns empty strings when the format isn't recognized.
-    """
     if not site:
         return {"city": "", "state": "", "suffix": ""}
-    # Match a 2-letter state token at the start of a comma-delimited part,
-    # followed by end-of-string or a space (not a period/letter, so "MT." in
-    # "MT. LAUREL, NJ, POE" is not confused with Montana).
+    # Trailing space/end stops "MT." matching as Montana.
     _state_prefix = re.compile(r"^([A-Z]{2})(?:\s|$)")
 
     parts = [p.strip() for p in site.split(",")]
@@ -89,8 +56,6 @@ def parse_site(site: str) -> dict:
         return {"city": city, "state": state, "suffix": suffix}
     return {"city": "", "state": "", "suffix": ""}
 
-
-# --- Helpers shared with the detention crosswalk -----------------------------
 
 def _load_state_lookup(fips_csv: Path) -> pd.DataFrame:
     fips = pd.read_csv(fips_csv, dtype={"fips": str})
@@ -120,8 +85,7 @@ def _load_state_lookup(fips_csv: Path) -> pd.DataFrame:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
-    # The reference CSV truncates "District of Columbia" so FIPS 11001 ends up
-    # with state_name="Columbia". Patch it back.
+    # Reference CSV split "District of Columbia" on the comma.
     dc_rows = fips["fips"] == "11001"
     if dc_rows.any():
         fips.loc[dc_rows, "state_name"] = "District of Columbia"
@@ -188,8 +152,6 @@ def _unique_sites(interim_dir: Path) -> pd.DataFrame:
     return out
 
 
-# --- Site crosswalk build ---------------------------------------------------
-
 def build_site_crosswalk(
     interim_dir: Path = config.INTERIM_DIR,
     fips_csv: Path | None = None,
@@ -213,13 +175,11 @@ def build_site_crosswalk(
     overrides = _load_overrides(overrides_csv)
     sites = _unique_sites(interim_dir)
 
-    # 1. Auto-extract city/state from each site string.
     parsed = sites["responsible_site"].apply(parse_site).apply(pd.Series)
     sites["city_auto"] = parsed["city"]
     sites["state_abbr_auto"] = parsed["state"]
     sites["suffix_auto"] = parsed["suffix"]
 
-    # 2. Auto-flag unusual site types using the suffix (more specific than the full string).
     flags = sites.apply(
         lambda r: classify_unusual(
             r["suffix_auto"] or r["responsible_site"], code=None
@@ -229,7 +189,6 @@ def build_site_crosswalk(
     )
     sites[["unusual_flag_auto", "unusual_type_auto"]] = flags
 
-    # 3. Apply academic-team overrides on top of auto values.
     if not overrides.empty:
         sites = sites.merge(overrides, on="responsible_site", how="left")
     for col in SITE_OVERRIDE_COLUMNS:
@@ -255,8 +214,6 @@ def build_site_crosswalk(
     )
     sites["county_fips"] = sites["county_fips"].apply(lambda x: x.zfill(5) if x else "")
 
-    # 3b. Auto-resolve county from city_auto via the shared city→county hint
-    # table. This populates county_name_auto_kf for the FIPS lookup below.
     auto_county = sites["city_auto"].apply(
         lambda c: lookup_city_county(c) if c else None
     )
@@ -266,7 +223,6 @@ def build_site_crosswalk(
     sites["county_name_auto_kf"] = auto_county.map(
         lambda h: h[1] if h else ""
     )
-    # Promote when state extraction missed it.
     sites["state_abbr_auto"] = sites.apply(
         lambda r: r["state_abbr_auto"] if r["state_abbr_auto"] else r["state_auto_kf"],
         axis=1,
@@ -276,14 +232,12 @@ def build_site_crosswalk(
         axis=1,
     )
 
-    # Capture override origin BEFORE FIPS resolution overwrites the columns.
+    # Remembered before resolution overwrites the columns.
     sites["_origin_override_county"] = (
         (sites["county_fips"] != "")
         | (sites["county_name"].astype(str).str.strip() != "")
     )
 
-    # 4. Resolve county info from the FIPS lookup, with truncation- and
-    # parish/county-decoration-aware matching (shared with detention crosswalk).
     fips_lookup = fips_df[["county_fips", "county_name", "state_name", "state_abbr"]].copy()
     fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
     fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
@@ -320,15 +274,12 @@ def build_site_crosswalk(
             if not match.empty:
                 m = match.iloc[0]
                 return pd.Series([cf, m["county_name"], m["state_name"], m["state_abbr"]])
-        # 1. Override-supplied (state, county_name).
         result = _lookup(row["state_abbr"], row["county_name"])
         if result is not None:
             return result
-        # 2. Auto from city_auto -> CITY_COUNTY_HINTS.
         result = _lookup(row["state_auto_kf"], row["county_name_auto_kf"])
         if result is not None:
             return result
-        # 3. State-only fallback.
         sa = (row["state_abbr"] or row["state_auto_kf"]).upper()
         if sa:
             sn = fips_lookup.loc[fips_lookup["state_abbr"] == sa, "state_name"]
@@ -340,7 +291,6 @@ def build_site_crosswalk(
     resolved.columns = ["county_fips", "county_name", "state_name", "state_abbr"]
     sites[["county_fips", "county_name", "state_name", "state_abbr"]] = resolved
 
-    # 5. Provenance.
     def _source(row):
         if row["county_fips"]:
             if row["_origin_override_county"]:
@@ -403,8 +353,6 @@ def build_site_crosswalk(
         "template_path": str(template_path),
     }
 
-
-# --- Aggregation ------------------------------------------------------------
 
 def _load_site_crosswalk(path: Path) -> pd.DataFrame:
     cw = pd.read_csv(path, dtype=str).fillna("")

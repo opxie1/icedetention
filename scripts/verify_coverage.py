@@ -1,4 +1,4 @@
-"""End-to-end coverage report for both pipelines."""
+"""Coverage report for both pipelines."""
 
 import pandas as pd
 

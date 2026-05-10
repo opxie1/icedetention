@@ -1,17 +1,4 @@
-"""Walk every workbook in a directory and print its sheet/header layout.
-
-We need to know up-front whether the 13 ICE files share the FY15 layout
-or each invents its own. This prints, per workbook:
-
-  * file name and size
-  * sheet names
-  * for each sheet: which row appears to be the header, what the headers
-    are, and a sample data row right below.
-
-Run from the project root with the venv active:
-
-  python scripts\inspect_workbooks.py "C:\\Users\\xief\\Dropbox\\ethan xie\\detentions"
-"""
+"""Print sheet and header layout for every workbook in a directory."""
 
 from __future__ import annotations
 
@@ -22,19 +9,16 @@ from openpyxl import load_workbook
 
 
 def _peek_sheet(sheet, max_scan: int = 15) -> dict:
-    """Identify the most likely header row by counting non-empty cells."""
     rows = []
     for i, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         rows.append(row)
         if i >= max_scan:
             break
 
-    # Heuristic: the header row is the one with the most non-empty string cells
-    # in the first 15 rows, preferring rows that aren't a single banner cell.
+    # Pick the row with the most non-empty cells.
     best_idx, best_score = 0, -1
     for idx, row in enumerate(rows):
         cells = [c for c in row if c is not None and str(c).strip() != ""]
-        # require >= 5 non-empty cells to count as a header candidate
         score = len(cells) if len(cells) >= 5 else 0
         if score > best_score:
             best_idx, best_score = idx, score

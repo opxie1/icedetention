@@ -1,10 +1,9 @@
-"""Sanity-check the unusual-flag classification end-to-end."""
+"""Sanity-check unusual-flag classification."""
 
 import pandas as pd
 
 df = pd.read_csv("data/processed/facility_crosswalk.csv")
 
-# 1. What's still suspicious-looking but unflagged?
 not_flagged = df[df["unusual_flag"] == False]
 pat = (
     r"HOTEL|HOSPITAL|\bINN\b|MOTEL|CLINIC|MEDICAL|HEALTH|HOLD|CPC|CUST|HOSP|"
@@ -25,7 +24,7 @@ unus = df[df["unusual_flag"]]["n_episodes"].sum()
 print(f"\nEpisodes flagged unusual: {unus:,} / {total:,} ({100*unus/total:.1f}%)")
 
 print()
-print("--- SANITY: real detention centers should NOT be flagged unusual ---")
+print("Real detention centers should NOT flag:")
 for kw in ["STEWART DETENTION", "PORT ISABEL SPC", "ELOY FED", "ADELANTO ICE",
           "OTAY MESA DETENTION", "KARNES CO IMM", "CIBOLA COUNTY CORR",
           "OTERO COUNTY PRISON", "EL PASO SPC", "FLORENCE SPC"]:
@@ -36,7 +35,7 @@ for kw in ["STEWART DETENTION", "PORT ISABEL SPC", "ELOY FED", "ADELANTO ICE",
         print(f"  {kw:30s} flagged={flagged} types={types}")
 
 print()
-print("--- SANITY: known unusual sites SHOULD be flagged ---")
+print("Known unusual sites SHOULD flag:")
 for kw, expected in [
     ("DALLAS F.O. HOLD", "hold_room"),
     ("PHOENIX DIST OFFICE", "hold_room"),

@@ -1,19 +1,4 @@
-"""Command-line entry point for the ICE detention pipeline.
-
-Examples (run from the project root, with the virtualenv activated):
-
-  # 1) extract every workbook in the input directory to slim per-FY CSVs
-  python -m ice_pipeline.cli extract --input-dir "C:\\Users\\xief\\Downloads"
-
-  # 2) build the facility crosswalk (auto state + flags, blank counties)
-  python -m ice_pipeline.cli crosswalk
-
-  # 3) aggregate detention counts to the county-year and county-month panels
-  python -m ice_pipeline.cli aggregate
-
-  # ...or run all three in sequence
-  python -m ice_pipeline.cli all --input-dir "C:\\Users\\xief\\Downloads"
-"""
+"""CLI entry point: extract, crosswalk, aggregate."""
 
 from __future__ import annotations
 
@@ -110,10 +95,7 @@ def _cmd_aggregate(args: argparse.Namespace) -> int:
 
 
 def _cmd_all(args: argparse.Namespace) -> int:
-    # Each step has a different default output location (interim vs.
-    # processed), so we deliberately do not let the user pin them together
-    # via a single --out-dir on the `all` command. Run the steps individually
-    # if you need bespoke paths.
+    # Per-step output dirs differ (interim vs. processed).
     args.out_dir = None
     rc = _cmd_extract(args)
     if rc != 0:
@@ -123,8 +105,6 @@ def _cmd_all(args: argparse.Namespace) -> int:
         return rc
     return _cmd_aggregate(args)
 
-
-# --- Encounters commands ----------------------------------------------------
 
 def _cmd_extract_encounters(args: argparse.Namespace) -> int:
     input_dir = Path(args.input_dir)
@@ -204,7 +184,6 @@ def _cmd_all_encounters(args: argparse.Namespace) -> int:
 
 
 def _cmd_everything(args: argparse.Namespace) -> int:
-    """Run the detention pipeline AND the encounters pipeline."""
     rc = _cmd_all(args)
     if rc != 0:
         return rc
@@ -221,8 +200,6 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("-v", "--verbose", action="store_true",
                    help="DEBUG-level logging")
     sub = p.add_subparsers(dest="command", required=True)
-
-    # extract
     e = sub.add_parser("extract", help="stream xlsx workbooks to per-FY CSVs")
     e.add_argument("--input-dir", required=True,
                    help="directory containing *Detentions_FY*.xlsx files")
@@ -233,8 +210,6 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--force", action="store_true",
                    help="overwrite existing per-FY CSVs")
     e.set_defaults(func=_cmd_extract)
-
-    # crosswalk
     c = sub.add_parser("crosswalk", help="build facility -> state/county crosswalk")
     c.add_argument("--interim-dir", default=None)
     c.add_argument("--fips-csv", default=None,
@@ -244,8 +219,6 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--out-dir", default=None)
     c.add_argument("--refs-dir", default=None)
     c.set_defaults(func=_cmd_crosswalk)
-
-    # aggregate
     a = sub.add_parser("aggregate", help="join crosswalk and roll up to county")
     a.add_argument("--interim-dir", default=None)
     a.add_argument("--crosswalk-csv", default=None)
@@ -263,8 +236,6 @@ def build_parser() -> argparse.ArgumentParser:
     all_p.add_argument("--only", nargs="*", default=None)
     all_p.add_argument("--force", action="store_true")
     all_p.set_defaults(func=_cmd_all)
-
-    # extract-encounters
     ee = sub.add_parser(
         "extract-encounters",
         help="stream the ERO Encounters workbook(s) to a per-period CSV",
@@ -273,8 +244,6 @@ def build_parser() -> argparse.ArgumentParser:
     ee.add_argument("--out-dir", default=None)
     ee.add_argument("--force", action="store_true")
     ee.set_defaults(func=_cmd_extract_encounters)
-
-    # crosswalk-encounters
     ce = sub.add_parser(
         "crosswalk-encounters",
         help="build the encounter-site crosswalk",
@@ -289,8 +258,6 @@ def build_parser() -> argparse.ArgumentParser:
     ce.add_argument("--out-dir", default=None)
     ce.add_argument("--refs-dir", default=None)
     ce.set_defaults(func=_cmd_crosswalk_encounters)
-
-    # aggregate-encounters
     ae = sub.add_parser(
         "aggregate-encounters",
         help="join encounter-site crosswalk and roll up to county",
@@ -299,8 +266,6 @@ def build_parser() -> argparse.ArgumentParser:
     ae.add_argument("--crosswalk-csv", default=None)
     ae.add_argument("--out-dir", default=None)
     ae.set_defaults(func=_cmd_aggregate_encounters)
-
-    # all-encounters
     ae_all = sub.add_parser(
         "all-encounters",
         help="extract-encounters + crosswalk-encounters + aggregate-encounters",

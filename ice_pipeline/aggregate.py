@@ -1,17 +1,4 @@
-"""Join the facility crosswalk to the per-FY extracts and roll up to county.
-
-Produces three tidy panels under ``data/processed/``:
-
-  * ``county_year_panel.csv``   — county x calendar year of book-in
-  * ``county_month_panel.csv``  — county x year-month of book-in
-  * ``unmapped_facilities.csv`` — facility-level rows whose county is still
-    unresolved, so the academic team can see exactly what is being dropped.
-
-Detentions are counted by ``Detention Book In Date``. We also report
-unique persons (distinct ``Anonymized Identifier``) and total
-detention-days (sum of book-out minus book-in for stays where both dates
-are present).
-"""
+"""Roll up detention episodes to county-year and county-month panels."""
 
 from __future__ import annotations
 
@@ -40,10 +27,6 @@ def _load_crosswalk(path: Path) -> pd.DataFrame:
 def _aggregate_one_file(
     csv_path: Path, cw: pd.DataFrame
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Aggregate one per-FY CSV into (year_panel, month_panel, unmapped_episodes).
-
-    Done in chunks to keep memory flat on a Surface Pro.
-    """
     year_parts: list[pd.DataFrame] = []
     month_parts: list[pd.DataFrame] = []
     unmapped_parts: list[pd.DataFrame] = []
@@ -77,7 +60,6 @@ def _aggregate_one_file(
             how="left",
         )
 
-        # Parse dates.
         merged["book_in_dt"] = pd.to_datetime(
             merged["book_in_date"], errors="coerce"
         )
@@ -88,8 +70,6 @@ def _aggregate_one_file(
             (merged["book_out_dt"] - merged["book_in_dt"]).dt.days
         ).clip(lower=0)
 
-        # Track unmapped (no county) episodes per facility so the user can see
-        # exactly what falls out.
         unmapped_mask = merged["county_fips"].fillna("").astype(str).str.strip() == ""
         if unmapped_mask.any():
             u = merged.loc[unmapped_mask].groupby(
@@ -142,7 +122,6 @@ def _aggregate_one_file(
 
 
 def _final_rollup(parts: list[pd.DataFrame], group_cols: list[str]) -> pd.DataFrame:
-    """Concatenate per-FY chunk aggregates and re-group to fold duplicates."""
     if not parts:
         return pd.DataFrame()
     df = pd.concat(parts, ignore_index=True)
@@ -198,8 +177,7 @@ def aggregate(
          "fiscal_year", "year_month"],
     )
 
-    # Note: n_unique_persons is approximate when the same person appears in
-    # multiple chunks/files because we sum chunk-level distincts.
+    # n_unique_persons is approximate across chunks.
     if not year_panel.empty:
         year_panel = year_panel.sort_values(
             ["state_abbr", "county_name", "year"]

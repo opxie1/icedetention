@@ -1,24 +1,8 @@
-"""Build the facility -> state/county crosswalk.
-
-Inputs:
-  * The per-FY extracted CSVs (one row per detention episode).
-  * The FIPS state-county reference (5-digit fips, county_name, state_name).
-  * Optional ``facility_overrides.csv`` curated by the academic team that
-    pins state/county for a specific (facility_code, facility_name).
-
-Outputs:
-  * ``facility_crosswalk.csv`` — one row per unique (facility_name,
-    facility_code) with state, county_fips, county_name, unusual_flag,
-    unusual_type, and provenance columns.
-  * ``facility_crosswalk_review.csv`` — the subset that still needs human
-    judgment (no county resolved, or flagged ambiguous, or low-confidence
-    state guesses).
-"""
+"""Build the detention facility -> county crosswalk."""
 
 from __future__ import annotations
 
 import logging
-import re
 from pathlib import Path
 
 import pandas as pd
@@ -35,7 +19,6 @@ OVERRIDES_TEMPLATE_FILENAME = "facility_overrides_template.csv"
 CROSSWALK_FILENAME = "facility_crosswalk.csv"
 REVIEW_FILENAME = "facility_crosswalk_review.csv"
 
-# Override CSV expected schema (also the column order we write the template in).
 OVERRIDE_COLUMNS = [
     "facility_name",
     "facility_code",
@@ -48,10 +31,7 @@ OVERRIDE_COLUMNS = [
 ]
 
 
-# --- Helpers -----------------------------------------------------------------
-
 def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
-    """Read the FIPS reference and return (df, state_name -> state_abbr)."""
     fips = pd.read_csv(fips_csv, dtype={"fips": str})
     fips["fips"] = fips["fips"].str.zfill(5)
     fips["state_fips"] = fips["fips"].str[:2]
@@ -59,8 +39,6 @@ def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
     fips["state_name"] = fips["state_name"].str.strip()
     fips["county_name"] = fips["county_name"].str.strip()
 
-    # Build state_name -> abbr map. The FIPS file has full state names, so we
-    # cross-reference a small US-states table embedded here.
     state_abbr_map = {
         "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR",
         "California": "CA", "Colorado": "CO", "Connecticut": "CT",
@@ -82,9 +60,7 @@ def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
-    # Patch up known reference-file artifacts:
-    # FIPS 11001 row has state_name "Columbia" because the original
-    # "District of Columbia" was split on the comma during the CSV export.
+    # Reference CSV split "District of Columbia" on the comma.
     dc_rows = fips["fips"] == "11001"
     if dc_rows.any():
         fips.loc[dc_rows, "state_name"] = "District of Columbia"
@@ -112,10 +88,6 @@ def _load_overrides(path: Path) -> pd.DataFrame:
 
 
 def _unique_facilities(interim_dir: Path) -> pd.DataFrame:
-    """Scan all per-FY extract CSVs and return one row per unique facility key.
-
-    Counts ``n_episodes`` (rows) and ``n_fy`` (distinct fiscal years seen).
-    """
     files = sorted(interim_dir.glob("fy*_detentions.csv*"))
     if not files:
         raise FileNotFoundError(
@@ -168,8 +140,6 @@ def _unique_facilities(interim_dir: Path) -> pd.DataFrame:
     return out
 
 
-# --- Crosswalk build ---------------------------------------------------------
-
 def build_crosswalk(
     interim_dir: Path = config.INTERIM_DIR,
     fips_csv: Path | None = None,
@@ -178,7 +148,6 @@ def build_crosswalk(
     refs_dir: Path = config.REFERENCES_DIR,
 ) -> dict:
     if fips_csv is None:
-        # Look for a fips csv anywhere under references/.
         candidates = sorted(refs_dir.glob("fips*state*.csv")) + sorted(
             refs_dir.glob("fips*.csv")
         )
@@ -196,7 +165,6 @@ def build_crosswalk(
 
     facilities = _unique_facilities(interim_dir)
 
-    # 1. Heuristic state guess + unusual flag for every facility.
     guesses = facilities.apply(
         lambda r: guess_state(r["facility_name"], r["facility_code"]), axis=1
     )
@@ -210,7 +178,6 @@ def build_crosswalk(
     )
     facilities[["unusual_flag_auto", "unusual_type_auto"]] = flags
 
-    # 1b. Auto-resolve county from the known-facility table + name patterns.
     auto_hits = facilities.apply(
         lambda r: resolve_facility(r["facility_name"], r["facility_code"]), axis=1
     )
@@ -223,14 +190,11 @@ def build_crosswalk(
     facilities["county_source_auto_kf"] = auto_hits.map(
         lambda h: h.source if h is not None else ""
     )
-    # Promote the known-facility state to state_abbr_auto when the simple
-    # state heuristic missed it.
     facilities["state_abbr_auto"] = facilities.apply(
         lambda r: r["state_abbr_auto"] if r["state_abbr_auto"] else r["state_auto_kf"],
         axis=1,
     )
 
-    # 2. Apply academic-team overrides (highest priority).
     if not overrides.empty:
         facilities = facilities.merge(
             overrides,
@@ -239,8 +203,6 @@ def build_crosswalk(
             suffixes=("", "_override"),
         )
 
-    # Make sure every override column exists and is a string with no NaN, so
-    # the coalesce/resolve helpers below never have to handle missing values.
     for col in OVERRIDE_COLUMNS:
         if col in ("facility_name", "facility_code"):
             continue
@@ -266,19 +228,14 @@ def build_crosswalk(
         facilities["county_fips"] != "", ""
     )
 
-    # Capture origin BEFORE resolution overwrites the columns. We need this
-    # to distinguish "came from CSV override" vs "came from known-facilities
-    # auto-resolution" in the provenance column.
+    # Remembered before resolution overwrites the columns.
     facilities["_origin_override_county"] = (
         (facilities["county_fips"] != "")
         | (facilities["county_name"].astype(str).str.strip() != "")
     )
 
-    # 3. Resolve county info from the FIPS file when an override county is set
-    #    OR when the user has supplied a county_name in the override row.
     fips_lookup = fips_df[["county_fips", "county_name", "state_name", "state_abbr"]].copy()
     fips_lookup["county_name_lc"] = fips_lookup["county_name"].str.lower()
-
     fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
     fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
 
@@ -291,21 +248,16 @@ def build_crosswalk(
         same_state = fips_lookup[fips_lookup["state_abbr"] == sa]
         if same_state.empty:
             return None
-        # 1. Exact normalized match.
         match = same_state[same_state["county_name_norm"] == cn]
         if match.empty:
-            # 2. Compact-form match (handles "LaSalle" vs "La Salle").
             match = same_state[same_state["county_name_compact"] == cnc]
         if match.empty:
-            # 3. Prefix match — FIPS names are clipped to 16 chars, so
-            # accept any FIPS row whose normalized name is a prefix of ours.
             match = same_state[
                 same_state["county_name_norm"].apply(
                     lambda c: cn.startswith(c) and len(c) >= 5
                 )
             ]
         if match.empty:
-            # 4. Compact prefix match.
             match = same_state[
                 same_state["county_name_compact"].apply(
                     lambda c: cnc.startswith(c) and len(c) >= 5
@@ -328,15 +280,12 @@ def build_crosswalk(
                 return pd.Series(
                     [cf, m["county_name"], m["state_name"], m["state_abbr"]]
                 )
-        # 1. Override-supplied (state, county_name)
         result = _lookup_fips(row["state_abbr"], row["county_name"])
         if result is not None:
             return result
-        # 2. Auto-resolved (state, county) from known_facilities lookup.
         result = _lookup_fips(row["state_auto_kf"], row["county_name_auto_kf"])
         if result is not None:
             return result
-        # 3. State-only: at least populate state_name where possible.
         sa = (row["state_abbr"] or row["state_auto_kf"]).upper()
         if sa:
             sn = fips_lookup.loc[fips_lookup["state_abbr"] == sa, "state_name"]
@@ -348,7 +297,6 @@ def build_crosswalk(
     resolved.columns = ["county_fips", "county_name", "state_name", "state_abbr"]
     facilities[["county_fips", "county_name", "state_name", "state_abbr"]] = resolved
 
-    # 4. Provenance: where did each piece of info come from?
     def _source(row):
         if row["county_fips"]:
             if row["_origin_override_county"]:
@@ -364,14 +312,12 @@ def build_crosswalk(
             return "override"
         return "unknown"
 
-    # Normalize before computing provenance to avoid any lingering NaN.
     facilities["state_abbr"] = facilities["state_abbr"].fillna("").astype(str)
     facilities["state_abbr_auto"] = facilities["state_abbr_auto"].fillna("").astype(str)
     facilities["state_source_auto"] = facilities["state_source_auto"].fillna("").astype(str)
     facilities["county_fips"] = facilities["county_fips"].fillna("").astype(str)
     facilities["resolution_source"] = facilities.apply(_source, axis=1)
 
-    # 5. Final crosswalk + review file.
     crosswalk_cols = [
         "facility_name", "facility_code",
         "state_abbr", "state_name",
@@ -399,7 +345,6 @@ def build_crosswalk(
     needs_review.to_csv(review_path, index=False)
     log.info("wrote %s (%d rows need review)", review_path.name, len(needs_review))
 
-    # 6. Refresh the override template so the team can fill it in.
     template_path = refs_dir / OVERRIDES_TEMPLATE_FILENAME
     template = facilities[["facility_name", "facility_code"]].copy()
     template["state_abbr"] = facilities["state_abbr_auto"]
