@@ -1,33 +1,29 @@
-# ICE FOIA Detention + Encounters Pipeline
+# ICE Detention and Encounters Data Pipeline
 
-Two parallel tracks built from the FOIA workbooks Eduardo & Catalina
-shared:
+## Project Overview
 
-  * **Detentions track** — 12 workbooks
-    `2023-ICFO_42034_Detentions_FY12..FY23_*.xlsx`, all sharing one
-    schema (33 columns, sheet `FY<YYYY>`, header row 6, ~150k–1M rows
-    each). Output: facility crosswalk + county detention panels.
-  * **Encounters track** — 1 workbook
-    `2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_*.xlsx` with a
-    different schema (25 columns, two sheets split at 2024-10-01,
-    header row 7). Unit of analysis is *encounters* (detainers,
-    program events, prosecutorial discretion, ...), not strictly
-    detentions. Output: site crosswalk + county encounter panels.
+This repository contains a data pipeline built for a research project led by Professor Catalina Amuedo-Dorantes (University of California (UC) Merced) and Professor Eduardo Polo-Muro (San Diego State University (SDSU)). The project examines immigration courts and case outcomes using detention records obtained through the Freedom of Information Act (FOIA). Ethan Xie (The Charter School of Wilmington, Delaware) is contributing as a research assistant, responsible for building a crosswalk that maps each Immigration and Customs Enforcement (ICE) detention facility to its corresponding state and county, flagging ambiguous or unusual sites (such as hotels, hospitals, and hold rooms), and aggregating detention counts at the county level over time.
 
-Both tracks share the same FIPS reference and the same unusual-facility
-regex, but they have separate interim CSVs, separate crosswalks, and
-separate county panels so the schemas don't get mashed together.
+The pipeline processes two categories of FOIA data:
+
+- **Detentions track**: 12 workbooks (`2023-ICFO_42034_Detentions_FY12..FY23_*.xlsx`), all sharing one schema (33 columns, sheet `FY<YYYY>`, header row 6, roughly 150,000 to 1,000,000 rows each). This track covers fiscal years (FY) 2012 through 2023. Output: facility crosswalk and county-level detention panels.
+- **Encounters track**: 1 workbook (`2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_*.xlsx`) with a different schema (25 columns, two sheets split at 2024-10-01, header row 7). The unit of analysis is encounters (detainers, program events, prosecutorial discretion, and similar actions), not strictly detentions. This track covers September 2023 through July 2025. Output: site crosswalk and county-level encounter panels.
+
+Both tracks share the same Federal Information Processing Standards (FIPS) reference and the same unusual-facility regular expression (regex), but they have separate interim comma-separated values (CSV) files, separate crosswalks, and separate county panels to keep the schemas distinct.
+
+## Repository Structure
 
 ```
 ice_pipeline/
-  config.py      project paths and the fixed FOIA column layouts
-  patterns.py    unusual-facility regex + state-from-code heuristics
-  extract.py     streaming xlsx -> slim per-FY/per-period CSV
-                 (handles BOTH detention and encounters workbooks)
-  crosswalk.py   detention facility -> state/county lookup builder
-  aggregate.py   county x time roll-up for detentions
-  encounters.py  site crosswalk + county roll-up for encounters
-  cli.py         `python -m ice_pipeline.cli ...` entry point
+  config.py           project paths and the fixed FOIA column layouts
+  patterns.py          unusual-facility regex and state-from-code heuristics
+  extract.py           streaming xlsx to slim per-FY/per-period CSV
+                       (handles both detention and encounters workbooks)
+  crosswalk.py         detention facility to state/county lookup builder
+  aggregate.py         county x time roll-up for detentions
+  encounters.py        site crosswalk and county roll-up for encounters
+  cli.py               `python -m ice_pipeline.cli ...` entry point
+  known_facilities.py  curated facility-to-county mappings
 references/
   fips_state_county.csv             the FIPS reference shipped with the project
   facility_overrides.csv            OPTIONAL detention-facility overrides
@@ -47,20 +43,22 @@ data/
     county_year_encounters_panel.csv, county_month_encounters_panel.csv,
     unmapped_sites.csv
 scripts/
-  inspect_workbooks.py   small diag tool used to confirm per-file layout
+  inspect_workbooks.py   diagnostic tool used to confirm per-file layout
+  verify_coverage.py     verifies crosswalk coverage statistics
+  verify_flagging.py     verifies unusual-facility flag accuracy
 ```
 
 ---
 
-## 1. One-time setup on Windows Surface Pro
+## 1. One-Time Setup on Windows Surface Pro
 
 > **Status:** Python 3.14 is already installed on this Surface, the
 > `.venv/` directory is built, and `pandas + openpyxl` are available.
-> The detention pipeline has been smoke-tested end-to-end on FY2020
-> (354,777 rows) and the encounters pipeline on the full ERO Encounters
+> The detention pipeline has been smoke-tested end-to-end on FY 2020
+> (354,777 rows) and the encounters pipeline on the full Enforcement and Removal Operations (ERO) Encounters
 > workbook (1,360,318 rows). Skip to section 3 if you just want to run.
 
-1. **Install Python 3.11+** if it isn't already. Use the official
+1. **Install Python 3.11+** if it is not already installed. Use the official
    installer (`https://www.python.org/downloads/windows/`). On the
    first installer page, **check "Add python.exe to PATH"** before
    clicking Install Now.
@@ -91,13 +89,13 @@ cd C:\Users\xief\.local\bin\ucmerced
 .\.venv\Scripts\Activate.ps1
 ```
 
-> Tip: `setup.ps1` automates steps 1-3. Run it once with `.\setup.ps1`
-> and it creates the venv and installs deps for you.
+> Tip: `setup.ps1` automates steps 1 through 3. Run it once with `.\setup.ps1`
+> and it creates the virtual environment and installs dependencies for you.
 
-### First-time smoke test (only one workbook)
+### First-Time Smoke Test (Single Workbook)
 
-Before kicking off all 14 FYs, do a single-file dry run to confirm the
-toolchain works end-to-end:
+Before running all 12 FYs, do a single-file dry run to confirm the
+toolchain works end to end:
 
 ```powershell
 python -m ice_pipeline.cli extract --input-dir "C:\Users\xief\Downloads" --only 2015
@@ -105,53 +103,52 @@ python -m ice_pipeline.cli crosswalk
 python -m ice_pipeline.cli aggregate
 ```
 
-The FY15 workbook has ~684k rows and should finish extracting in a few
+The FY 2015 workbook has roughly 684,000 rows and should finish extracting in a few
 minutes on a Surface Pro. You will get one
 `data/interim/fy2015_detentions.csv.gz`, a `facility_crosswalk.csv` for
-every facility seen in FY15, and a county panel covering only that
+every facility seen in FY 2015, and a county panel covering only that
 year. If anything fails, the error will point at the offending file
 or row.
 
 ---
 
-## 2. Drop the FOIA workbooks somewhere the script can see them
+## 2. Drop the FOIA Workbooks
 
-Put the 14 `*_Detentions_FY<YY>_*.xlsx` files in a single directory.
-The example below assumes they sit alongside the two you already have at
-`C:\Users\xief\Downloads\`.
+Put the 12 `*_Detentions_FY<YY>_*.xlsx` files in a single directory.
+The example below assumes they sit at `C:\Users\xief\Dropbox\ethan xie\detentions\`.
 
 The pipeline auto-discovers any file whose name contains
 `_Detentions_FY<YY>_` and whose interior sheet is named `FY<YYYY>`, so
-keep the FOIA filenames as-is.
+keep the FOIA filenames as they are.
 
 ---
 
-## 3. Run the pipeline
+## 3. Run the Pipeline
 
 You can run the three steps individually or chain them with `all`.
 
-### 3a. Extract every workbook to a slim CSV (one per fiscal year)
+### 3a. Extract Every Workbook to a Slim CSV (One per Fiscal Year)
 
 ```powershell
-python -m ice_pipeline.cli extract --input-dir "C:\Users\xief\Downloads"
+python -m ice_pipeline.cli extract --input-dir "C:\Users\xief\Dropbox\ethan xie\detentions"
 ```
 
 This streams each xlsx with `openpyxl` (read-only) and writes
 `data/interim/fy<YYYY>_detentions.csv.gz` with just six columns:
 
-| column         | description                                |
-|----------------|--------------------------------------------|
-| fiscal_year    | from the sheet name (FY2015 -> 2015)       |
-| facility_name  | "Detention Facility" cell, upper-cased     |
-| facility_code  | "Detention Facility Code" cell             |
-| book_in_date   | ISO date (`YYYY-MM-DD`) or empty           |
-| book_out_date  | ISO date or empty                          |
-| person_id      | Anonymized Identifier (40-char hash)       |
+| Column         | Description                                |
+|----------------|-------------------------------------------|
+| fiscal_year    | From the sheet name (FY2015 becomes 2015) |
+| facility_name  | "Detention Facility" cell, upper-cased    |
+| facility_code  | "Detention Facility Code" cell            |
+| book_in_date   | ISO date (`YYYY-MM-DD`) or empty          |
+| book_out_date  | ISO date or empty                         |
+| person_id      | Anonymized Identifier (40-character hash) |
 
 Already-extracted FYs are skipped on rerun unless you pass `--force`.
 Use `--only 2015 2016` to limit the run.
 
-### 3b. Build the facility crosswalk
+### 3b. Build the Facility Crosswalk
 
 ```powershell
 python -m ice_pipeline.cli crosswalk
@@ -165,13 +162,13 @@ facility_code)` pairs, and writes:
   `unusual_flag`, `unusual_type`, episode counts, and a `resolution_source`
   column.
 * `data/processed/facility_crosswalk_review.csv` -- the subset that still
-  needs human judgement (no county yet, or flagged unusual). **This is
-  the working file for the academics.**
+  needs human review (no county resolved, or flagged unusual). **This is
+  the working file for the research team.**
 * `references/facility_overrides_template.csv` -- the editable template.
   The pipeline auto-fills the state column where it can guess, leaves
-  county blank, and pre-flags hotels/hold rooms/hospitals/etc.
+  county blank, and pre-flags hotels, hold rooms, hospitals, and similar facilities.
 
-#### How to fill in counties (and override anything)
+#### How to Fill in Counties (and Override Anything)
 
 1. Open `references/facility_overrides_template.csv` in Excel.
 2. Save a copy as `references/facility_overrides.csv` (drop the
@@ -180,14 +177,14 @@ facility_code)` pairs, and writes:
    (the 5-digit FIPS code from the reference CSV) **or**
    `state_abbr` + `county_name` (the script will look up the FIPS for
    you).
-4. For sites that should stay flagged ambiguous (hotels, hold rooms,
-   ...), set `unusual_flag` to `TRUE` and put a category in
-   `unusual_type` (e.g. `hotel_motel`, `hold_room`, `hospital`).
+4. For sites that should stay flagged as ambiguous (hotels, hold rooms,
+   etc.), set `unusual_flag` to `TRUE` and put a category in
+   `unusual_type` (for example, `hotel_motel`, `hold_room`, `hospital`).
 5. Re-run `python -m ice_pipeline.cli crosswalk`. The override values
    take precedence over the heuristic ones. Re-run as many times as
    needed.
 
-### 3c. Aggregate to county-level panels
+### 3c. Aggregate to County-Level Panels
 
 ```powershell
 python -m ice_pipeline.cli aggregate
@@ -204,30 +201,30 @@ facility_code)`, parses `book_in_date`, and writes:
   `year_month` (`YYYY-MM`).
 * `data/processed/unmapped_facilities.csv` -- facility-level rows whose
   county was not resolved. These do **not** appear in the panels above
-  and are the next thing for the team to address in
+  and represent the next items for the team to address in
   `facility_overrides.csv`.
 
-> **Note on `n_unique_persons`.** Aggregation runs in chunks of 200k
+> **Note on `n_unique_persons`.** Aggregation runs in chunks of 200,000
 > rows to keep memory flat on a Surface Pro, so the unique-person count
 > is computed per chunk and summed. If a person appears in more than one
 > chunk (or more than one fiscal year), they are counted more than once.
-> Use `n_episodes` for an exact book-in count. We can switch to a global
-> `nunique` later if the team needs it -- just say so and we will add
-> a `--exact-unique-persons` flag that loads each FY in one pass.
+> Use `n_episodes` for an exact book-in count. A global
+> `nunique` option can be added later with a `--exact-unique-persons` flag
+> that loads each FY in one pass, if the research team needs it.
 
-### 3d. Or do it all at once
+### 3d. Or Do It All at Once
 
 ```powershell
 # detention files only:
 python -m ice_pipeline.cli all --input-dir "C:\Users\xief\Dropbox\ethan xie\detentions"
 ```
 
-### 3e. Encounter pipeline (separate track)
+### 3e. Encounter Pipeline (Separate Track)
 
 The ERO Encounters workbook
 (`2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_*.xlsx`) uses a
 different schema (25 columns, two sheets at the 2024-10-01 cutover, a
-single `Responsible Site` field instead of facility name + code). Run
+single `Responsible Site` field instead of facility name and code). Run
 the parallel encounter commands:
 
 ```powershell
@@ -241,21 +238,21 @@ Or in one shot:
 python -m ice_pipeline.cli all-encounters --input-dir "C:\Users\xief\Dropbox\ethan xie\detentions"
 ```
 
-Encounter outputs live alongside the detention ones with `_encounters`
-suffixes (e.g. `county_year_encounters_panel.csv`,
-`site_crosswalk.csv`, `unmapped_sites.csv`). Override file is
-`references/site_overrides.csv` (template auto-generated each run).
+Encounter outputs live alongside the detention files with `_encounters`
+suffixes (for example, `county_year_encounters_panel.csv`,
+`site_crosswalk.csv`, `unmapped_sites.csv`). The override file is
+`references/site_overrides.csv` (template auto-generated on each run).
 
 > **Note on encounters vs. detentions.** The encounters file covers
-> Sep 2023 – Jul 2025 and includes detainer placements,
+> September 2023 through July 2025 and includes detainer placements,
 > prosecutorial-discretion events, and other non-detention encounters
 > alongside book-ins. The pipeline emits the `event_type`,
 > `processing_disposition`, `final_program`, and `final_program_group`
 > columns in the interim CSV so you can filter to detention-equivalent
-> events downstream if Eduardo wants a strict apples-to-apples
-> comparison with the FY12-FY23 panels.
+> events downstream if the research team wants a strict apples-to-apples
+> comparison with the FY 2012 through FY 2023 panels.
 
-### 3f. Run both tracks back-to-back
+### 3f. Run Both Tracks Back to Back
 
 ```powershell
 python -m ice_pipeline.cli everything --input-dir "C:\Users\xief\Dropbox\ethan xie\detentions"
@@ -263,45 +260,65 @@ python -m ice_pipeline.cli everything --input-dir "C:\Users\xief\Dropbox\ethan x
 
 ---
 
-## 4. What the pipeline does and does not do
+## 4. What the Pipeline Does and Does Not Do
 
 **Does:**
 
-* Reads the FOIA xlsx files in streaming mode (memory-safe on Surface).
-* Validates the column layout against the documented FY2015 header so a
+* Reads the FOIA xlsx files in streaming mode (memory-safe on the Surface Pro).
+* Validates the column layout against the documented FY 2015 header so a
   malformed workbook fails fast instead of silently corrupting output.
 * Auto-flags unusual facility types from name/code regex
   (`hold_room`, `hospital`, `hotel_motel`, `staging_processing`,
   `airport`, `field_office`, `border_station`, `transport`,
   `courthouse`, `mental_health`, `morgue`, `residence`,
   `juvenile_family`).
-* Auto-fills the state column when the facility code ends in a USPS
-  state abbreviation (e.g. `STFRCTX -> TX`) or the name contains a
+* Auto-fills the state column when the facility code ends in a United States Postal Service (USPS)
+  state abbreviation (for example, `STFRCTX` maps to TX) or the name contains a
   high-signal city.
-* Lets the academic team override every column via a single CSV.
+* Lets the research team override every column via a single CSV.
 * Aggregates by `book_in_date` to county x year and county x month.
 
 **Does not:**
 
-* Geocode facility addresses. We do not have a definitive
-  facility-to-address dataset bundled in, so county is left blank for
-  any facility the heuristics can't resolve. Those rows show up in
-  `facility_crosswalk_review.csv` and -- post-aggregate -- in
-  `unmapped_facilities.csv`. The academic team fills them in.
-* Compute average daily population. We compute total `detention_days`
-  per period; if Eduardo wants ADP we can divide by days-in-period in a
-  follow-up step.
+* Geocode facility addresses. The pipeline does not include a definitive
+  facility-to-address dataset, so county is left blank for
+  any facility the heuristics cannot resolve. Those rows show up in
+  `facility_crosswalk_review.csv` and, post-aggregate, in
+  `unmapped_facilities.csv`. The research team fills them in.
+* Compute average daily population (ADP). The pipeline computes total `detention_days`
+  per period; ADP can be derived by dividing by days-in-period in a
+  follow-up step if needed.
 * De-duplicate the same person across multiple stays (each stay is one
   episode by design).
 
 ---
 
-## 5. Adjusting and extending
+## 5. Adjusting and Extending
 
 * Edit `ice_pipeline/patterns.py` to add unusual-facility categories or
   city/state hints.
 * Edit `ice_pipeline/config.py` to point the column constants at a
   different layout if a future FY changes structure (the header
   validator will flag this).
-* The aggregation metrics live in `ice_pipeline/aggregate.py` -- adding
-  e.g. average length of stay is a one-line `groupby.agg` change.
+* The aggregation metrics live in `ice_pipeline/aggregate.py`. Adding
+  new metrics such as average length of stay is a one-line `groupby.agg` change.
+
+---
+
+## 6. Latest Pipeline Run (May 10, 2026)
+
+Both tracks completed successfully on the Surface Pro:
+
+**Detentions:**
+- County-year rows: 3,961
+- County-month rows: 36,379
+- Unmapped facility rows: 75
+
+**Encounters:**
+- Unique encounter sites: 413
+- Sites with resolved county: 272
+- Sites flagged unusual: 186
+- Sites needing review: 306
+- County-year rows: 664
+- County-month rows: 3,736
+- Unmapped sites: 141
