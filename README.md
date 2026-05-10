@@ -50,9 +50,9 @@ scripts/
 
 ---
 
-## 1. One-Time Setup on Windows Surface Pro
+## 1. One-Time Setup on Windows 
 
-> **Status:** Python 3.14 is already installed on this Surface, the
+> **Status:** Python 3.14 is already installed on this device, the
 > `.venv/` directory is built, and `pandas + openpyxl` are available.
 > The detention pipeline has been smoke-tested end-to-end on FY 2020
 > (354,777 rows) and the encounters pipeline on the full Enforcement and Removal Operations (ERO) Encounters
@@ -66,6 +66,7 @@ scripts/
    ```powershell
    python --version
    ```
+  
    It should print `Python 3.11.x` (or newer), not prompt you to
    install from the store.
 3. From the project root (`C:\Users\xief\.local\bin\ucmerced`), create a

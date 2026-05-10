@@ -1,0 +1,689 @@
+﻿.\.venv\Scripts\python.exe : C:\Users\xief\.local\bin\ucmerced\scripts\inspect_workbooks.py:13: SyntaxWarning: "\i" is 
+an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\i"? A raw string is also an 
+option.
+At line:1 char:41
++ ... \ucmerced"; .\.venv\Scripts\python.exe scripts\inspect_workbooks.py " ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\xief\....also an option.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  python scripts\inspect_workbooks.py "C:\\Users\\xief\\Dropbox\\ethan xie\\detentions"
+Found 16 workbook(s) in C:\Users\xief\Dropbox\ethan xie\detentions
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY12_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 172.3 MB
+SHEETS: ['FY2012']
+
+  --- sheet 'FY2012' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2012']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | 2012-08-09 00:00:00 | 2012-08-09 00:00:00 | LAREDO PROCESSING CENTER | LRDICDF | 2012-09-15 00:00:00 | Transferred | 2012-10-24 00:00:00 | Order o
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY13_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 149.2 MB
+SHEETS: ['FY2013']
+
+  --- sheet 'FY2013' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2013']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | 2013-11-05 00:00:00 | 2013-11-05 00:00:00 | HARLINGEN HOLD ROOM | HLGHOLD | 2013-11-08 00:00:00 | Transferred | 2013-12-10 00:00:00 | Order of rec
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY14_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 148.6 MB
+SHEETS: ['FY2014']
+
+  --- sheet 'FY2014' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2014']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | 2014-01-14 00:00:00 | 2014-01-14 00:00:00 | ELOY FED CTR FACILITY (CORE CIVIC) | EAZ | 2014-01-29 00:00:00 | Removed | 2014-01-29 00:00:00 | Remov
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY15_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 116.9 MB
+SHEETS: ['FY2015']
+
+  --- sheet 'FY2015' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2015']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+       | (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c) | 2015-10-11 00:00:00 | 2015-10-11 00:00:00 | HARLINGEN HOLD ROOM | HLGHOLD | 2015-10-11 00:00:00 | Transferred | 2015-10-27 00:00:00 | Order of recognizance |  | 
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY16_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 131.7 MB
+SHEETS: ['FY2016']
+
+  --- sheet 'FY2016' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2016']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | 2016-12-09 00:00:00 | 2016-12-09 00:00:00 | RIO GRANDE DETENTION CENTER | RGRNDTX | 2016-12-18 00:00:00 | Transferred | 2017-03-16 00:00:00 | B
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY17_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 131.9 MB
+SHEETS: ['FY2017']
+
+  --- sheet 'FY2017' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2017']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | 2017-07-21 00:00:00 | 2017-07-21 00:00:00 | PORT ISABEL SPC | PIC | 2017-07-22 00:00:00 | Transferred | 2017-07-27 00:00:00 | Removed |  | Sing
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY18_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 158.4 MB
+SHEETS: ['FY2018']
+
+  --- sheet 'FY2018' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2018']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c)(b)(7)(e) | (b)(6)(b)(7)(c) | 2018-01-27 00:00:00 | 2018-01-27 00:00:00 | SOUTH TEXAS FAM RESIDENTIAL CENTER | STFRCTX | 2018-02-13 00:00:00 | Order of recognizance | 
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY19_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 149.3 MB
+SHEETS: ['FY2019']
+
+  --- sheet 'FY2019' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2019']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c)(b)(7)(e) | (b)(6)(b)(7)(c) | 2019-02-06 00:00:00 | 2019-02-06 00:00:00 | SALT LAKE CITY HOLD ROOM | SLCHOLD | 2019-02-06 00:00:00 | Transferred | 2019-02-13 00:00:00 
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY20_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 60.4 MB
+SHEETS: ['FY2020']
+
+  --- sheet 'FY2020' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2020']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c)(b)(7)(e) | (b)(6)(b)(7)(c) | 2020-02-06 00:00:00 | 2020-02-06 00:00:00 | LORTON, VA HOLD ROOM | LTVHOLD | 2020-02-06 00:00:00 | Transferred | 2020-02-19 00:00:00 | Re
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY21_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 77.2 MB
+SHEETS: ['FY2021']
+
+  --- sheet 'FY2021' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2021']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c)(b)(7)(e) | (b)(6)(b)(7)(c) | 2021-03-18 00:00:00 | 2021-03-21 00:00:00 | SAN LUIS REGIONAL DET CENTER | SLRDCAZ | 2021-04-07 00:00:00 | Transferred | 2021-07-13 00:00
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY22_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 79.4 MB
+SHEETS: ['FY2022']
+
+  --- sheet 'FY2022' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2022']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | (b)(6),(b)(7)(c) | 2022-05-24 00:00:00 | 2022-05-24 00:00:00 | SOUTH TEXAS FAM RESIDENTIAL CENTER | STFRCTX | 2022-06-01 00:00:00 | Order of Recognizance - Humani
+====================================================================================================
+FILE: 2023-ICFO_42034_Detentions_FY23_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 80.7 MB
+SHEETS: ['FY2023']
+
+  --- sheet 'FY2023' ---
+    max_columns_in_first_15_rows: 33
+    preamble (rows above header):
+      row 1: ['ERO-LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['FOIA 2023-ICFO-42034']
+      row 5: ['ICE Detentions FY2023']
+    detected_header_row: 6
+    n_headers: 33
+      col  1: 'Detention ID'
+      col  2: 'Case ID'
+      col  3: 'Subject ID'
+      col  4: 'Stay Book In Date'
+      col  5: 'Detention Book In Date'
+      col  6: 'Detention Facility'
+      col  7: 'Detention Facility Code'
+      col  8: 'Detention Book Out Date'
+      col  9: 'Detention Release Reason'
+      col 10: 'Stay Book Out Date'
+      col 11: 'Stay Release Reason'
+      col 12: 'Religion'
+      col 13: 'Marital'
+      col 14: 'Gender'
+      col 15: 'Birth Date'
+      col 16: 'Ethnicity'
+      col 17: 'Alien File Number'
+      col 18: 'Birth Year'
+      col 19: 'Entry Status'
+      col 20: 'Bond Posted Date'
+      col 21: 'Bond Posted Amount'
+      col 22: 'Initial Bond Set Amount'
+      col 23: 'Case Status'
+      col 24: 'Case Category'
+      col 25: 'Final Order Yes No'
+      col 26: 'Final Order Date'
+      col 27: 'Departed Date'
+      col 28: 'Departure Country'
+      col 29: 'Case Threat Level'
+      col 30: 'Charge'
+      col 31: 'Charge Code'
+      col 32: 'Charge Section Code'
+      col 33: 'Anonymized Identifier'
+    sample data row (truncated to 200 chars):
+      (b)(6)(b)(7)(c) | (b)(6)(b)(7)(c)(b)(7)(e) | (b)(6)(b)(7)(c) | 2023-10-19 00:00:00 | 2023-10-19 00:00:00 | KARNES CO IMMIGRATION PROCESS CTR | KRNRCTX |  |  |  |  |  | Unknown | Male | (b)(6)(b)(7)(c)
+====================================================================================================
+FILE: 2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_LESA-STU_FINAL Redacted_raw.xlsx
+SIZE: 191.5 MB
+SHEETS: ['Encounters <10012024', 'Encounters >=10012024']
+
+  --- sheet 'Encounters <10012024' ---
+    max_columns_in_first_15_rows: 25
+    preamble (rows above header):
+      row 1: ['ERO LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['2025-ICLI-00019 - 2024-ICFO-39357 - Settlement 07/31/2025']
+      row 6: ['ERO Encounters for 09/01/2023 - 09/30/2024']
+    detected_header_row: 7
+    n_headers: 25
+      col  1: 'Event Date'
+      col  2: 'Responsible AOR'
+      col  3: 'Responsible Site'
+      col  4: 'Lead Event Type'
+      col  5: 'Lead Source'
+      col  6: 'Event Type'
+      col  7: 'Final Program'
+      col  8: 'Final Program Group'
+      col  9: 'Encounter Criminality'
+      col 10: 'Processing Disposition'
+      col 11: 'Case Status'
+      col 12: 'Case Category'
+      col 13: 'Departed Date'
+      col 14: 'Departure Country'
+      col 15: 'Final Order Yes No'
+      col 16: 'Final Order Date'
+      col 17: 'Birth Date'
+      col 18: 'Birth Year'
+      col 19: 'Citizenship Country'
+      col 20: 'Gender'
+      col 21: 'Event Landmark'
+      col 22: 'Alien File Number'
+      col 23: 'EID Case ID'
+      col 24: 'EID Subject ID'
+      col 25: 'Unique Identifier'
+    sample data row (truncated to 200 chars):
+      2023-09-26 00:00:00 | Chicago Area of Responsibility | CHICAGO, IL, DOCKET CONTROL OFFICE | Not applicable |  | CAP State | ERO Criminal Alien Program | ICE | 1 Convicted Criminal | Detainer | ACTIVE 
+
+  --- sheet 'Encounters >=10012024' ---
+    max_columns_in_first_15_rows: 25
+    preamble (rows above header):
+      row 1: ['ERO LESA Statistical Tracking Unit']
+      row 2: ['For Official Use Only (FOUO)/Pre-decisional']
+      row 3: ['2025-ICLI-00019 - 2024-ICFO-39357 - Settlement 07/31/2025']
+      row 6: ['ERO Encounters for 10/01/2024 - 07/28/2025']
+    detected_header_row: 7
+    n_headers: 25
+      col  1: 'Event Date'
+      col  2: 'Responsible AOR'
+      col  3: 'Responsible Site'
+      col  4: 'Lead Event Type'
+      col  5: 'Lead Source'
+      col  6: 'Event Type'
+      col  7: 'Final Program'
+      col  8: 'Final Program Group'
+      col  9: 'Encounter Criminality'
+      col 10: 'Processing Disposition'
+      col 11: 'Case Status'
+      col 12: 'Case Category'
+      col 13: 'Departed Date'
+      col 14: 'Departure Country'
+      col 15: 'Final Order Yes No'
+      col 16: 'Final Order Date'
+      col 17: 'Birth Date'
+      col 18: 'Birth Year'
+      col 19: 'Citizenship Country'
+      col 20: 'Gender'
+      col 21: 'Event Landmark'
+      col 22: 'Alien File Number'
+      col 23: 'EID Case ID'
+      col 24: 'EID Subject ID'
+      col 25: 'Unique Identifier'
+    sample data row (truncated to 200 chars):
+      2024-11-04 00:00:00 | Chicago Area of Responsibility | Fort Wayne, IN sub-office | Not applicable |  | CAP Local | ERO Criminal Alien Program | ICE | 3 Other Immigration Violator | Prosecutorial Discr
+====================================================================================================
+FILE: ~$2023-ICFO_42034_Detentions_FY16_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 0.0 MB
+  ERROR opening: [Errno 13] Permission denied: 'C:\\Users\\xief\\Dropbox\\ethan xie\\detentions\\~$2023-ICFO_42034_Detentions_FY16_LESA-STU_FINAL-Redacted_raw.xlsx'
+====================================================================================================
+FILE: ~$2023-ICFO_42034_Detentions_FY23_LESA-STU_FINAL-Redacted_raw.xlsx
+SIZE: 0.0 MB
+  ERROR opening: [Errno 13] Permission denied: 'C:\\Users\\xief\\Dropbox\\ethan xie\\detentions\\~$2023-ICFO_42034_Detentions_FY23_LESA-STU_FINAL-Redacted_raw.xlsx'
+====================================================================================================
+FILE: ~$2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_LESA-STU_FINAL Redacted_raw.xlsx
+SIZE: 0.0 MB
+  ERROR opening: [Errno 13] Permission denied: 'C:\\Users\\xief\\Dropbox\\ethan xie\\detentions\\~$2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_LESA-STU_FINAL Redacted_raw.xlsx'
