@@ -24,7 +24,7 @@ from pathlib import Path
 import pandas as pd
 
 from . import config
-from .known_facilities import resolve_facility
+from .known_facilities import norm_compact, norm_county, resolve_facility
 from .patterns import classify_unusual, guess_state
 
 log = logging.getLogger(__name__)
@@ -279,43 +279,15 @@ def build_crosswalk(
     fips_lookup = fips_df[["county_fips", "county_name", "state_name", "state_abbr"]].copy()
     fips_lookup["county_name_lc"] = fips_lookup["county_name"].str.lower()
 
-    # Build a regex that strips trailing whitespace + any prefix of
-    # "county"/"parish"/"borough"/"municipality". The FIPS reference
-    # truncates names at 16 chars, so we see "Miami-Dade count" (drop
-    # " count"), "San Bernardino c" (drop " c"), "St. Tammany pari"
-    # (drop " pari"), etc.
-    _decoration_words = ("county", "parish", "borough", "municipality")
-    _decoration_prefixes = sorted(
-        {w[:n] for w in _decoration_words for n in range(1, len(w) + 1)},
-        key=len, reverse=True,
-    )
-    _decoration_re = re.compile(
-        r"\s+(?:" + "|".join(_decoration_prefixes) + r"|census area|city and borough)$"
-    )
-
-    def _norm_county(s: str) -> str:
-        s = s.strip().lower().replace(".", "").replace(",", "")
-        s = " ".join(s.split())
-        prev = None
-        while prev != s:
-            prev = s
-            s = _decoration_re.sub("", s)
-        # Also produce a space-stripped form so "lasalle" matches "la salle"
-        # and "saint johns" matches "stjohns".
-        return s
-
-    def _norm_compact(s: str) -> str:
-        return _norm_county(s).replace(" ", "").replace("-", "").replace("'", "")
-
-    fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(_norm_county)
-    fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(_norm_compact)
+    fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
+    fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
 
     def _lookup_fips(state: str, county: str) -> pd.Series | None:
         if not (state and county):
             return None
         sa = state.upper()
-        cn = _norm_county(county)
-        cnc = _norm_compact(county)
+        cn = norm_county(county)
+        cnc = norm_compact(county)
         same_state = fips_lookup[fips_lookup["state_abbr"] == sa]
         if same_state.empty:
             return None

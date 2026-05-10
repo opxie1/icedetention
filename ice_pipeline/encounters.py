@@ -28,6 +28,7 @@ from pathlib import Path
 import pandas as pd
 
 from . import config
+from .known_facilities import lookup_city_county, norm_compact, norm_county
 from .patterns import classify_unusual, USPS_STATE_ABBR
 
 log = logging.getLogger(__name__)
@@ -119,6 +120,12 @@ def _load_state_lookup(fips_csv: Path) -> pd.DataFrame:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
+    # The reference CSV truncates "District of Columbia" so FIPS 11001 ends up
+    # with state_name="Columbia". Patch it back.
+    dc_rows = fips["fips"] == "11001"
+    if dc_rows.any():
+        fips.loc[dc_rows, "state_name"] = "District of Columbia"
+        fips.loc[dc_rows, "state_abbr"] = "DC"
     return fips
 
 
@@ -248,9 +255,63 @@ def build_site_crosswalk(
     )
     sites["county_fips"] = sites["county_fips"].apply(lambda x: x.zfill(5) if x else "")
 
-    # 4. Resolve county info from the FIPS lookup.
+    # 3b. Auto-resolve county from city_auto via the shared city→county hint
+    # table. This populates county_name_auto_kf for the FIPS lookup below.
+    auto_county = sites["city_auto"].apply(
+        lambda c: lookup_city_county(c) if c else None
+    )
+    sites["state_auto_kf"] = auto_county.map(
+        lambda h: h[0] if h else ""
+    )
+    sites["county_name_auto_kf"] = auto_county.map(
+        lambda h: h[1] if h else ""
+    )
+    # Promote when state extraction missed it.
+    sites["state_abbr_auto"] = sites.apply(
+        lambda r: r["state_abbr_auto"] if r["state_abbr_auto"] else r["state_auto_kf"],
+        axis=1,
+    )
+    sites["state_abbr"] = sites.apply(
+        lambda r: r["state_abbr"] if r["state_abbr"] else r["state_abbr_auto"],
+        axis=1,
+    )
+
+    # Capture override origin BEFORE FIPS resolution overwrites the columns.
+    sites["_origin_override_county"] = (
+        (sites["county_fips"] != "")
+        | (sites["county_name"].astype(str).str.strip() != "")
+    )
+
+    # 4. Resolve county info from the FIPS lookup, with truncation- and
+    # parish/county-decoration-aware matching (shared with detention crosswalk).
     fips_lookup = fips_df[["county_fips", "county_name", "state_name", "state_abbr"]].copy()
-    fips_lookup["county_name_lc"] = fips_lookup["county_name"].str.lower()
+    fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
+    fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
+
+    def _lookup(state: str, county: str) -> pd.Series | None:
+        if not (state and county):
+            return None
+        sa = state.upper()
+        cn = norm_county(county)
+        cnc = norm_compact(county)
+        same_state = fips_lookup[fips_lookup["state_abbr"] == sa]
+        if same_state.empty:
+            return None
+        m = same_state[same_state["county_name_norm"] == cn]
+        if m.empty:
+            m = same_state[same_state["county_name_compact"] == cnc]
+        if m.empty:
+            m = same_state[same_state["county_name_norm"].apply(
+                lambda c: cn.startswith(c) and len(c) >= 5
+            )]
+        if m.empty:
+            m = same_state[same_state["county_name_compact"].apply(
+                lambda c: cnc.startswith(c) and len(c) >= 5
+            )]
+        if not m.empty:
+            r = m.iloc[0]
+            return pd.Series([r["county_fips"], r["county_name"], r["state_name"], r["state_abbr"]])
+        return None
 
     def _resolve(row):
         cf = row["county_fips"]
@@ -259,19 +320,16 @@ def build_site_crosswalk(
             if not match.empty:
                 m = match.iloc[0]
                 return pd.Series([cf, m["county_name"], m["state_name"], m["state_abbr"]])
-        cn = row["county_name"].lower()
-        sa = row["state_abbr"].upper()
-        if cn and sa:
-            match = fips_lookup[
-                (fips_lookup["state_abbr"] == sa)
-                & (fips_lookup["county_name_lc"].str.replace(" county", "", regex=False)
-                   == cn.replace(" county", ""))
-            ]
-            if not match.empty:
-                m = match.iloc[0]
-                return pd.Series(
-                    [m["county_fips"], m["county_name"], m["state_name"], m["state_abbr"]]
-                )
+        # 1. Override-supplied (state, county_name).
+        result = _lookup(row["state_abbr"], row["county_name"])
+        if result is not None:
+            return result
+        # 2. Auto from city_auto -> CITY_COUNTY_HINTS.
+        result = _lookup(row["state_auto_kf"], row["county_name_auto_kf"])
+        if result is not None:
+            return result
+        # 3. State-only fallback.
+        sa = (row["state_abbr"] or row["state_auto_kf"]).upper()
         if sa:
             sn = fips_lookup.loc[fips_lookup["state_abbr"] == sa, "state_name"]
             if not sn.empty:
@@ -285,7 +343,11 @@ def build_site_crosswalk(
     # 5. Provenance.
     def _source(row):
         if row["county_fips"]:
-            return "override"
+            if row["_origin_override_county"]:
+                return "override"
+            if row["county_name_auto_kf"]:
+                return "auto:city"
+            return "auto"
         if row["state_abbr"]:
             if row["state_abbr_auto"] and row["state_abbr_auto"] == row["state_abbr"]:
                 return "auto:site_string"

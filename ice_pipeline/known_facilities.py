@@ -1624,6 +1624,12 @@ CITY_COUNTY_HINTS: dict[str, tuple[str, str]] = {
     "ST. LOUIS": ("MO", "St. Louis city"),
     "ST LOUIS": ("MO", "St. Louis city"),
     "KANSAS CITY": ("MO", "Jackson"),
+    "KANSAS": ("MO", "Jackson"),         # FOIA encounters file uses "KANSAS, MO" for Kansas City
+    "VARRICK": ("NY", "New York"),       # Varrick/Varick Street SPC, NYC
+    "VARICK": ("NY", "New York"),
+    "MOUNT LAUREL NJ": ("NJ", "Burlington"),
+    "HUNTSVILLE": ("TX", "Walker"),      # ERO - Huntsville TX IRP Sub-Office
+    "CASPER": ("WY", "Natrona"),
     "SPRINGFIELD": ("MO", "Greene"),
     "SPRINGFIELD, MO": ("MO", "Greene"),
     # Kansas
@@ -1682,6 +1688,58 @@ def _extract_county_from_pattern(name: str) -> str | None:
         if m:
             return _normalize_county(m.group(1))
     return None
+
+
+def lookup_city_county(city: str) -> tuple[str, str] | None:
+    """Look up (state, county) for a city name. Tries exact match first,
+    then word-boundary search across the multi-word keys in CITY_COUNTY_HINTS.
+    Returns None when the city isn't recognized."""
+    if not city:
+        return None
+    upper = city.upper().strip()
+    if upper in CITY_COUNTY_HINTS:
+        return CITY_COUNTY_HINTS[upper]
+    for key in sorted(CITY_COUNTY_HINTS, key=len, reverse=True):
+        if re.search(rf"\b{re.escape(key)}\b", upper):
+            return CITY_COUNTY_HINTS[key]
+    return None
+
+
+# --- FIPS-reference normalization (shared across crosswalk + encounters) ----
+
+# Build a regex that strips trailing whitespace + any prefix of
+# "county"/"parish"/"borough"/"municipality". The FIPS reference truncates
+# names at 16 chars, so we see "Miami-Dade count" (drop " count"),
+# "San Bernardino c" (drop " c"), "St. Tammany pari" (drop " pari"), etc.
+_DECORATION_WORDS = ("county", "parish", "borough", "municipality")
+_DECORATION_PREFIXES = sorted(
+    {w[:n] for w in _DECORATION_WORDS for n in range(1, len(w) + 1)},
+    key=len, reverse=True,
+)
+_DECORATION_RE = re.compile(
+    r"\s+(?:" + "|".join(_DECORATION_PREFIXES) + r"|census area|city and borough)$"
+)
+
+
+def norm_county(s: str) -> str:
+    """Normalize a county name for comparison: lowercase, strip punctuation,
+    strip trailing 'county'/'parish'/etc. decoration. Anchored at end of
+    string so 'dade count' doesn't lose its 't' to a mid-string match."""
+    if s is None:
+        return ""
+    s = s.strip().lower().replace(".", "").replace(",", "")
+    s = " ".join(s.split())
+    prev = None
+    while prev != s:
+        prev = s
+        s = _DECORATION_RE.sub("", s)
+    return s
+
+
+def norm_compact(s: str) -> str:
+    """Compact form (no spaces/hyphens/apostrophes) so 'LaSalle' matches
+    'La Salle' and 'St. Johns' matches 'StJohns'."""
+    return norm_county(s).replace(" ", "").replace("-", "").replace("'", "")
 
 
 def resolve_facility(name: str, code: str | None) -> CountyHit | None:

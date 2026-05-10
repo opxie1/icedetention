@@ -33,11 +33,44 @@ _UNUSUAL_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
             r"|\bHLDRM\b"
             r"|\bHOLD\s*$"
             r"|\b[A-Z]{2,}HOLD\b"
+            # "EGP CPC HOLDING" / "DRT CPC HOLDING" — CBP CPC = Centralized
+            # Processing Center holding cells.
+            r"|\bCPC\s+HOLDING\b"
+            r"|\bCUSTODY\s+(CASE|HOLD|CENTER|CTR)\b"
+            r"|\bCUST\s+CASE\b"
         ),
     ),
-    ("hospital", re.compile(r"\bHOSPITAL\b|\bMED(?:ICAL)?\s*CTR\b|\bINFIRMARY\b|\bCLINIC\b")),
-    ("hotel_motel", re.compile(r"\bHOTEL\b|\bMOTEL\b|\bINN\b(?!ER)|\bSUITES?\b|\bLODGE\b")),
-    ("staging_processing", re.compile(r"\bSTAGING\b|\bPROCESSING\s*(CTR|CENTER)\b|\bSTAGE\s*AREA\b")),
+    (
+        "hospital",
+        re.compile(
+            r"\bHOSPITAL\b"
+            r"|\bHOSP\b"                              # truncated "hospital"
+            r"|\bMED\.?\s*(?:CTR|CENTER|CEN)\b"        # "Med. Center" / "Med Ctr"
+            r"|\bMEDICAL\b"                            # "Maricopa Medical"
+            r"|\bINFIRMARY\b"
+            r"|\bCLINIC\b"
+            r"|\bHEALTHCARE\b"
+            r"|\bHEALTH\b"                             # "Adventist Health", "Bronxcare Health System"
+            r"|\bMHOS[A-Z]*\b"                         # codes ending -MHOS- (med hospital)
+        ),
+    ),
+    (
+        "hotel_motel",
+        re.compile(
+            r"\bHOTEL\b|\bMOTEL\b|\bINN\b(?!ER)|\bSUITES?\b|\bSTES?\b|\bLODGE\b"
+            r"|\bRESIDENCE\s+INN\b"
+            r"|\bWYNDHAM\b|\bRAMADA\b|\bSUPER\s*8\b|\bLA\s+QUINTA\b"
+            r"|\bHILTON\b|\bMARRIOTT\b|\bHOLIDAY\s+INN\b|\bHAMPTON\b"
+            r"|\bCOMFORT\s+(?:STES|SUITES|INN)\b|\bBEST\s+WEST\b|\bDRURY\b"
+            r"|\bECONOLODGE\b|\bSTAYBRIDGE\b|\bRED\s+ROOF\b|\bCROWNE\s+PLAZA\b"
+            r"|\bCASA\s+(DE|DO)\b"                    # "Casa de la Luz", "Casa Do Sonho"
+        ),
+    ),
+    # Only "Staging" facilities count as unusual — they're hold-only, not
+    # full detention centers. ICE-named "Processing Centers" (e.g. Adelanto
+    # ICE Processing Center, Otero County Processing Center) are full
+    # detention facilities and are NOT flagged.
+    ("staging_processing", re.compile(r"\bSTAGING\b|\bSTAGE\s*AREA\b|\bMCAT\b")),
     ("airport", re.compile(r"\bAIRPORT\b|\bAIR\s*OPS?\b|\bINT'?L\s*AIRPORT\b|\bATL\s*AIR\b")),
     ("field_office", re.compile(r"\bFIELD\s*OFFICE\b|\bSUB(\s|-)*OFFICE\b|\bERO\s*OFFICE\b|\bICE\s*OFFICE\b")),
     ("border_station", re.compile(r"\bBORDER\s*PATROL\b|\bUSBP\b|\bBP\s*STATION\b|\bSECTOR\s*HQ\b")),
