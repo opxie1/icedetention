@@ -54,9 +54,6 @@ SITE_OVERRIDE_COLUMNS = [
 
 # --- Site string parsing -----------------------------------------------------
 
-_STATE_TOKEN_RE = re.compile(r"\b([A-Z]{2})\b")
-
-
 def parse_site(site: str) -> dict:
     """Pull (city, state, suffix) out of a Responsible Site string.
 
@@ -70,19 +67,22 @@ def parse_site(site: str) -> dict:
     """
     if not site:
         return {"city": "", "state": "", "suffix": ""}
+    # Match a 2-letter state token at the start of a comma-delimited part,
+    # followed by end-of-string or a space (not a period/letter, so "MT." in
+    # "MT. LAUREL, NJ, POE" is not confused with Montana).
+    _state_prefix = re.compile(r"^([A-Z]{2})(?:\s|$)")
+
     parts = [p.strip() for p in site.split(",")]
     for i, part in enumerate(parts):
-        upper = part.upper()
-        m = _STATE_TOKEN_RE.match(upper)
+        upper = part.strip().upper()
+        m = _state_prefix.match(upper)
         if not m:
             continue
         state = m.group(1)
         if state not in USPS_STATE_ABBR:
             continue
-        # City = everything before this part (joined). Empty for index 0.
         city = ", ".join(parts[:i]).strip()
-        # Suffix = remainder of this part after the state, plus any trailing parts.
-        after = part[m.end():].strip(" ,-")
+        after = part.strip()[2:].strip(" ,-")
         suffix_parts = [p for p in [after, *parts[i + 1:]] if p]
         suffix = ", ".join(suffix_parts).strip()
         return {"city": city, "state": state, "suffix": suffix}
