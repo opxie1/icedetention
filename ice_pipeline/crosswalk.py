@@ -8,7 +8,12 @@ from pathlib import Path
 import pandas as pd
 
 from . import config
-from .known_facilities import norm_compact, norm_county, resolve_facility
+from .known_facilities import (
+    county_token_from_name,
+    norm_compact,
+    norm_county,
+    resolve_facility,
+)
 from .patterns import classify_unusual, guess_state
 
 log = logging.getLogger(__name__)
@@ -239,6 +244,16 @@ def build_crosswalk(
     fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
     fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
 
+    # Deterministic last resort: a "{X} COUNTY ..." name resolves ONLY when
+    # X appears in exactly one state in the reference file. No guessing.
+    _norm_counts = fips_lookup.groupby("county_name_norm").size()
+    _unique_norms = set(_norm_counts[_norm_counts == 1].index)
+    unique_county_idx = {
+        r["county_name_norm"]: r
+        for _, r in fips_lookup.iterrows()
+        if r["county_name_norm"] in _unique_norms
+    }
+
     def _lookup_fips(state: str, county: str) -> pd.Series | None:
         if not (state and county):
             return None
@@ -278,29 +293,45 @@ def build_crosswalk(
             if not match.empty:
                 m = match.iloc[0]
                 return pd.Series(
-                    [cf, m["county_name"], m["state_name"], m["state_abbr"]]
+                    [cf, m["county_name"], m["state_name"], m["state_abbr"], ""]
                 )
         result = _lookup_fips(row["state_abbr"], row["county_name"])
         if result is not None:
-            return result
+            return pd.Series([*result.tolist(), ""])
         result = _lookup_fips(row["state_auto_kf"], row["county_name_auto_kf"])
         if result is not None:
-            return result
+            return pd.Series([*result.tolist(), ""])
+        # Deterministic unique-county-name fallback (FIPS file is ground truth).
+        tok = county_token_from_name(row["facility_name"])
+        if tok and tok in unique_county_idx:
+            m = unique_county_idx[tok]
+            return pd.Series([
+                m["county_fips"], m["county_name"], m["state_name"],
+                m["state_abbr"], "auto:county_name_in_fips",
+            ])
         sa = (row["state_abbr"] or row["state_auto_kf"]).upper()
         if sa:
             sn = fips_lookup.loc[fips_lookup["state_abbr"] == sa, "state_name"]
             if not sn.empty:
-                return pd.Series(["", "", sn.iloc[0], sa])
-        return pd.Series(["", "", "", sa])
+                return pd.Series(["", "", sn.iloc[0], sa, ""])
+        return pd.Series(["", "", "", sa, ""])
 
     resolved = facilities.apply(_resolve_county, axis=1)
-    resolved.columns = ["county_fips", "county_name", "state_name", "state_abbr"]
-    facilities[["county_fips", "county_name", "state_name", "state_abbr"]] = resolved
+    resolved.columns = [
+        "county_fips", "county_name", "state_name", "state_abbr",
+        "_resolve_src_hint",
+    ]
+    facilities[
+        ["county_fips", "county_name", "state_name", "state_abbr",
+         "_resolve_src_hint"]
+    ] = resolved
 
     def _source(row):
         if row["county_fips"]:
             if row["_origin_override_county"]:
                 return "override"
+            if row["_resolve_src_hint"]:
+                return row["_resolve_src_hint"]
             if row["county_source_auto_kf"]:
                 return f"auto:{row['county_source_auto_kf']}"
             return "auto"

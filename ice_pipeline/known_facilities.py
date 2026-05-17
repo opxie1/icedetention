@@ -1553,6 +1553,25 @@ def norm_compact(s: str) -> str:
     return norm_county(s).replace(" ", "").replace("-", "").replace("'", "")
 
 
+def county_token_from_name(name: str) -> str | None:
+    """If a name contains '<X> COUNTY', return normalized X, else None.
+
+    Walks backward from ' COUNTY' and stops at the nearest separator
+    (comma, slash, ' - ') so an agency prefix like 'ERO - PIKE COUNTY'
+    yields 'pike', not 'ero - pike'. Deterministic; never invents a state.
+    """
+    up = (name or "").upper()
+    idx = up.find(" COUNTY")
+    if idx == -1:
+        return None
+    prefix = up[:idx]
+    for sep in (",", "/", " - ", " — ", " – "):
+        if sep in prefix:
+            prefix = prefix.rsplit(sep, 1)[-1]
+    tok = norm_county(prefix.strip())
+    return tok or None
+
+
 _USPS = {
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
     "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN",
