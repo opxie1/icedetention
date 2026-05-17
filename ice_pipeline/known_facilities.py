@@ -480,7 +480,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "SAJHOLD": ("PR", "San Juan"),
     "SJUHOLD": ("PR", "Carolina"),
     "BOPGUA": ("PR", "Guaynabo"),
-    "SJS": ("PR", "Bayamon"),
+    "SJS": ("PR", "San Juan"),
     "HCAFCC": ("FL", "Miami-Dade"),
     "ANCHOAK": ("AK", "Anchorage"),
     "AKCOOKI": ("AK", "Anchorage"),
@@ -1008,12 +1008,11 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "HHWHOLD": ("HI", "Honolulu"),
     "PMMCAHI": ("HI", "Honolulu"),
     "AGC": ("PR", "Aguadilla"),
-    "SJS": ("PR", "Bayamon"),
+    "SJS": ("PR", "San Juan"),
     "BOPGUA": ("PR", "Guaynabo"),
     "BAYAMPR": ("PR", "Bayamon"),
     "PAVHRPR": ("PR", "San Juan"),
     "HOSPSPR": ("PR", "San Juan"),
-    "CMEDHPR": ("PR", "Bayamon"),
     "PRVEGAL": ("PR", "Vega Alta"),
     "AIRHOPR": ("PR", "Carolina"),
     "SAJHOLD": ("PR", "San Juan"),
@@ -1531,9 +1530,12 @@ _DECORATION_PREFIXES = sorted(
     {w[:n] for w in _DECORATION_WORDS for n in range(1, len(w) + 1)},
     key=len, reverse=True,
 )
-# FIPS reference truncates county names at 16 chars.
+# FIPS reference truncates county names at 16 chars. "municipio" (PR) and
+# "island" (USVI) are matched as whole words only — not prefix-expanded —
+# so a real name is never clipped mid-word.
 _DECORATION_RE = re.compile(
-    r"\s+(?:" + "|".join(_DECORATION_PREFIXES) + r"|census area|city and borough)$"
+    r"\s+(?:" + "|".join(_DECORATION_PREFIXES)
+    + r"|census area|city and borough|municipio|island)$"
 )
 
 
