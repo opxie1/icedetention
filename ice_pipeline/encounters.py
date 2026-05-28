@@ -42,7 +42,6 @@ SITE_OVERRIDE_COLUMNS = [
 def parse_site(site: str) -> dict:
     if not site:
         return {"city": "", "state": "", "suffix": ""}
-    # Trailing space/end stops "MT." matching as Montana.
     _state_prefix = re.compile(r"^([A-Z]{2})(?:\s|$)")
 
     parts = [p.strip() for p in site.split(",")]
@@ -90,7 +89,6 @@ def _load_state_lookup(fips_csv: Path) -> pd.DataFrame:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
-    # Reference CSV split "District of Columbia" on the comma.
     dc_rows = fips["fips"] == "11001"
     if dc_rows.any():
         fips.loc[dc_rows, "state_name"] = "District of Columbia"
@@ -237,7 +235,6 @@ def build_site_crosswalk(
         axis=1,
     )
 
-    # Remembered before resolution overwrites the columns.
     sites["_origin_override_county"] = (
         (sites["county_fips"] != "")
         | (sites["county_name"].astype(str).str.strip() != "")
@@ -247,7 +244,6 @@ def build_site_crosswalk(
     fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
     fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
 
-    # "{X} COUNTY ..." resolves ONLY when X is in exactly one state. No guessing.
     _norm_counts = fips_lookup.groupby("county_name_norm").size()
     _unique_norms = set(_norm_counts[_norm_counts == 1].index)
     unique_county_idx = {
@@ -295,8 +291,6 @@ def build_site_crosswalk(
         if result is not None:
             return pd.Series([*result.tolist(), ""])
         tok = county_token_from_name(row["responsible_site"])
-        # County token + a state ALSO explicitly present in the source string
-        # (parsed into state_abbr/_auto). Both facts are literally in the data.
         if tok:
             st = row["state_abbr"] or row["state_auto_kf"]
             if st:

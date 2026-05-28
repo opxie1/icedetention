@@ -531,7 +531,6 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "BHMHOLD": ("AL", "Jefferson"),
     "MONTGAL": ("AL", "Montgomery"),
     "ALEXAAL": ("AL", "Cleburne"),
-    # Actually I'm not sure about Alexandria AL - leaving as is
     "CHARLSC": ("SC", "Charleston"),
     "CHLHOLD": ("SC", "Charleston"),
     "DORCDSC": ("SC", "Dorchester"),
@@ -1530,9 +1529,6 @@ _DECORATION_PREFIXES = sorted(
     {w[:n] for w in _DECORATION_WORDS for n in range(1, len(w) + 1)},
     key=len, reverse=True,
 )
-# FIPS reference truncates county names at 16 chars. "municipio" (PR) and
-# "island" (USVI) are matched as whole words only — not prefix-expanded —
-# so a real name is never clipped mid-word.
 _DECORATION_RE = re.compile(
     r"\s+(?:" + "|".join(_DECORATION_PREFIXES)
     + r"|census area|city and borough|municipio|island)$"

@@ -5,7 +5,6 @@ import pandas as pd
 proc = "data/processed"
 refs = "references"
 
-# --- Detention facilities -------------------------------------------------
 unmapped = pd.read_csv(f"{proc}/unmapped_facilities.csv", dtype=str)
 tmpl = pd.read_csv(f"{refs}/facility_overrides_template.csv", dtype=str).fillna("")
 
@@ -24,7 +23,6 @@ out = pd.DataFrame({
 out.to_csv(f"{refs}/facilities_need_county.csv", index=False)
 print(f"facilities_need_county.csv: {len(out)} rows")
 
-# --- Encounter sites ------------------------------------------------------
 usites = pd.read_csv(f"{proc}/unmapped_sites.csv", dtype=str)
 stmpl = pd.read_csv(f"{refs}/site_overrides_template.csv", dtype=str).fillna("")
 

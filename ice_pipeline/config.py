@@ -64,7 +64,6 @@ EXTRACT_COLUMNS = [
     "person_id",
 ]
 
-# Supports both 2-digit ("_FY15_") and 4-digit ("_FY2024_") forms.
 INPUT_FILENAME_RE = r"_FY(\d{2}|\d{4})_"
 SHEET_NAME_RE = r"^FY\d{4}$"
 

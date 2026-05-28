@@ -10,15 +10,10 @@ print(f"Total DDP-resolved: {len(ddp_now)} facilities, "
       f"{ddp_now['n_episodes'].sum():,} episodes")
 print()
 
-# Reload DDP file directly to label what was originally heuristically
-# resolved differently.
 ddp_src = pd.read_csv("references/ddp_facilities.csv", dtype=str).fillna("")
 ddp_src["county_fips_code"] = ddp_src["county_fips_code"].str.zfill(5)
 ddp_src = ddp_src.rename(columns={"detention_facility_code": "facility_code"})
 
-# Quick before-vs-now sketch: any facility now resolved by DDP that previously
-# would have hit one of our heuristics. We approximate "prior" by asking what
-# resolve_facility would have returned without DDP.
 from ice_pipeline.known_facilities import resolve_facility
 
 rows = []

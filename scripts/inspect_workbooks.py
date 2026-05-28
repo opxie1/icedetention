@@ -15,7 +15,6 @@ def _peek_sheet(sheet, max_scan: int = 15) -> dict:
         if i >= max_scan:
             break
 
-    # Pick the row with the most non-empty cells.
     best_idx, best_score = 0, -1
     for idx, row in enumerate(rows):
         cells = [c for c in row if c is not None and str(c).strip() != ""]

@@ -46,7 +46,6 @@ _UNUSUAL_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
             r"|\bCASA\s+(DE|DO)\b"
         ),
     ),
-    # ICE-named "Processing Centers" are full detention, not flagged.
     ("staging_processing", re.compile(r"\bSTAGING\b|\bSTAGE\s*AREA\b|\bMCAT\b")),
     ("airport", re.compile(r"\bAIRPORT\b|\bAIR\s*OPS?\b|\bINT'?L\s*AIRPORT\b|\bATL\s*AIR\b")),
     ("field_office", re.compile(r"\bFIELD\s*OFFICE\b|\bSUB(\s|-)*OFFICE\b|\bERO\s*OFFICE\b|\bICE\s*OFFICE\b")),

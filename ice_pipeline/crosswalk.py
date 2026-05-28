@@ -66,7 +66,6 @@ def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
         "Northern Mariana Islands": "MP",
     }
     fips["state_abbr"] = fips["state_name"].map(state_abbr_map).fillna("")
-    # Reference CSV split "District of Columbia" on the comma.
     dc_rows = fips["fips"] == "11001"
     if dc_rows.any():
         fips.loc[dc_rows, "state_name"] = "District of Columbia"
@@ -246,7 +245,6 @@ def build_crosswalk(
         facilities["county_fips"] != "", ""
     )
 
-    # Remembered before resolution overwrites the columns.
     facilities["_origin_override_county"] = (
         (facilities["county_fips"] != "")
         | (facilities["county_name"].astype(str).str.strip() != "")
@@ -257,8 +255,6 @@ def build_crosswalk(
     fips_lookup["county_name_norm"] = fips_lookup["county_name"].apply(norm_county)
     fips_lookup["county_name_compact"] = fips_lookup["county_name"].apply(norm_compact)
 
-    # Deterministic last resort: a "{X} COUNTY ..." name resolves ONLY when
-    # X appears in exactly one state in the reference file. No guessing.
     _norm_counts = fips_lookup.groupby("county_name_norm").size()
     _unique_norms = set(_norm_counts[_norm_counts == 1].index)
     unique_county_idx = {
@@ -311,7 +307,6 @@ def build_crosswalk(
         result = _lookup_fips(row["state_abbr"], row["county_name"])
         if result is not None:
             return pd.Series([*result.tolist(), ""])
-        # Deportation Data Project authoritative facility -> county lookup.
         ddp_fips = ddp.get(row["facility_code"])
         if ddp_fips:
             match = fips_lookup[fips_lookup["county_fips"] == ddp_fips]
@@ -324,7 +319,6 @@ def build_crosswalk(
         result = _lookup_fips(row["state_auto_kf"], row["county_name_auto_kf"])
         if result is not None:
             return pd.Series([*result.tolist(), ""])
-        # Deterministic unique-county-name fallback (FIPS file is ground truth).
         tok = county_token_from_name(row["facility_name"])
         if tok and tok in unique_county_idx:
             m = unique_county_idx[tok]

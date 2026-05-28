@@ -177,7 +177,6 @@ def aggregate(
          "fiscal_year", "year_month"],
     )
 
-    # n_unique_persons is approximate across chunks.
     if not year_panel.empty:
         year_panel = year_panel.sort_values(
             ["state_abbr", "county_name", "year"]

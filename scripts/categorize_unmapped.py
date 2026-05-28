@@ -23,7 +23,6 @@ def norm(s):
 
 
 fips["cn"] = fips["county_name"].apply(norm)
-# county name -> set of state_names it appears in
 by_name: dict[str, set] = {}
 for _, r in fips.iterrows():
     by_name.setdefault(r["cn"], set()).add(r["state_name"])

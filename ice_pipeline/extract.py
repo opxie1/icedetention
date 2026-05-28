@@ -25,7 +25,6 @@ def _coerce_date(value) -> str:
     if isinstance(value, dt.date):
         return value.isoformat()
     if isinstance(value, (int, float)):
-        # Plausible Excel serial range.
         if 1 <= float(value) <= 80000:
             try:
                 base = dt.datetime(1899, 12, 30)

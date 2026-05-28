@@ -95,7 +95,6 @@ def _cmd_aggregate(args: argparse.Namespace) -> int:
 
 
 def _cmd_all(args: argparse.Namespace) -> int:
-    # Per-step output dirs differ (interim vs. processed).
     args.out_dir = None
     rc = _cmd_extract(args)
     if rc != 0:
@@ -225,7 +224,6 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--out-dir", default=None)
     a.set_defaults(func=_cmd_aggregate)
 
-    # all (detention pipeline)
     all_p = sub.add_parser("all", help="extract + crosswalk + aggregate, in order (detention files)")
     all_p.add_argument("--input-dir", required=True)
     all_p.add_argument("--interim-dir", default=None)
@@ -279,7 +277,6 @@ def build_parser() -> argparse.ArgumentParser:
     ae_all.add_argument("--force", action="store_true")
     ae_all.set_defaults(func=_cmd_all_encounters)
 
-    # everything (both pipelines back to back)
     every = sub.add_parser(
         "everything",
         help="run the full detention pipeline AND the encounters pipeline",

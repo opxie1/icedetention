@@ -25,7 +25,6 @@ cw = pd.read_csv(
 cw["code"] = cw["facility_code"].str.upper().str.strip()
 cw["fips5"] = cw["county_fips"].astype(str).str.zfill(5).replace("00000", "")
 
-# 1. Unmapped facilities DDP can resolve
 unmapped = cw[cw["fips5"] == ""].copy()
 hit = unmapped.merge(
     ddp[["code", "name", "city", "state", "county", "fips5"]],
@@ -46,7 +45,6 @@ print(resolvable[[
 ).head(30).to_string(index=False))
 print()
 
-# 2. Disagreements
 mapped = cw[cw["fips5"] != ""].copy()
 both = mapped.merge(
     ddp[["code", "name", "county", "state", "fips5"]],
@@ -66,7 +64,6 @@ if len(disagree):
     ).head(40).to_string(index=False))
 print()
 
-# 3. Facilities in our data not in DDP at all
 no_ddp = cw[~cw["code"].isin(ddp["code"])].copy()
 no_ddp_unmapped = no_ddp[no_ddp["fips5"] == ""]
 print("=" * 76)
