@@ -12,6 +12,7 @@ from . import config
 from . import crosswalk as cw_mod
 from . import encounters as enc_mod
 from . import extract as ex_mod
+from . import stays as stays_mod
 
 
 def _setup_logging(verbose: bool) -> None:
@@ -171,6 +172,25 @@ def _cmd_aggregate_encounters(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_aggregate_stays(args: argparse.Namespace) -> int:
+    stats = stays_mod.aggregate_stays(
+        parquet_path=Path(args.parquet),
+        fips_csv=Path(args.fips_csv) if args.fips_csv else None,
+        out_dir=Path(args.out_dir or config.PROCESSED_DIR),
+        refs_dir=Path(args.refs_dir or config.REFERENCES_DIR),
+    )
+    print("Stays aggregation complete.")
+    print(f"  stays loaded     : {stats['stays_total']:,}")
+    print(f"  stays mapped     : {stats['stays_mapped']:,}")
+    print(f"  county-year rows : {stats['year_panel_rows']:,}")
+    print(f"  county-month rows: {stats['month_panel_rows']:,}")
+    print(f"  unmapped rows    : {stats['unmapped_rows']:,}")
+    print(f"  -> {stats['year_panel_path']}")
+    print(f"  -> {stats['month_panel_path']}")
+    print(f"  -> {stats['unmapped_path']}")
+    return 0
+
+
 def _cmd_all_encounters(args: argparse.Namespace) -> int:
     args.out_dir = None
     rc = _cmd_extract_encounters(args)
@@ -264,6 +284,17 @@ def build_parser() -> argparse.ArgumentParser:
     ae.add_argument("--crosswalk-csv", default=None)
     ae.add_argument("--out-dir", default=None)
     ae.set_defaults(func=_cmd_aggregate_encounters)
+
+    asp = sub.add_parser(
+        "aggregate-stays",
+        help="build county-level panels from a DDP detention-stays parquet",
+    )
+    asp.add_argument("--parquet", required=True)
+    asp.add_argument("--fips-csv", default=None)
+    asp.add_argument("--out-dir", default=None)
+    asp.add_argument("--refs-dir", default=None)
+    asp.set_defaults(func=_cmd_aggregate_stays)
+
     ae_all = sub.add_parser(
         "all-encounters",
         help="extract-encounters + crosswalk-encounters + aggregate-encounters",
