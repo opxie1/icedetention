@@ -20,6 +20,7 @@ log = logging.getLogger(__name__)
 
 OVERRIDES_FILENAME = "facility_overrides.csv"
 OVERRIDES_TEMPLATE_FILENAME = "facility_overrides_template.csv"
+DDP_FILENAME = "ddp_facilities.csv"
 
 CROSSWALK_FILENAME = "facility_crosswalk.csv"
 REVIEW_FILENAME = "facility_crosswalk_review.csv"
@@ -71,6 +72,17 @@ def _load_state_lookup(fips_csv: Path) -> tuple[pd.DataFrame, dict[str, str]]:
         fips.loc[dc_rows, "state_name"] = "District of Columbia"
         fips.loc[dc_rows, "state_abbr"] = "DC"
     return fips, state_abbr_map
+
+
+def _load_ddp(path: Path) -> dict[str, str]:
+    """Return facility_code -> 5-digit county FIPS from the DDP facility list."""
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path, dtype=str).fillna("")
+    df["detention_facility_code"] = df["detention_facility_code"].str.upper().str.strip()
+    df["county_fips_code"] = df["county_fips_code"].str.strip().str.zfill(5)
+    df = df[(df["detention_facility_code"] != "") & (df["county_fips_code"] != "00000")]
+    return dict(zip(df["detention_facility_code"], df["county_fips_code"]))
 
 
 def _load_overrides(path: Path) -> pd.DataFrame:
@@ -167,6 +179,7 @@ def build_crosswalk(
 
     fips_df, _ = _load_state_lookup(fips_csv)
     overrides = _load_overrides(overrides_csv)
+    ddp = _load_ddp(refs_dir / DDP_FILENAME)
 
     facilities = _unique_facilities(interim_dir)
 
@@ -298,6 +311,16 @@ def build_crosswalk(
         result = _lookup_fips(row["state_abbr"], row["county_name"])
         if result is not None:
             return pd.Series([*result.tolist(), ""])
+        # Deportation Data Project authoritative facility -> county lookup.
+        ddp_fips = ddp.get(row["facility_code"])
+        if ddp_fips:
+            match = fips_lookup[fips_lookup["county_fips"] == ddp_fips]
+            if not match.empty:
+                m = match.iloc[0]
+                return pd.Series([
+                    ddp_fips, m["county_name"], m["state_name"],
+                    m["state_abbr"], "ddp",
+                ])
         result = _lookup_fips(row["state_auto_kf"], row["county_name_auto_kf"])
         if result is not None:
             return pd.Series([*result.tolist(), ""])

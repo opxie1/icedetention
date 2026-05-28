@@ -1,0 +1,845 @@
+detention_facility_code,name,address_full,city,county,county_fips_code,state,state_fips_code,latitude,longitude,field_office
+IWAHOLD,AZ Removal Operation Coord Center (Arocc),"6335 South Downwind, Suite 104, Mesa, AZ 85212",Mesa,Maricopa,04013,AZ,04,33.30339444,-111.6627399,Phoenix
+ABRXSPA,Abraxas Academy,"1000 Academy Drive, Morgantown, PA 19543",Morgantown,Berks,42011,PA,42,40.19181355,-75.91580532,Philadelphia
+ADAMSMS,Adams County Correctional Center,"20 Hobo Forks Road, Natchez, MS 39120",Natchez,Adams,28001,MS,28,31.55764769,-91.22127871,New Orleans
+ADDCOVT,Addison County Jail,"35 Court Street, Middlebury, VT 05753",Middlebury,Addison,50001,VT,50,44.01144984,-73.16365678,Boston
+ADLNTCA,Adelanto ICE Processing Center,"10400 Rancho Road, Adelanto, CA 92301",Adelanto,San Bernardino,06071,CA,06,34.55993666,-117.4388741,Los Angeles
+ADVHBCA,Adventist Health Bakersfield,"2615 Chester Avenue, Bakersfield, CA 93301",Bakersfield,Kern,06029,CA,06,35.38320895,-119.0205378,San Francisco
+ADVHCHI,Adventist Health Castle,"640 Ulukahiki St, Kailua, HI 96734",Kailua,Honolulu,15003,HI,15,21.38062035,-157.7576827,San Francisco
+ADVHDCA,Adventist Health Delano,"1401 Garces Highway, Delano, CA 93215",Delano,Kern,06029,CA,06,35.76232272,-119.2389025,San Francisco
+AGAHOLD,Agana INS,,,,,GU,,,,
+AGC,Aguadilla Service Processing Center,"Corner Of Belt Rd And Gun Club St., Aguadilla, PR 00604",Aguadilla,Aguadilla,72005,PR,72,18.49562533,-67.14344217,Miami
+ALAMCNC,Alamance County Detention Center,"109 South Maple Street, Graham, NC 27253",Graham,Alamance,37001,NC,37,36.06825389,-79.40362386,Atlanta
+ALAMOTX,Alamo Police Department,"423 N Tower Road, Alamo, TX 78516",Alamo,Hidalgo,48215,TX,48,26.18684613,-98.11078218,Harlingen
+ALMHOLD,Alamosa Hold Room,"1921 State Street, Alamosa, CO 81101",Alamosa,Alamosa,08003,CO,08,37.45111503,-105.8659922,Denver
+ALBHOLD,Albany Hold Room,,,,,NY,,,,
+ABQHOLD,Albuquerque Hold Room,,,,,NM,,,,
+ALEXAVA,Alexandria City Jail,"2001 Mill Rd, Alexandria, VA 22314",Alexandria,Alexandria,51510,VA,51,38.79792346,-77.06462629,Washington
+JENATLA,Alexandria Staging Facility,"96 George Thompson Dr., Alexandria, LA 71303",Alexandria,Rapides,22079,LA,22,31.3175636,-92.53649027,New Orleans
+ALLEGNY,Allegany County Jail,"4884 State Route 19, Belmont, NY 14813",Belmont,Allegany,36003,NY,36,42.2125682,-78.01703328,Buffalo
+ALLEGVA,Alleghany County Jail,"268 West Main Street, Covington, VA 24426",Covington,Covington,51580,VA,51,37.7927241,-79.99578035,Washington
+APPSCLA,Allen Parish Public Safety Complex,"7340 Highway 26 W, Oberlin, LA 70655",Oberlin,Allen,22003,LA,22,30.62356505,-92.78271897,New Orleans
+AHGRFND,Altru Hospital Grand Forks,"1200 S Columbia Rd, Grand Forks, ND 58201",Grand Forks,Grand Forks,38035,ND,38,47.91064662,-97.06872998,St Paul
+APIBHCA,Alvarado Parkway Institute,"7050 Parkway Dr, La Mesa, CA 91942",La Mesa,San Diego,06073,CA,06,32.77458776,-117.0441556,San Diego
+AMTHOLD,Amarillo Hold Room,,,,,TX,,,,
+AMHERVA,Amherst County Jail,"219 South Riverview Road, Madison Heights, VA 24572",Madison Heights,Amherst,51009,VA,51,37.40853902,-79.09350065,Washington
+AGMDCCA,Anaheim Global Medical Center,"1025 S Anaheim Blvd, Anaheim, CA 92805",Anaheim,Orange,06059,CA,06,33.81984189,-117.9092551,Los Angeles
+ANCHOAK,Anchorage Correctional Complex,"1400 E Fourth Ave, Anchorage, AK 99501",Anchorage,Anchorage,02020,AK,02,61.21848468,-149.8568744,Seattle
+ANCHOLD,Anchorage Sub-Office Hold Room,"620 East 10th Avenue, Anchorage, AK 99501",Anchorage,Anchorage,02020,AK,02,61.21236695,-149.8722869,Seattle
+ANSGHTX,Anson General Hospital,"101 Avenue J, Anson, TX 79501",Anson,Jones,48253,TX,48,32.76791074,-99.89514243,Dallas
+AKANVIL,"Anvil Mountain Correctional Institution, Nome","1810 Center Creek, Nome, AK 99762",Nome,Nome,02180,AK,02,64.5376119,-165.4121958,Seattle
+ARAPACO,Arapahoe County Jail,"7375 S. Potomac St., Centennial, CO 80112",Centennial,Arapahoe,08005,CO,08,39.58144095,-104.8326118,Denver
+AZSVCPC,Arizona State Prison - Yuma,"7125 E Cesar Chavez Blvd, San Luis, AZ 85349",San Luis,Yuma,04027,AZ,04,32.50243458,-114.6465752,Phoenix
+ARRMCCA,Arrowhead Regional Medical Center,"400 N. Pepper Avenue, Colton, CA 92324",Colton,San Bernardino,06071,CA,06,34.07398698,-117.351356,Los Angeles
+AFRC,Artesia Family Residential Center,"1300 W. Richey Avenue, Artesia, NM 88210",Artesia,Eddy,35015,NM,35,32.85731048,-104.4129082,El Paso
+ATTHOLD,"Athens, TX Hold Room",,,,,TX,,,,
+ATLHOLD,Atlanta District Hold Room,"180 Ted Turner Drive, SW, Atlanta, GA 30303",Atlanta,Fulton,13121,GA,13,33.74958147,-84.39736522,Atlanta
+ATLANGA,Atlanta Pretrial Detention Center,"254 Peachtree Street Southwest, Atlanta, GA 30303",Atlanta,Fulton,13121,GA,13,33.74728512,-84.39542925,Atlanta
+AUSHOLD,Austin Detention and Removal Operations Hold Room,,,,,TX,,,,
+BIINCCO,"BI Incororated, Geo Group Company","3130 Oakland St, Aurora, CO 80010",Aurora,Adams,08001,CO,08,39.76087267,-104.8491804,Denver
+ABIRJVA,BRRJ Abingdon,"15205 Joe Derting Dr, Abingdon, VA 24210",Abingdon,Washington,51191,VA,51,36.73258655,-81.91168152,Washington
+HLFRJVA,BRRJ Halifax,"1010 Blue Ridge Lane, Halifax, VA 24558",Halifax,Halifax,51083,VA,51,36.76491657,-78.92995941,Washington
+LYNRJVA,BRRJ Lynchburg,"510 9th St, Lynchburg, VA 24504",Lynchburg,Lynchburg,51680,VA,51,37.41283622,-79.14506302,Washington
+FLBAKCI,Baker CI,"20706 Fl-10, Sanderson, FL 32087",Sanderson,Baker,12003,FL,12,30.21764047,-82.36717399,Miami
+BAKERFL,Baker County Detention Center,"1 Sheriff's Office Drive, Macclenny, FL 32063",Macclenny,Baker,12003,FL,12,30.29585011,-82.12157801,Miami
+BKLHOLD,Bakerfield Hold,,,,,CA,,,,
+BALDWAL,Baldwin County Correctional Center,"200 Hand Ave., Bay Minette, AL 36507",Bay Minette,Baldwin,01003,AL,01,30.88542951,-87.77481125,New Orleans
+BALHOLD,Baltimore Hold Room,"31 Hopkins Plaza 6th Floor, Baltimore, MD 21201",Baltimore,Baltimore,24510,MD,24,39.28809309,-76.61669655,Baltimore
+BIMDCAZ,Banner Ironwood Medical Center,"37000 N Gantzel Rd, Queen Creek, AZ 85140",Queen Creek,Pinal,04021,AZ,04,33.21459325,-111.5655306,Phoenix
+BNMCTAZ,Banner Medical Center Tucson,"1625 N Campbell Ave, Tucson, AZ 85719",Tucson,Pima,04019,AZ,04,32.24189358,-110.9463954,Phoenix
+BANHOAZ,Banner University Medical Phoenix,"1111 E Mcdowell Rd 11th Floor, Phoenix, AZ 85006",Phoenix,Maricopa,04013,AZ,04,33.46461231,-112.0596058,Phoenix
+BMCSATX,Baptist Medical Center,"111 Dallas Street, San Antonio, TX 78205",San Antonio,Bexar,48029,TX,48,29.4336342,-98.49266839,San Antonio
+BRLHOAK,Bartlett Regional Hospital,"3260 Hospital Dr, Juneau, AK 99801",Juneau,Juneau,02110,AK,02,58.32899842,-134.4646689,Seattle
+BARTOGA,Bartow County Jail,"104 Zena Dr, Cartersville, GA 30121",Cartersville,Bartow,13015,GA,13,34.19115492,-84.77817847,Atlanta
+CMDHOLD,Batavia Command Center Hold Room,,,,,NY,,,,
+BAYCOFL,Bay County,"5700 Star Lane, Panama City, FL 32404",Panama City,Bay,12005,FL,12,30.22608007,-85.56210812,Miami
+BAYAMPR,Bayamon Hospital,"100 Laurel Avenue, Bayamon, PR 00956",Bayamon,Bayamón,72021,PR,72,18.36788498,-66.15406202,Miami
+BSTAYTX,Baylor Scott White MD Center,"305 Mallard Ln, Taylor, TX 76574",Taylor,Williamson,48491,TX,48,30.59101955,-97.41537909,San Antonio
+BEDCITX,Bedford City Jail,"2121 L Don Dodson Drive, Bedford, TX 76021",Bedford,Tarrant,48439,TX,48,32.8421008,-97.13128261,Dallas
+BELCOTX,Bell County Jail,"1201 Huey Rd, Belton, TX 76513",Belton,Bell,48027,TX,48,31.03740252,-97.48836687,Houston
+BEHOSNY,"Bellevue Hospital, Manhattan","462 1st Avenue, New York, NY 10016",New York,New York,36061,NY,36,40.73954825,-73.97633468,New York City
+BERNANM,Bernalillo County Detention Center,"400 Roma Ave NW, Albuquerque, NM 87102",Albuquerque,Bernalillo,35001,NM,35,35.08924662,-106.650944,El Paso
+BIDHPMA,Beth Israel Deaconess Hospital,"275 Sandwich St, Plymouth, MA 02360",Plymouth,Plymouth,25023,MA,25,41.94299198,-70.64528011,Boston
+BSCHOLD,Big Spring Hold Room,,,,,TX,,,,
+BILHOLD,Billings Hold Room,,,,,MT,,,,
+BHMHOLD,Birmingham Hold Room,,,,,AL,,,,
+SPMHOLD,Bishop Henry Whipple Federal Building,"1 Federal Drive, Suite 1640, Fort Snelling, MN 55111",Fort Snelling,Hennepin,27053,MN,27,44.89410469,-93.19490987,St Paul
+BLOJVTN,Blount County Juvenile Detention Center,"329 Court St, Maryville, TN 37804",Maryville,Blount,47009,TN,47,35.75459515,-83.96930017,New Orleans
+BLBNATX,Bluebonnet Detention Facility,"400 2nd Street, Anson, TX 79501",Anson,Jones,48253,TX,48,32.76764511,-99.88808411,Dallas
+BOIHOLD,Boise Hold Room,,,,,ID,,,,
+BOONEKY,Boone County Jail,"3020 Conrad Lane, Burlington, KY 41005",Burlington,Boone,21015,KY,21,39.03647808,-84.72845962,Chicago
+BOSHOLD,Boston Hold Room,"1000 District Avenue, Burlington, MA 01803",Burlington,Middlesex,25017,MA,25,42.48263463,-71.20887224,Boston
+BPC,Boston Service Processing Center,"476-498 Hanover St Exd, Boston, MA 02109",Boston,Suffolk,25025,MA,25,42.36782376,-71.0520908,Boston
+BOURBKY,Bourbon County Detention Center,"101 Legion Rd, Paris, KY 40361",Paris,Bourbon,21017,KY,21,38.22415834,-84.24592753,Chicago
+BLGHOLD,Bowling Green Hold Room,,,,,KY,,,,
+BRDFDFL,Bradford County Jail,"945 N Temple Ave, Starke, FL 32091",Starke,Bradford,12007,FL,12,29.95411301,-82.10957797,Miami
+BREVDFL,Brevard County Jail Complex,"860 Camp Road, Cocoa, FL 32927",Cocoa,Brevard,12009,FL,12,28.44815289,-80.78176892,Miami
+BSAHOLD,Broadview Service Staging,"1930 Beach Street, Broadview, IL 60155",Broadview,Cook,17031,IL,17,41.86800572,-87.86604184,Chicago
+BROHOMI,Bronson Methodist Hospital,"601 John Street, Kalamazoo, MI 49007",Kalamazoo,Kalamazoo,26077,MI,26,42.28462557,-85.58040992,Detroit
+BROKSTX,Brooks County Detention Center,"901 County Road 201, Falfurrias, TX 78355",Falfurrias,Brooks,48047,TX,48,27.24768503,-98.12648551,Harlingen
+BROMMNY,Broome County Correctional Facility,"155 Lt. Vanwinkle Drive, Binghamton, NY 13905",Binghamton,Broome,36007,NY,36,42.13245472,-75.91667444,Buffalo
+BROJAFL,Broward County Jail,"555 SE 1st Avenue, Fort Lauderdale, FL 33301",Fort Lauderdale,Broward,12011,FL,12,26.11614231,-80.14209399,Miami
+BRGMCFL,Broward General Medical Center,"1600 South Andrews Avenue, Fort Lauderdale, FL 33316",Fort Lauderdale,Broward,12011,FL,12,26.10258902,-80.14083798,Miami
+WCCPBFL,Broward Transitional Center,"3900 N. Powerline Road, Pompano Beach, FL 33073",Pompano Beach,Broward,12011,FL,12,26.27717618,-80.15089668,Miami
+BROWNWI,Brown County Jail,"3030 Curry Ln, Green Bay, WI 54311",Green Bay,Brown,55009,WI,55,44.52205942,-87.93163593,Chicago
+BRWNSTX,Brownsville Police Department,"600 E Jackson St, Brownsville, TX 78520",Brownsville,Cameron,48061,TX,48,25.90787598,-97.49835599,Harlingen
+BRYANGA,Bryan County Jail,"95 Public Safety Way, Pembroke, GA 31321",Pembroke,Bryan,13029,GA,13,32.134516,-81.618418,Atlanta
+BTV,Buffalo (Batavia) Service Processing Center,"4250 Federal Drive, Batavia, NY 14020",Batavia,Genesee,36037,NY,36,43.0204479,-78.20212174,Buffalo
+BFLHPNY,Buffalo General Hospital,"100 High Street, Buffalo, NY 14203",Buffalo,Erie,36029,NY,36,42.90083971,-78.86576317,Buffalo
+BUFHOLD,Buffalo Hold Room,,,,,NY,,,,
+CBPHOLD,Buffalo USBP Hold Room,"300 Airborne Pkwy W #300, Cheektowaga, NY 14225",Cheektowaga,Erie,36029,NY,36,42.93765609,-78.71391502,Buffalo
+BURLEND,Burleigh County Detention Center,"4000 Apple Creek Road, Bismarck, ND 58504",Bismarck,Burleigh,38015,ND,38,46.79632959,-100.7263795,St Paul
+BURNETX,Burnet County Jail,"900 County Ln, Burnet, TX 78611",Burnet,Burnet,48053,TX,48,30.74152144,-98.2530483,San Antonio
+BUTLEOH,Butler County Sheriff’s Office,"705 Hanover Street, Hamilton, OH 45011",Hamilton,Butler,39017,OH,39,39.38790911,-84.55572745,Detroit
+CBPORIL,CBP O’Hare Airport Terminal 5 BC Ext,"1000 Bessie Coleman Drive, Chicago, IL 60666",Chicago,Cook,17031,IL,17,41.9747326,-87.89089245,Chicago
+CCANOOH,CCA Northeast OH Corrections,"2240 Hubbard Road, Youngstown, OH 44505",Youngstown,Mahoning,39099,OH,39,41.13134916,-80.63152281,Detroit
+MPSIPAN,CNMI Department of Corrections,"Tekken St, Susupe, Saipan, MP 96950","Susupe, Saipan",Saipan,69110,MP,69,15.1581786,145.7073558,San Francisco
+CBRRSNC,Cabarrus County Jail,"30 Corban Avenue SE, Concord, NC 28025",Concord,Cabarrus,37025,NC,37,35.40932859,-80.5779668,Atlanta
+CACHEUT,Cache County Jail,"1225 West Valley View (200 North), Logan, UT 84321",Logan,Cache,49005,UT,49,41.73712224,-111.8657437,Salt Lake City
+CALHOMI,Calhoun County Correctional Center,"185 E. Michigan Street, Battle Creek, MI 49014",Battle Creek,Calhoun,26025,MI,26,42.31641023,-85.17578658,Detroit
+CACTYCA,California City Detention Facility,"22844 Virginia Boulevard, California City, CA 93505",California City,Kern,06029,CA,06,35.15290316,-117.8589979,San Francisco
+CASPSAC,California State Prison-Sacramento,"100 Prison Road, Represa, CA 95671",Represa,Sacramento,06067,CA,06,38.7034219,-121.1604177,San Francisco
+CAMBRPA,"Cambria County Jail, PA","425 Manor Drive, Ebensburg, PA 15931",Ebensburg,Cambria,42021,PA,42,40.48440374,-78.70141182,Philadelphia
+CAMERTX,Cameron County Jail,"954 E. Harrison, Olmito, TX 78520",Olmito,Cameron,48061,TX,48,25.90778902,-97.49519098,Harlingen
+CPBDCKY,Campbell County Detention Center,"601 Central Avenue, Newport, KY 41071",Newport,Campbell,21037,KY,21,39.08871276,-84.49675045,Chicago
+CAMCOWY,Campbell County Jail,"600 West Boxelder, Gillette, WY 82718",Gillette,Campbell,56005,WY,56,44.2772226,-105.512222,Denver
+CARDFVA,Caroline Detention Facility,"11093 SW Lewis Memorial Dr, Bowling Green, VA 22427",Bowling Green,Caroline,51033,VA,51,38.11157798,-77.26714497,Washington
+CARROMD,Carroll County Detention Center,"100 North Court Street, Westminister, MD 21157",Westminister,Carroll,24013,MD,24,39.57217427,-76.98695782,Baltimore
+CGRMCAZ,Casa Grande Regional Medical Center,"1800 E. Florence Bl., Casa Grande, AZ 85222",Casa Grande,Pinal,04021,AZ,04,32.88130854,-111.7096158,Phoenix
+CASCAMT,"Cascade County Jail, MT","3800 Ulm North Frontage Road, Great Falls, MT 59404",Great Falls,Cascade,30013,MT,30,47.46905431,-111.3676879,Salt Lake City
+CSPHOLD,Casper Hold Room,,,,,WY,,,,
+CASSCND,Cass County Jail,"450 34th Street South, Fargo, ND 58103",Fargo,Cass,38017,ND,38,46.86958851,-96.83313991,St Paul
+CASSCNE,Cass County Jail,"336 Main Street, Plattsmouth, NE 68048",Plattsmouth,Cass,31025,NE,31,41.01179494,-95.88295697,St Paul
+CATAHLA,Catahoula Correctional Center,"499 Old Colombia Road, Harrisonburg, LA 71340",Harrisonburg,Catahoula,22025,LA,22,31.77501001,-91.83695296,New Orleans
+CCHRTTX,Cedar Crest Hospital Treat,"3500 I-35 Frontage Rd, Belton, TX 76513",Belton,Bell,48027,TX,48,31.0214428,-97.47648886,Houston
+CRIHOLD,Cedar Rapids Hold Room,,,,,IA,,,,
+CNTGRIL,Centegra Hospital,"3701 Doty St, Woodstock, IL 60098",Woodstock,McHenry,17111,IL,17,42.27548004,-88.40086099,Chicago
+CENTRVA,Centra Health,"1920 Atherholt Road, Lynchburg, VA 24501",Lynchburg,Lynchburg,51680,VA,51,37.41365911,-79.16925554,Washington
+CSSCHVA,Centra Southside Community Hospital,"800 Oak St, Farmville, VA 23901",Farmville,Prince Edward,51147,VA,51,37.30296686,-78.40435374,Washington
+CCRMHMN,Centracare Rice Memorial Hospital,"301 Becker Ave SW, Willmar, MN 56201",Willmar,Kandiyohi,27067,MN,27,45.11990989,-95.04560459,St Paul
+CCAFLAZ,Central Arizona Florence Correctional Center,"1100 Bowling Road, Florence, AZ 85132",Florence,Pinal,04021,AZ,04,33.0440833,-111.3717718,Phoenix
+CIPHOLD,Central Islip Hold Room,,,,,NY,,,,
+JENADLA,Central Louisiana ICE Processing Center,"830 Pinehill Road, Jena, LA 71342",Jena,LaSalle,22059,LA,22,31.70820361,-92.15343938,New Orleans
+CVREGVA,Central VA Regional Jail,"13021 James Madison Hwy, Orange, VA 22960",Orange,Orange,51137,VA,51,38.22745369,-78.11670861,Washington
+CVANXCA,Central Valley Annex,"254 Taylor Avenue, Mcfarland, CA 93250",Mcfarland,Kern,06029,CA,06,35.66815665,-119.2289669,San Francisco
+CNTRHWA,Central Washington Hospital,"1201 South Miller Street, Wenatchee, WA 98801",Wenatchee,Chelan,53007,WA,53,47.40723098,-120.3215965,Seattle
+CHMHOLD,Champlain Hold Room,,,,,NY,,,,
+CHANRAZ,Chandler Regional Medical Center,"1955 W Frye Rd, Chandler, AZ 85224",Chandler,Maricopa,04013,AZ,04,33.29759274,-111.8747923,Phoenix
+CHARLSC,Charleston County Correct,"3841 Leeds Ave, North Charleston, SC 29405",North Charleston,Charleston,45019,SC,45,32.84545105,-80.01354428,Atlanta
+CHLHOLD,"Charleston, SC Hold Room",,,,,SC,,,,
+CHAHOLD,Charlotte Amalie Hold Room,,,,,VI,,,,
+CHRLTFL,Charlotte County Jail,"26601 Airport Rd, Punta Gorda, FL 33982",Punta Gorda,Charlotte,12015,FL,12,26.91495297,-82.00683319,Miami
+CLTHOLD,Charlotte Hold Room,,,,,NC,,,,
+CHASEKS,Chase County Jail,"301 South Walnut, Cottonwood Falls, KS 66845",Cottonwood Falls,Chase,20017,KS,20,38.367077,-96.53842901,Chicago
+CHTHMGA,Chatham County Jail,"1050 Carl Griffin Drive, Savannah, GA 31405",Savannah,Chatham,13051,GA,13,32.06669031,-81.16763009,Atlanta
+CNGHOLD,Chattanooga Hold Room,,,,,TN,,,,
+CHAVENM,Chavez Detention Center,"3701 S Atkinson Ave, Roswell, NM 88203",Roswell,Chaves,35005,NM,35,33.35126736,-104.5055643,El Paso
+CHSPKVA,Chesapeake City Jail,"400 Albemarle Dr, Chesapeake, VA 23322",Chesapeake,Chesapeake,51550,VA,51,36.71921713,-76.24997269,Washington
+CHFLDVA,Chesterfield County Jail,"6900 Mimms Dr, Chesterfield, VA 23832",Chesterfield,Chesterfield,51041,VA,51,37.37892798,-77.50784406,Washington
+CHYHOLD,Cheyenne Hold Room,,,,,WY,,,,
+MDLNDNE,Chi Health Midlands Hospital,"11111 S 84th St, Papillion, NE 68046",Papillion,Sarpy,31153,NE,31,41.13572389,-96.04030382,St Paul
+CSLLFTX,Chi St. Luke’s HM Lufkin,"1201 W Frank Ave, Lufkin, TX 75904",Lufkin,Angelina,48005,TX,48,31.33659801,-94.74156698,Houston
+CHISLTX,Chi St. Luke’s Health Memorial,"1717 Hwy 59 Loop North, Livingston, TX 77351",Livingston,Polk,48373,TX,48,30.73109919,-94.93936652,Houston
+CHIHOLD,Chicago Hold Room,,,,,IL,,,,
+CHPHOVA,Chippenham Hospital - Richmond,"7101 Jahnke Rd, Richmond, VA 23225",Richmond,Richmond,51760,VA,51,37.51445053,-77.52573356,Washington
+CHIPPMI,Chippewa County Correctional Facility,"325 Court Street, Sault Sainte Marie, MI 49783",Sault Sainte Marie,Chippewa,26033,MI,26,46.49743168,-84.34560789,Detroit
+VTCHTDN,Chittenden Regional Correctional Facility,"7 Farrell Street, South Burlington, VT 05403",South Burlington,Chittenden,50007,VT,50,44.44639778,-73.20538039,Boston
+CHRISKY,Christian County Jail,"410 West 7th Street, Hopkinsville, KY 42240",Hopkinsville,Christian,21047,KY,21,36.86780594,-87.49036804,Chicago
+CHSRHTX,Christus Santa Rosa Hospital - Medical,"11212 State Highway 151, San Antonio, TX 78251",San Antonio,Bexar,48029,TX,48,29.46614798,-98.69730904,San Antonio
+CIBOCNM,Cibola County Correctional Center,"2000 Cibola Loop, Milan, NM 87021",Milan,Cibola,35006,NM,35,35.179948,-107.9073231,El Paso
+CIBOLNM,Cibola County Detention Center,"2000 Cibola Loop, Milan, NM 87021",Milan,Cibola,35006,NM,35,35.179948,-107.9073231,El Paso
+CIBOGNM,Cibola General Hospital,"1016 E Roosevelt Avenue, Grants, NM 87020",Grants,Cibola,35006,NM,35,35.16199028,-107.8271994,El Paso
+OKCIMMC,Cimarron Correctional Facility,"3200 S. Kings Hwy, Cushing, OK 74023",Cushing,Payne,40119,OK,40,35.94271099,-96.78172182,Dallas
+CINHOLD,Cincinnati Hold Room,,,,,OH,,,,
+CITRUFL,Citrus County Jail,"2604 W. Woodland Ridge Dr., Lecanto, FL 34461",Lecanto,Citrus,12017,FL,12,28.84512779,-82.47693927,Miami
+CLARKIN,Clark County Jail,"501 E Court Avenue Suite 159, Jeffersonville, IN 47130",Jeffersonville,Clark,18019,IN,18,38.27740338,-85.73700013,Chicago
+CLARKID,Clark County Jail (ID),"224 W Main St, Dubois, ID 83423",Dubois,Clark,16033,ID,16,44.1766347,-112.232917,Salt Lake City
+CLARKIA,Clarke County Sheriff,"220 Townline Rd, Osceola, IA 50213",Osceola,Clarke,19039,IA,19,41.04467609,-93.76335286,St Paul
+CLAYCIN,Clay County Jail,"611 East Jackson Street, Brazil, IN 47834",Brazil,Clay,18021,IN,18,39.52372922,-87.11907555,Chicago
+CLEHOLD,Cleveland Hold Room,,,,,OH,,,,
+CLINTPA,Clinton County Correctional Facility,"58 Pine Mountain Road, Mcelhattan, PA 17748",Mcelhattan,Clinton,42035,PA,42,41.15114278,-77.34937957,Philadelphia
+CLICONY,Clinton County Jail,"25 Mccarthy Drive, Plattsburgh, NY 12901",Plattsburgh,Clinton,36019,NY,36,44.7200284,-73.46672469,Buffalo
+CLINTIN,Clinton County Sheriff’s Office,"301 E Walnut Street, Frankfort, IN 46041",Frankfort,Clinton,18023,IN,18,40.27934622,-86.50903267,Chicago
+CBENDTX,Coastal Bend Detention Center,"4909 Fm2826, Robstown, TX 78380",Robstown,Nueces,48355,TX,48,27.73672232,-97.75480211,Harlingen
+COBBJGA,Cobb County Sheriffs Office Adult Detention Center,"1825 County Services Parkway, Marietta, GA 30060",Marietta,Cobb,13067,GA,13,33.90856554,-84.57997695,Atlanta
+COCONAZ,Coconino County Detention Facility,"951 E. Sawmill Rd, Flagstaff, AZ 86001",Flagstaff,Coconino,04005,AZ,04,35.18722484,-111.6411599,Phoenix
+COLLIFL,Collier County Sheriff,"3347 Tamiami Trail E, Naples, FL 34112",Naples,Collier,12021,FL,12,26.12969965,-81.76343194,Miami
+CODCCSP,Colorado Department of Corrections,"1250 Academy Park Loop, Colorado Springs, CO 80910",Colorado Springs,El Paso,08041,CO,08,38.81475392,-104.7586109,Denver
+CSDHOLD,Colorado Springs Den Homeland Security Investigations Hold,,,,,CO,,,,
+COLCASC,Columbia Care Center,"7901 Farrow Road, Columbia, SC 29203",Columbia,Richland,45079,SC,45,34.07857594,-80.97888153,Atlanta
+COLUMFL,Columbia County Jail,"389 NW Quinten St, Lake City, FL 32025",Lake City,Columbia,12023,FL,12,30.22030783,-82.64355617,Miami
+COAHOLD,"Columbia, SC Hold Room",,,,,SC,,,,
+CLMHOLD,Columbus Hold Room,,,,,OH,,,,
+CONHOTX,Connally Memorial Medical Center,"499 10th Street, Floresville, TX 78114",Floresville,Wilson,48493,TX,48,29.15866293,-98.17490198,San Antonio
+CCRMCCA,Contra Costa Regional Medical Center,"2500 Alhambra Ave, Martinez, CA 94553",Martinez,Contra Costa,06013,CA,06,38.00656485,-122.1329147,San Francisco
+AKCOOKI,"Cook Inlet Pretrial, Anchorage","1400 E 4th Ave, Anchorage, AK 99501",Anchorage,Anchorage,02020,AK,02,61.21861499,-149.8555073,Seattle
+LRDICDF,Corecivic Laredo Processing Center,"4702 East Saunders, Laredo, TX 78041",Laredo,Webb,48479,TX,48,27.52925759,-99.44856712,Harlingen
+WEBDCTX,Corecivic Webb County Detention Center,"9998 S. Highway 83, Laredo, TX 78046",Laredo,Webb,48479,TX,48,27.36981816,-99.49028435,Harlingen
+BTSHOMI,Corewell Health Gr Hospital-Butterworth,"100 Michigan St NE, Grand Rapids, MI 49503",Grand Rapids,Kent,26081,MI,26,42.9701578,-85.66538389,Detroit
+CRPHOLD,Corpus Christi EOR Hold Room,,,,,TX,,,,
+OHNORWE,Corrections Center of Northwest Ohio (CCNO),"3151 Co Rd 2425, Stryker, OH 43557",Stryker,Williams,39171,OH,39,41.45886276,-84.35734202,Detroit
+CHMCINY,Courthouse Usm Cntl Islip,"100 Federal Plaza, Central Islip, NY 11722",Central Islip,Suffolk,36103,NY,36,40.75988623,-73.1914954,New York City
+COXMEMO,Coxhealth Medical Center South,"3801 South National Ave., Springfield, MO 65807",Springfield,Greene,29077,MO,29,37.14577927,-93.27913576,Chicago
+CRGHOLD,Craig Hold Room,,,,,CO,,,,
+CROWGMN,Crow Wing County Jail,"313 Laurel Street, Brainerd, MN 56401",Brainerd,Crow Wing,27035,MN,27,46.35660921,-94.20530053,St Paul
+CRYCCTX,Crystal City Correctional Center,"5332 Us-83, Crystal City, TX 78839",Crystal City,Zavala,48507,TX,48,28.74688094,-99.84383177,San Antonio
+CULBETX,Culberson County Sheriff’s,"300 La Caverna, Van Horn, TX 79855",Van Horn,Culberson,48109,TX,48,31.04297641,-104.830544,El Paso
+CULPEVA,Culpeper County Adult Detention Center,"131 W. Cameron St., Culpeper, VA 22701",Culpeper,Culpeper,51047,VA,51,38.47401868,-77.99675084,Washington
+CUMBEME,Cumberland County Jail,"50 County Way, Portland, ME 04102",Portland,Cumberland,23005,ME,23,43.65117004,-70.28184004,Boston
+CURRYNM,Curry County Detention Facility,"801 Mitchell Street, Clovis, NM 88101",Clovis,Curry,35009,NM,35,34.40628552,-103.2062745,El Paso
+DSMCNTX,DSMC - Del Sol Medical Center,"10301 Gatewy Blvd W, El Paso, TX 79925",El Paso,El Paso,48141,TX,48,31.75681802,-106.349896,El Paso
+FLDADCI,Dade Correctional Institution,"19000 SW 377th St, Homestead, FL 33034",Homestead,Miami-Dade,12086,FL,12,25.41562701,-80.49991215,Miami
+DAKOTNE,Dakota County Jail,"1601 Broadway, Dakota City, NE 68731",Dakota City,Dakota,31043,NE,31,42.41607108,-96.41979172,St Paul
+HAILEID,Dale G Haile Detention Center,"219 N 12th Ave, Caldwell, ID 83605",Caldwell,Canyon,16027,ID,16,43.66575656,-116.6809993,Salt Lake City
+DALCOTX,Dallas County Jail - Lew Sterrett Justice Center,"111 West Commerce Street, Dallas, TX 75202",Dallas,Dallas,48113,TX,48,32.77824886,-96.81810609,Dallas
+DALHOLD,Dallas FO Hold,,,,,TX,,,,
+DAVIDTN,Davidson County Sheriff Department,"200 James Robertson Pkwy, Nashville, TN 37201",Nashville,Davidson,47037,TN,47,36.16785092,-86.77929975,New Orleans
+DVCSDKY,Daviess County Detention Center,"3337 Highway 144, Owensboro, KY 42303",Owensboro,Daviess,21059,KY,21,37.78675411,-87.07085722,Chicago
+DAVISUT,Davis County Jail,"800 West State Street, Farmington, UT 84025",Farmington,Davis,49011,UT,49,40.98053232,-111.9041646,Salt Lake City
+DEKALAL,Dekalb County Detention Center,"2801 Jordan Road, Fort Payne, AL 35968",Fort Payne,DeKalb,01049,AL,01,34.41817885,-85.77299638,New Orleans
+DLRHOLD,Del Rio Detention and Removal Operations Hold Room,,,,,TX,,,,
+DHDFNJ,Delaney Hall Detention Facility,"451 Doremus Avenue, Newark, NJ 07105",Newark,Essex,34013,NJ,34,40.71799741,-74.12833924,Newark
+DENICDF,Denver Contract Detention Facility (Aurora),"3130 North Oakland Street, Aurora, CO 80010",Aurora,Adams,08001,CO,08,39.76087267,-104.8491804,Denver
+DENVECO,Denver County Jail,"10500 East Smith Road, Denver, CO 80239",Denver,Denver,08031,CO,08,39.76797683,-104.8651715,Denver
+DNHMCCO,Denver Health Medical Center,"777 Bannock Street, Denver, CO 80204",Denver,Denver,08031,CO,08,39.72859471,-104.9910426,Denver
+DENHOLD,Denver Hold Room,"12445 East Caley Avenue, Centennial, CO 80111",Centennial,Arapahoe,08005,CO,08,39.60151617,-104.8449951,Denver
+DEPCOGU,Department of Corrections,"3 Mashburn Lane Off Dairy Rd, Mangilao, GU 96913",Mangilao,Guam,66010,GU,66,13.44905254,144.7869185,San Francisco
+DSMHOLD,Des Moines Hold Room,,,,,IA,,,,
+DSRTVCA,Desert Valley Hospital,"16850 Bear Valley Road, Victorville, CA 92395",Victorville,San Bernardino,06071,CA,06,34.47233814,-117.2976951,Los Angeles
+CADESVI,Desert View Annex,"10450 Rancho Road, Adelanto, CA 92301",Adelanto,San Bernardino,06071,CA,06,34.55929649,-117.4367633,Los Angeles
+DVHSPNV,Desert View Hospital,"360 South Lola Lane, Pahrump, NV 89048",Pahrump,Nye,32023,NV,32,36.21454178,-116.024896,Salt Lake City
+DETHOLD,Detroit Hold Room,,,,,MI,,,,
+BOPDEV,Devens Federal Medical Center,"42 Patton Rd, Devens, MA 01434",Devens,Worcester,25027,MA,25,42.52930037,-71.62304095,Boston
+OKDBACK,Diamondback Correctional Facility,"1000 Diamondback Road, Watonga, OK 73772",Watonga,Blaine,40011,OK,40,35.88435594,-98.39742583,Dallas
+TASTDTX,Dilley Immigration Processing Center,"300 El Rancho Way, Dilley, TX 78017",Dilley,Frio,48163,TX,48,28.65783248,-99.20043079,San Antonio
+DILLSAF,Dilley Processing Single Female,"300 El Rancho Way, Dilley, TX 78017",Dilley,Frio,48163,TX,48,28.65845409,-99.20087844,San Antonio
+DODGEWI,Dodge Detention Facility,"216 W. Center Street, Juneau, WI 53039",Juneau,Dodge,55027,WI,55,43.40726386,-88.70645613,Chicago
+DONAANM,Dona Ana County Detention Center,"1850 Copper Loop, Las Cruces, NM 88004",Las Cruces,Doña Ana,35013,NM,35,32.30278652,-106.8058217,El Paso
+DORCDSC,Dorchester County Detention Center,"220 Hodge Road, Summerville, SC 29483",Summerville,Dorchester,45035,SC,45,33.05753131,-80.22068583,Atlanta
+DOUGLCO,Douglas County Detention Center,"4000 Justice Way, Castle Rock, CO 80109",Castle Rock,Douglas,08035,CO,08,39.40231655,-104.8640292,Denver
+DOUGLWI,Douglas County Jail,"1316 N 14th St, Superior, WI 54880",Superior,Douglas,55031,WI,55,46.72168099,-92.09838796,Chicago
+DVDHOLD,Dover Hold Room,,,,,DE,,,,
+DURHOLD,Durango Hold Room,"32 Sheppard Drive, Durango, CO 81303",Durango,La Plata,08067,CO,08,37.2371465,-107.8742502,Denver
+EPCPCTX,EGP CPC Holding,"2285 Del Rio Blvd, Eagle Pass, TX 78852",Eagle Pass,Maverick,48323,TX,48,28.73532285,-100.4970642,San Antonio
+EHDLGTX,East Hidalgo Detention Center,"1300 E Hwy 107, La Villa, TX 78562",La Villa,Hidalgo,48215,TX,48,26.29458408,-97.91891532,Harlingen
+WVEASTR,Eastern Regional Jail,"94 Grapevine Rd, Martinsburg, WV 25405",Martinsburg,Berkeley,54003,WV,54,39.43592522,-77.9563675,Philadelphia
+ECLECTX,Ector County LEC,"2500 S Hwy 385, Odessa, TX 79762",Odessa,Ector,48135,TX,48,31.82035687,-102.3584451,El Paso
+EDNDCTX,Eden Detention Center,"704 E Broadway Street, Eden, TX 76837",Eden,Concho,48095,TX,48,31.21636286,-99.8344809,Dallas
+EDNBGTX,Edinburg Police Department,"1702 S. Closner Blvd, Edinburg, TX 78539",Edinburg,Hidalgo,48215,TX,48,26.28568427,-98.16455695,Harlingen
+ECRMCCA,El Centro Regional Medical Center,"1415 Ross Ave, El Centro, CA 92243",El Centro,Imperial,06025,CA,06,32.78045379,-115.5685204,San Diego
+ECC,El Centro Service Processing Center,"1115 North Imperial Avenue, El Centro, CA 92243",El Centro,Imperial,06025,CA,06,32.80276824,-115.5696689,San Diego
+EPBHSTX,El Paso Behavioral Health System,"1900 Denver Ave, El Paso, TX 79902",El Paso,El Paso,48141,TX,48,31.78063671,-106.4759787,El Paso
+EPCDFTX,El Paso County Detention Facility,"601 E. Overland, El Paso, TX 79901",El Paso,El Paso,48141,TX,48,31.75845584,-106.4831359,El Paso
+ELPCOTX,El Paso County Jail (TX),"12501 Montana Ave, El Paso, TX 79938",El Paso,El Paso,48141,TX,48,31.81069299,-106.254221,El Paso
+EPLTATX,El Paso LTAC Hospital,"1221 N Cotton St, El Paso, TX 79902",El Paso,El Paso,48141,TX,48,31.7837106,-106.4741601,El Paso
+EPC,El Paso Service Processing Center,"8915 Montana Avenue, El Paso, TX 79925",El Paso,El Paso,48141,TX,48,31.79376201,-106.3692084,El Paso
+EPCJUVI,El Paso Service Processing Center Juvenile,"8915 Montana St., El Paso, TX 79925",El Paso,El Paso,48141,TX,48,31.79376201,-106.3692084,El Paso
+EPSSFTX,El Paso Soft Sided Facility,"12501 Gateway Blvd S, El Paso, TX 79934",El Paso,El Paso,48141,TX,48,31.97015456,-106.3720369,El Paso
+ELVDFTX,El Valle Detention Facility,"1800 Industrial Drive, Raymondville, TX 78580",Raymondville,Willacy,48489,TX,48,26.46728403,-97.76164364,Harlingen
+ELZICDF,Elizabeth Contract Detention Facility,"625 Evans Street, Elizabeth, NJ 07201",Elizabeth,Union,34039,NJ,34,40.66622291,-74.18880208,Newark
+ELMORID,Elmore County Detention Center (Elmore County Jail),"2255 East 8th North, Mountain Home, ID 83647",Mountain Home,Elmore,16039,ID,16,43.13685038,-115.6731791,Salt Lake City
+EAZ,Eloy Detention Center,"1705 E Hanna Road, Eloy, AZ 85131",Eloy,Pinal,04021,AZ,04,32.81759501,-111.5223773,Phoenix
+CHSHOLD,Enforcement and Removal Operations Charleston WV Hold Room,,,,,WV,,,,
+EROFCB,Enforcement and Removal Operations El Paso Camp East Montana,"6920 Digital Road, El Paso, TX 79936",El Paso,El Paso,48141,TX,48,31.811927,-106.2981181,El Paso
+SPGHOLD,Enforcement and Removal Operations Hold Room (Springfield MO),,,,,MO,,,,
+HHWHOLD,Enforcement and Removal Operations Honolulu Sub-Office Hold Room,"595 Ala Moana Boulevard, Honolulu, HI 96813",Honolulu,Honolulu,15003,HI,15,21.29993808,-157.8638846,San Francisco
+ENLMCCA,Enloe Medical Center,"1531 Esplanade Magnolia Ave, Chico, CA 95926",Chico,Butte,06007,CA,06,39.74216367,-121.8498751,San Francisco
+ERICOPA,"Erie County Jail, PA","1618 Ash Street, Erie, PA 16503",Erie,Erie,42049,PA,42,42.123738,-80.06654004,Philadelphia
+ECMCBNY,Erie County Medical Center,"462 Grider Street, Buffalo, NY 14215",Buffalo,Erie,36029,NY,36,42.92694678,-78.83100577,Buffalo
+ESKHLIN,Eskenazi Health,"720 Eskenazi Avenue, Indianapolis, IN 46202",Indianapolis,Marion,18097,IN,18,39.77822865,-86.18412848,Chicago
+ESSEXNJ,Essex County Jail,"354 Doremus Avenue, Newark, NJ 07105",Newark,Essex,34013,NJ,34,40.72104059,-74.12687828,Newark
+ESSEXMA,"Essex County Jail, Middleton","20 Manning Ave, Middleton, MA 01949",Middleton,Essex,25009,MA,25,42.59770873,-70.98647059,Boston
+ETOWAAL,Etowah County Jail (AL),"827 Forrest Avenue, Gadsden, AL 35901",Gadsden,Etowah,01055,AL,01,34.01639458,-86.01248822,New Orleans
+ETWHOLD,Etowah Enforcement and Removal Operations Hold Room,,,,,AL,,,,
+EUGHOLD,Eugene Hold Room,"211 East 7th Avenue Suite 120, Eugene, OR 97401",Eugene,Lane,41039,OR,41,44.05267406,-123.0893703,Seattle
+FCLT8CA,Facility 8 Detention Facility,"446 Alta Rd. Suite 5300, San Diego, CA 92158",San Diego,San Diego,06073,CA,06,32.5919577,-116.9241024,San Diego
+AKFAIRB,Fairbanks Correctional Center,"1931 Eagan Street, Fairbanks, AK 99701",Fairbanks,Fairbanks North Star,02090,AK,02,64.83352041,-147.7594745,Seattle
+FRMVLVA,Farmville Detention Center,"508 Waterworks Road, Farmville, VA 23901",Farmville,Prince Edward,51147,VA,51,37.32057983,-78.44092758,Washington
+FAYETKY,Fayette County Detention Center,"600 Old Frankford Cr, Lexington, KY 40510",Lexington,Fayette,21067,KY,21,38.06563162,-84.54514102,Chicago
+FAYHOLD,Fayetteville Hold Room,,,,,AR,,,,
+BOPBER,"Federal Correctional Institution - Berlin, NH","1 Success Loop Rd, Berlin, NH 03570",Berlin,Coos,33007,NH,33,44.52185389,-71.13753068,Boston
+BOPATL,Federal Correctional Institution Atlanta,"601 Mcdonough Blvd SE, Atlanta, GA 30315",Atlanta,Fulton,13121,GA,13,33.71244414,-84.36793535,Atlanta
+BOPLVN,Federal Correctional Institution Leavenworth,"1300 Metropolitan, Leavenworth, KS 66048",Leavenworth,Leavenworth,20103,KS,20,39.32984997,-94.93635042,Chicago
+BOPLEW,Federal Correctional Institution Lewisburg,"2400 Robert F. Miller Drive, Lewisburg, PA 17837",Lewisburg,Union,42119,PA,42,40.98668294,-76.91495825,Philadelphia
+BOPVIM,Federal Correctional Institution Victorville,"13777 Air Expy, Victorville, CA 92394",Victorville,San Bernardino,06071,CA,06,34.56928952,-117.3588767,Los Angeles
+BOPMIM,Federal Detention Center Miami,"33 NE 4th Street, Miami, FL 33132",Miami,Miami-Dade,12086,FL,12,25.77846074,-80.19313158,Miami
+BOPPHL,Federal Detention Center Philadelphia,"700 Arch Street, Philadelphia, PA 19106",Philadelphia,Philadelphia,42101,PA,42,39.95254135,-75.1520479,Philadelphia
+BOPHON,"Federal Detention Center, Honolulu (Federal Detention Center Honolulu)","351 Elliott Street, Honolulu, HI 96819",Honolulu,Honolulu,15003,HI,15,21.33362931,-157.9283142,San Francisco
+FDLHOLD,Ferndale Hold Room,,,,,WA,,,,
+FINNEKS,Finney County Jail,"304 N. 9th Street, Garden City, KS 67846",Garden City,Finney,20055,KS,20,37.96750455,-100.8761009,Chicago
+FLGLRFL,Flagler County Detention Facility,"1002 Justice Ln, Bunnell, FL 32110",Bunnell,Flagler,12035,FL,12,29.45239462,-81.2561631,Miami
+FLORHAZ,Florence Hospital,"4545 N Hunt Hwy, Florence, AZ 85132",Florence,Pinal,04021,AZ,04,33.07326552,-111.4856323,Phoenix
+FLO,Florence Service Processing Center,"3250 N. Pinal Parkway, Florence, AZ 85132",Florence,Pinal,04021,AZ,04,33.0642139,-111.38242,Phoenix
+FSF,Florence Staging Facility,"3250 North Pinal Parkway, Florence, AZ 85132",Florence,Pinal,04021,AZ,04,33.06411191,-111.3805116,Phoenix
+FLDSSFS,Florida Soft Sided Facility South,"54575 Tamiami Trail E, Ochopee, FL 34141",Ochopee,Collier,12021,FL,12,25.86545815,-80.89870829,Miami
+FLOYDGA,Floyd County Jail,"2526 New Calhoun Hwy, Rome, GA 30161",Rome,Floyd,13115,GA,13,34.28002514,-85.14154059,Atlanta
+FIPCDGA,Folkston D Ray ICE Processing Center,"3026 Hwy 252 E, Folkston, GA 31537",Folkston,Charlton,13049,GA,13,30.87362191,-81.97934365,Atlanta
+FIPCAGA,Folkston ICE Processing Center (Annex),"3424 Hwy 252 E, Folkston, GA 31537",Folkston,Charlton,13049,GA,13,30.8712568,-81.98107709,Atlanta
+FIPCMGA,Folkston ICE Processing Center (Main),"3026 Hwy 252 E, Folkston, GA 31537",Folkston,Charlton,13049,GA,13,30.87210016,-81.98234889,Atlanta
+FNDDUWI,Fond Du Lac County Sheriff/Jail,"63 Western Ave, Fond Du Lac, WI 54935",Fond Du Lac,Fond du Lac,55039,WI,55,43.77359905,-88.44861093,Chicago
+FLBHCFL,Fort Lauderdale Behavor Health Center,"5757 N Dixie Hwy, Oakland Park, FL 33334",Oakland Park,Broward,12011,FL,12,26.19754928,-80.13333978,Miami
+FLHOSFL,Fort Lauderdale Hospital,"1516 E Las Olas Blvd, Fort Lauderdale, FL 33301",Fort Lauderdale,Broward,12011,FL,12,26.11962096,-80.12701547,Miami
+FMYHOLD,Fort Myers Enforcement and Removal Operations Hold Room,,,,,FL,,,,
+FSAHOLD,Fort Smith Hold Room,,,,,AR,,,,
+FRANKNC,Franklin County Detention Center,"285 T Kemp Rd, Louisburg, NC 27549",Louisburg,Franklin,37069,NC,37,36.09447504,-78.31954212,Atlanta
+FRANKPA,Franklin County Jail,"1804 Opportunity Avenue, Chambersburg, PA 17201",Chambersburg,Franklin,42055,PA,42,40.00173579,-77.64437253,Philadelphia
+GREENMA,Franklin House of Corrections,"160 Elm Street, Greenfield, MA 01301",Greenfield,Franklin,25011,MA,25,42.59672867,-72.61310111,Boston
+FRDHOLD,Frederick Hold Room,,,,,CO,,,,
+FREEBMN,Freeborn County Jail Services,"411 S. Broadway Avenue, Albert Lea, MN 56007",Albert Lea,Freeborn,27047,MN,27,43.64599669,-93.36810296,St Paul
+FREHOLD,Fresno Hold Room,,,,,CA,,,,
+FRIRHTX,Frio Regional Hospital,"200 Ih 35 South, Pearsall, TX 78061",Pearsall,Frio,48163,TX,48,28.89634801,-99.11726803,San Antonio
+FULCJIN,Fulton County Jail Indiana,"2006 Sweetgum Rd, Rochester, IN 46975",Rochester,Fulton,18049,IN,18,41.05192359,-86.23201245,Chicago
+GCPFCKS,Garden City Processing @ Finney County,"304 N. 9th St, Garden City, KS 67846",Garden City,Finney,20055,KS,20,37.96750455,-100.8761009,Chicago
+GARVIOK,Garvin County Jail,"201 West Grant Avenue, Pauls Valley, OK 73075",Pauls Valley,Garvin,40049,OK,40,34.74063838,-97.22216046,Dallas
+GASTNNC,Gaston County Jail,"425 Dr M.l.k. Jr. Way, Gastonia, NC 28052",Gastonia,Gaston,37071,NC,37,35.26751035,-81.18343961,Atlanta
+GEAUGOH,Geauga County Safety Center,"12450 Merritt Road, Chardon, OH 44024",Chardon,Geauga,39055,OH,39,41.50465415,-81.19159051,Detroit
+IAHSFTX,George Bush Intercontinental,"2800 N. Terminal Road, Houston, TX 77032",Houston,Harris,48201,TX,48,29.98707572,-95.35055977,Houston
+GRGBVTX,Georgetown Behavioral Hospital,"3101 S Austin Ave, Georgetown, TX 78626",Georgetown,Williamson,48491,TX,48,30.61487888,-97.68066012,San Antonio
+GLADEFL,Glades County Detention Center,"1297 East Sr 78, Moore Haven, FL 33471",Moore Haven,Glades,12043,FL,12,26.838751,-81.124787,Miami
+GLEPDCA,Glendale Police Department,"131 North Isabel Street, Glendale, CA 91206",Glendale,Los Angeles,06037,CA,06,34.147493,-118.249203,Los Angeles
+GSCHOLD,Glenwood Springs Hold Room,"100 Midland Avenue Suite 210, Glenwood Springs, CO 81601",Glenwood Springs,Garfield,08045,CO,08,39.55820977,-107.3583702,Denver
+GLDSACA,Golden State Annex,"611 Frontage Road, Mcfarland, CA 93250",Mcfarland,Kern,06029,CA,06,35.66990008,-119.2278086,San Francisco
+GCLECOK,Grady County Law Enforcement Center,"215 N 3rd St., Chickasha, OK 73018",Chickasha,Grady,40051,OK,40,35.05318999,-97.93638,Dallas
+GMHATGA,Grady Memorial Hospital,"80 Jessie Hill Jr Dr SE, Atlanta, GA 30303",Atlanta,Fulton,13121,GA,13,33.75168214,-84.38198619,Atlanta
+GFCORND,Grand Forks County Correctional Center,"1701 N Washington St, Grand Forks, ND 58203",Grand Forks,Grand Forks,38035,ND,38,47.93548832,-97.05764256,St Paul
+GFJUVND,Grand Forks County Juvenile,"1701 N Washington St, Grand Forks, ND 58203",Grand Forks,Grand Forks,38035,ND,38,47.93548832,-97.05764256,St Paul
+GRFHOLD,Grand Forks Hold Room,,,,,ND,,,,
+GRIHOLD,Grand Island Hold Room,,,,,NE,,,,
+GJCHOLD,Grand Junction Hold Room,,,,,CO,,,,
+GRMHOLD,Grand Rapids Hold Room,,,,,MI,,,,
+GRAYSKY,Grayson County Detention Center,"320 Shaw Station Road, Leitchfield, KY 42754",Leitchfield,Grayson,21085,KY,21,37.48915122,-86.27020937,Chicago
+NYGREAC,Great Meadow CF,"11739 Ny-22, Comstock, NY 12821",Comstock,Washington,36115,NY,36,43.45731043,-73.43266846,Buffalo
+GREENMO,Greene County Jail,"1199 N Haseltine Road, Springfield, MO 65802",Springfield,Greene,29077,MO,29,37.22469887,-93.38645019,Chicago
+GRRHOLD,Greer Hold Room,,,,,SC,,,,
+GUDOCHG,"Guam Department of Corrections, Hagatna Detention Facility","211 Aspinall Ave, Hagatna, GU 96910",Hagatna,Guam,66010,GU,66,13.4743782,144.7501207,San Francisco
+GUAMHGU,Guam Memorial Hospital,"850 Gov Carlos G Camacho Rd., Tamuning, GU 96913",Tamuning,Guam,66010,GU,66,13.50496171,144.7746424,San Francisco
+BOPGUA,Guaynabo MDC (San Juan),"652 Carretera 28, Guaynabo, PR 00965",Guaynabo,Guaynabo,72061,PR,72,18.42143101,-66.11932498,Miami
+CKHOSFL,HCA Florida Kendall Hospital,"11750 SW 40th Street, Miami, FL 33175",Miami,Miami-Dade,12086,FL,12,25.7308993,-80.38543608,Miami
+HCAFMFL,HCA Florida Memorial Hospital,"3625 University Blvd S, Jacksonville, FL 32216",Jacksonville,Duval,12031,FL,12,30.28875772,-81.60115746,Miami
+HCAHCTX,HCA Houston Healthcare Conroe,"504 Medical Center Blvd, Conroe, TX 77304",Conroe,Montgomery,48339,TX,48,30.28417928,-95.46825041,Houston
+HALLJGA,Hall County Jail,"1700 Barber Road, Gainesville, GA 30507",Gainesville,Hall,13139,GA,13,34.23860701,-83.81286502,Atlanta
+HASHENE,Hall County Sheriff,"110 Public Safety Drive, Grand Island, NE 68801",Grand Island,Hall,31079,NE,31,40.92663446,-98.32841385,St Paul
+HAMILTN,Hamilton County Jail (Tenn),"1600 East 3rd Street, Chattanooga, TN 37404",Chattanooga,Hamilton,47065,TN,47,35.04172975,-85.27639879,New Orleans
+HCPSCMS,Hancock County Public Safety Complex,"8450 Highway 90, Bay Saint Louis, MS 39520",Bay Saint Louis,Hancock,28045,MS,28,30.30312418,-89.47651733,New Orleans
+HARDEFL,Hardee County Jail,"900 E Summit St, Wauchula, FL 33873",Wauchula,Hardee,12049,FL,12,27.54292218,-81.8022425,Miami
+HARDJIA,Hardin County Jail,"1116 14th Avenue, Eldora, IA 50627",Eldora,Hardin,19083,IA,19,42.36007804,-93.09753119,St Paul
+HLGHOLD,Harlingen Hold Room,,,,,TX,,,,
+HMCHOTX,Harlingen Medical Center,"5501 S Expressway 77/83, Harlingen, TX 78550",Harlingen,Cameron,48061,TX,48,26.15745,-97.67529998,Harlingen
+HRLGNTX,Harlingen Police Department,"1018 Fair Park Boluverd, Harlingen, TX 78550",Harlingen,Cameron,48061,TX,48,26.20035,-97.70541599,Harlingen
+HCPSYTX,Harris County Psychiatric Center,"2800 S Macgregor Way, Houston, TX 77021",Houston,Harris,48201,TX,48,29.71223932,-95.37435583,Houston
+HHBTHTX,Harris Health Ben Taub Hospital,"1504 Ben Taub Loop, Houston, TX 77030",Houston,Harris,48201,TX,48,29.71117201,-95.39405699,Houston
+LBJHSTX,Harris Health LBJ Hospital,"5656 Kelley St, Houston, TX 77026",Houston,Harris,48201,TX,48,29.81192802,-95.31240602,Houston
+HARRIMS,Harrison Detention Center,"10451 Larkin Smith Dr, Gulfport, MS 39503",Gulfport,Harrison,28047,MS,28,30.43920191,-89.0546797,New Orleans
+HBGHOLD,Harrisonburg Hold Room,,,,,VA,,,,
+HARFOCT,Hartford Correctional Center,"177 Weston Street, Hartford, CT 06120",Hartford,Capitol,09110,CT,09,41.79372102,-72.66131701,Boston
+HARHOLD,Hartford Office,,,,,CT,,,,
+HELHOLD,Hel District Custody,,,,,MT,,,,
+HENDENC,Henderson County Detention Facility,"375 1st Avenue East, Hendersonville, NC 28792",Hendersonville,Henderson,37089,NC,37,35.3158728,-82.45598946,Atlanta
+HENDENV,Henderson Detention Center,"18 E. Basic Road, Henderson, NV 89015",Henderson,Clark,32003,NV,32,36.03059098,-114.979471,Salt Lake City
+HDHSPNV,Henderson Hospital,"1050 West Galleria Drive, Henderson, NV 89011",Henderson,Clark,32003,NV,32,36.07266562,-115.0306285,Salt Lake City
+HENHOLD,Hendersonville Hold Room,,,,,NC,,,,
+HNDMCTX,Hendrick Medical Center,"1900 Pine St, Abilene, TX 79601",Abilene,Taylor,48441,TX,48,32.47216534,-99.73381326,Dallas
+HENDRFL,Hendry County Jail,"101 South Bridge Street, Labelle, FL 33935",Labelle,Hendry,12051,FL,12,26.76036583,-81.43670544,Miami
+HCMCMMN,Hennepin County Medical Center,"730 S 8th St, Minneapolis, MN 55415",Minneapolis,Hennepin,27053,MN,27,44.97210379,-93.2624106,St Paul
+HENRIVA,Henrico County Jail,"17320 New Kent Hwy, Barhamsville, VA 23011",Barhamsville,New Kent,51127,VA,51,37.49537919,-76.86187099,Washington
+HERNAFL,Hernando County Jail,"16425 Spring Hill Drive, Brooksville, FL 34604",Brooksville,Hernando,12053,FL,12,28.48386776,-82.45172885,Miami
+HIDALNM,Hidalgo County Detention Center,"83 Old Highway 70, Lordsburg, NM 88045",Lordsburg,Hidalgo,35023,NM,35,32.33784165,-108.6661874,El Paso
+HIDALTX,Hidalgo County Sheriff’s Jail,"701 E El Cibolo Rd, Edinburg, TX 78541",Edinburg,Hidalgo,48215,TX,48,26.416844,-98.12778001,Harlingen
+AKHIGHL,Highland Mtn Correctional Center,"9101 Hesterberg Road, Eagle River, AK 99577",Eagle River,Anchorage,02020,AK,02,61.30306602,-149.581249,Seattle
+HGHBECO,Highlands Behavioral Health,"8565 Poplar Way, Littleton, CO 80130",Littleton,Douglas,08035,CO,08,39.56277988,-104.9076912,Denver
+HICOJFL,Hillsborough County Jail,"1201 North Orient Road, Tampa, FL 33619",Tampa,Hillsborough,12057,FL,12,27.95903699,-82.37143098,Miami
+HPKNSKY,Hopkins County Jail,"2250 Laffoon Trl, Madisonville, KY 42431",Madisonville,Hopkins,21107,KY,21,37.33759615,-87.53993367,Chicago
+HOUICDF,Houston Contract Detention Facility,"15850 Export Plaza Drive, Houston, TX 77032",Houston,Harris,48201,TX,48,29.95053796,-95.31222371,Houston
+HOUHOLD,Houston Field Office Hold Room,"126 Northpoint Drive, Houston, TX 77060",Houston,Harris,48201,TX,48,29.93757547,-95.40639406,Houston
+HHCHKTX,Houston Healthcare Hospital,"22999 Us-59n, Kingwood, TX 77339",Kingwood,Montgomery,48339,TX,48,30.04814462,-95.25505479,Houston
+HUDSONJ,Hudson County Jail,"35 Hackensack Ave., Kearny, NJ 07032",Kearny,Hudson,34017,NJ,34,40.72807538,-74.10842526,Newark
+POLKCTX,IAH Polk Adult Detention Facility,"3400 Fm 350 South, Livingston, TX 77351",Livingston,Polk,48373,TX,48,30.69789175,-95.00594905,Houston
+IFIHOLD,Idaho Falls Hold Room,,,,,ID,,,,
+IMPCOCA,Imperial County Jail,"1115 N Imperial Ave, El Centro, CA 92243",El Centro,Imperial,06025,CA,06,32.80312376,-115.5690025,San Diego
+IRADFCA,Imperial Regional Detention Facility,"1572 Gateway Road, Calexico, CA 92231",Calexico,Imperial,06025,CA,06,32.69075498,-115.39788,San Diego
+IMPHOLD,Imperial Sub Office Hold Room,"2051 North Waterman Avenue Suite 101, El Centro, CA 92243",El Centro,Imperial,06025,CA,06,32.81319479,-115.572837,San Diego
+INPHOLD,Indianapolis Hold Room,,,,,IN,,,,
+INDMPIN,Indianapolis Metropolitan PD,"50 Alabama St, Indianapolis, IN 46204",Indianapolis,Marion,18097,IN,18,39.76795998,-86.15298996,Chicago
+INTEGOK,Integris Health Baptist Medical,"5501 N. Portland, Oklahoma City, OK 73112",Oklahoma City,Oklahoma,40109,OK,40,35.52676999,-97.58462698,Dallas
+IRWINGA,Irwin County Detention Center,"132 Cotton Drive, Ocilla, GA 31774",Ocilla,Irwin,13155,GA,13,31.57992901,-83.25533301,Atlanta
+JFKTSNY,JFK International Airport - T7,"Terminal 7, Jamaica, NY 11430",Jamaica,Queens,36081,NY,36,40.6495293,-73.7828736,New York City
+JHRWLTX,Jack Harwell Detention Center,"3101 Marlin Hwy, Waco, TX 76705",Waco,McLennan,48309,TX,48,31.54918377,-97.08131943,Houston
+JAKHOLD,Jackson MS Hold Room,,,,,MS,,,,
+JMHOSFL,Jackson Memorial Hospital,"1611 N.w. 12th Ave, Miami, FL 33136",Miami,Miami-Dade,12086,FL,12,25.79112433,-80.21207435,Miami
+JKPCCLA,Jackson Parish Correctional Center,"327 Industrial Drive, Jonesboro, LA 71251",Jonesboro,Jackson,22049,LA,22,32.21524643,-92.71586213,New Orleans
+JAXHOLD,Jacksonville Sub-Office,"13077 Veveras Drive, Jacksonville, FL 32258",Jacksonville,Duval,12031,FL,12,30.13257185,-81.51262118,Miami
+JHMCJNY,Jamaica Hospital Medical Center,"8900 Van Wyck Expwy, Richmond Hill, NY 11418",Richmond Hill,Queens,36081,NY,36,40.70025598,-73.81621603,New York City
+JEFFEID,Jefferson County Jail,"200 Courthouse Way, Rigby, ID 83442",Rigby,Jefferson,16051,ID,16,43.67344981,-111.9112013,Salt Lake City
+JCRLYTX,Joe Corley Processing Center,"500 Hilbig Road, Conroe, TX 77301",Conroe,Montgomery,48339,TX,48,30.33580401,-95.448276,Houston
+JOPSHTX,John Peter Smith Hospital,"1500 S Main St, Fort Worth, TX 76104",Fort Worth,Tarrant,48439,TX,48,32.7272171,-97.32722301,Dallas
+JMTHOVA,Johnston Memorial Hospital,"16000 Johnston Memorial Drive, Abingdon, VA 24211",Abingdon,Washington,51191,VA,51,36.72304096,-81.9119617,Washington
+KANDIMN,Kandiyohi County Jail,"2201 23rd St. NE, Willmar, MN 56201",Willmar,Kandiyohi,27067,MN,27,45.14587401,-95.01397397,St Paul
+KANHOLD,Kansas City Hold Room,,,,,MO,,,,
+KCCDCTX,Karnes County Civil Detention Facility,"409 Fm 1144, Karnes City, TX 78118",Karnes City,Karnes,48255,TX,48,28.88474485,-97.91519074,San Antonio
+KARNETX,Karnes County Correctional Center,"810 Commerce Street, Karnes City, TX 78118",Karnes City,Karnes,48255,TX,48,28.883469,-97.9117849,San Antonio
+KRNRCTX,Karnes County Residential Center2,"409 Fm 1144, Karnes City, TX 78118",Karnes City,Karnes,48255,TX,48,28.88474485,-97.91519074,San Antonio
+KFMANTX,Kaufman County Detention Center,"1900 East Us Highway 175, Kaufman, TX 75142",Kaufman,Kaufman,48257,TX,48,32.55974919,-96.29438571,Dallas
+KCOJFOK,Kay County Detention Center,"1101 West Dry Road, Newkirk, OK 74647",Newkirk,Kay,40071,OK,40,36.86793116,-97.06958376,Dallas
+KENMHNY,Kenmore Mercy Hospital,"2950 Elmwood Avenue, Kenmore, NY 14217",Kenmore,Erie,36029,NY,36,42.97766249,-78.87934353,Buffalo
+KENTOKY,Kenton County Detention Center,"3000 Decker Crane Lane, Covington, KY 41017",Covington,Kenton,21117,KY,21,39.00247471,-84.53050924,Chicago
+KERCOCA,Kern County Jail (Lerdo),"17645 Industrial Farm Rd, Bakersfield, CA 93308",Bakersfield,Kern,06029,CA,06,35.51071001,-119.1104,San Francisco
+KERNHCA,Kern Medical Hospital,"1700 Mount Vernon Ave, Bakersfield, CA 93306",Bakersfield,Kern,06029,CA,06,35.38252331,-118.9706301,San Francisco
+AKKETCH,Ketchikan Regional Correctional Institution,"1201 Schoenbar Road, Ketchikan, AK 99901",Ketchikan,Ketchikan Gateway,02130,AK,02,55.34834118,-131.6493069,Seattle
+KINNETX,Kinney County Jail,"109 North Street, Brackettville, TX 78832",Brackettville,Kinney,48271,TX,48,29.31147722,-100.4178534,San Antonio
+KNXDFTN,Knox County Detention Facility,"5001 Maloneyville Rd, Knoxville, TN 37918",Knoxville,Knox,47093,TN,47,36.08502499,-83.84114322,New Orleans
+KNXHOLD,Knoxville Hold Room,,,,,TN,,,,
+KODIAAK,Kodiak City Jail,"2160 Mill Bay Rd, Kodiak, AK 99615",Kodiak,Kodiak Island,02150,AK,02,57.80475301,-152.3726919,Seattle
+KROHOLD,Krome Hold Room,,,,,FL,,,,
+KRO,Krome North Service Processing Center,"18201 SW 12th Street, Miami, FL 33194",Miami,Miami-Dade,12086,FL,12,25.75414381,-80.48911771,Miami
+KRHUBFL,Krome/Miami Hub,"Concourse E Satellite, Miami International, Miami, FL 33299",Miami,Miami-Dade,12086,FL,12,25.7952677,-80.2834383,Miami
+LPLCCAZ,LA Palma Correctional Center,"5501 North La Palma Road, Eloy, AZ 85131",Eloy,Pinal,04021,AZ,04,32.81451817,-111.528823,Phoenix
+LPAPSAZ,LA Palma Correctional Center APSO,"5501 North La Palma Road, Eloy, AZ 85131",Eloy,Pinal,04021,AZ,04,32.81490557,-111.529474,Phoenix
+LAPAZAZ,LA Paz County Adult Detention Facility,"1109 W Arizona Ave, Parker, AZ 85344",Parker,La Paz,04012,AZ,04,34.14590002,-114.2901,Phoenix
+LPZRHAZ,LA Paz Regional Hospital,"1200 West Mohave Road, Parker, AZ 85344",Parker,La Paz,04012,AZ,04,34.13640135,-114.2853361,Phoenix
+LSRDCTX,LA Salle County Regional Detention Center,"832 East Texas Hwy 44, Encinal, TX 78019",Encinal,La Salle,48283,TX,48,28.04550349,-99.33632924,San Antonio
+BOPLAT,LA Tuna Federal Correctional Institution,"8500 Doniphan Rd, Anthony, TX 79821",Anthony,El Paso,48141,TX,48,31.98212529,-106.5914752,El Paso
+LACKAPA,"Lackawana Cnty Jail, PA","1371 North Washington Avenue, Scranton, PA 18509",Scranton,Lackawanna,42069,PA,42,41.42272461,-75.64816981,Philadelphia
+LAFAYLA,Lafayette Parish Sheriff’s Office Jail Annex,"916 Lafayette Street, Lafayette, LA 70501",Lafayette,Lafayette,22055,LA,22,30.22352032,-92.02141108,New Orleans
+LHMCBMA,Lahey Hospital & Medical Center,"41 Burlington Mall Rd, Burlington, MA 01805",Burlington,Middlesex,25017,MA,25,42.48548852,-71.20404746,Boston
+LAKCOFL,Lake County Jail,"551 W. Main St., Tavares, FL 32778",Tavares,Lake,12069,FL,12,28.80187717,-81.73296138,Miami
+LARCOWY,Laramie County Jail,"1910 Pioneer Avenue, Cheyenne, WY 82001",Cheyenne,Laramie,56021,WY,56,41.13494563,-104.8198642,Denver
+LRDHOLD,Laredo Detention Center Hold Room,,,,,TX,,,,
+LRDMCTX,Laredo Medical Center,"1700 East Saunders, Laredo, TX 78044",Laredo,Webb,48479,TX,48,27.532485,-99.47807703,Harlingen
+LRKBHFL,Larkin Behavioral Health Services,"1201 N 37th Ave, Hollywood, FL 33021",Hollywood,Broward,12011,FL,12,26.02102602,-80.18071597,Miami
+LRKNHFL,Larkin Hospital,"7031 SW 62nd Ave, South Miami, FL 33143",South Miami,Miami-Dade,12086,FL,12,25.70558445,-80.29317311,Miami
+LASHOLD,Las Cruces Hold Room,,,,,NM,,,,
+LVGHOLD,Las Vegas Hold Room,,,,,NV,,,,
+OLACCLA,Lasalle Correctional Center Olla,"15976 Us-165, Olla, LA 71465",Olla,LaSalle,22059,LA,22,31.91098108,-92.2190292,New Orleans
+LASALTX,Lasalle County Jail,"703 N Main Street, Cotulla, TX 78014",Cotulla,La Salle,48283,TX,48,28.44383667,-99.23705189,San Antonio
+LARELKY,Laurel County Corrections,"440 Hammock Road, London, KY 40744",London,Laurel,21125,KY,21,37.05715191,-84.07137624,Chicago
+LAWRESD,"Lawrence County Jail, SD","50 Tatanka Dr, Deadwood, SD 57732",Deadwood,Lawrence,46081,SD,46,44.39682696,-103.7119196,St Paul
+LVYHOPA,Lehigh Valley Hospital - Pocono,"206 East Brown Street, East Stroudsburg, PA 18301",East Stroudsburg,Monroe,42089,PA,42,40.99252079,-75.17476579,Philadelphia
+AKLEMON,"Lemon Creek, Juneau, AK","2000 Lemon Creek Road, Juneau, AK 99801",Juneau,Juneau,02110,AK,02,58.36257205,-134.4844093,Seattle
+LSHOSMA,Lemuel Shattuck Hospital,"170 Morton Street, Jamaica Plain, MA 02130",Jamaica Plain,Suffolk,25025,MA,25,42.29959544,-71.1019386,Boston
+LEONCFL,Leon County Jail,"535 Appleyard Drive, Tallahassee, FL 32316",Tallahassee,Leon,12073,FL,12,30.43665171,-84.33564441,Miami
+LEVYCFL,Levy County Jail,"9150 NE 80th Ave, Bronson, FL 32621",Bronson,Levy,12075,FL,12,29.4651518,-82.63967979,Miami
+LEXINSC,Lexington County Jail,"521 Gibson Road, Lexington, SC 29072",Lexington,Lexington,45063,SC,45,33.97926087,-81.25044606,Atlanta
+LEXFCKY,Lexington Processing @ Fayette County,"600 Old Frankford Cr, Lexington, KY 40510",Lexington,Fayette,21067,KY,21,38.06563162,-84.54514102,Chicago
+BOPLEX,Lexinton Federal Medical Center,"3301 Leestown Road, Lexington, KY 40511",Lexington,Fayette,21067,KY,21,38.10463085,-84.56012963,Chicago
+LBRTYFL,Liberty County Sheriff’s Office,"12422 NW Revell Road, Bristol, FL 32321",Bristol,Liberty,12077,FL,12,30.43397638,-84.96868605,Miami
+LIMESTX,Limestone County Detention Center,"910 North Tyus Street, Groesbeck, TX 76642",Groesbeck,Limestone,48293,TX,48,31.52584114,-96.50657417,Houston
+LIMCJTX,Limestone County Jail,"910 Tyus St, Groesbeck, TX 76642",Groesbeck,Limestone,48293,TX,48,31.52584114,-96.50657417,Houston
+LINCONE,Lincoln County Detention Center,"302 N Jeffers Street, North Platte, NE 69101",North Platte,Lincoln,31111,NE,31,41.13569388,-100.7639978,St Paul
+LINNJIA,Linn County Jail,"53 3rd Avenue Bridge, Cedar Rapids, IA 52401",Cedar Rapids,Linn,19113,IA,19,41.9746498,-91.66921113,St Paul
+LIRSFCO,Lirs - Lfsrm Fort Collins Ltfc County,"2032 Lowe Street, Suite 200, Fort Collins, CO 80525",Fort Collins,Larimer,08069,CO,08,40.53253146,-105.0397792,Denver
+LRAHOLD,Little Rock Hold Room,,,,,AR,,,,
+NYLIVIC,Livingston Correctional,"7005 Sonyea Rd, Sonyea, NY 14556",Sonyea,Livingston,36051,NY,36,42.6896103,-77.82396193,Buffalo
+LOCMHNY,Lockport Memorial Hospital,"6001 Shimer Dr, Lockport, NY 14094",Lockport,Niagara,36063,NY,36,43.14884975,-78.7066112,Buffalo
+LOGANOK,Logan County Jail,"216 S Broad St, Guthrie, OK 73044",Guthrie,Logan,40083,OK,40,35.87625303,-97.4223618,Dallas
+LLUMCCA,Loma Linda University Medical Center,"11234 Anderson Street, Loma Linda, CA 92354",Loma Linda,San Bernardino,06071,CA,06,34.04942561,-117.2643765,Los Angeles
+LONPDAR,Lonoke Police Department Detention Center,"203 W. Front Street, Lonoke, AR 72086",Lonoke,Lonoke,05085,AR,05,34.78361001,-91.90152002,New Orleans
+LOSCJCA,Los Angeles County Jail-Twin Tower,"450 Bauchet Street, Los Angeles, CA 90012",Los Angeles,Los Angeles,06037,CA,06,34.05872701,-118.230515,Los Angeles
+BOPLOS,Los Angeles Metropolitan Detention Center,"535 Alameda St, Los Angeles, CA 90012",Los Angeles,Los Angeles,06037,CA,06,34.0534729,-118.2382043,Los Angeles
+LPD77CA,Los Angeles Police PD 77th Division,"7600 S Broadway, Los Angeles, CA 90003",Los Angeles,Los Angeles,06037,CA,06,33.97056125,-118.2779324,Los Angeles
+LOSHOLD,Los Cust Case,"300 N. Los Angeles Street Room B17, Los Angeles, CA 90012",Los Angeles,Los Angeles,06037,CA,06,34.053742,-118.23961,Los Angeles
+LSFHOLD,Los Fresnos Hold Room,,,,,TX,,,,
+LOUCOVA,Loudoun County,"42035 Loudoun Center Place, Leesburg, VA 20175",Leesburg,Loudoun,51107,VA,51,39.07501078,-77.54534461,Washington
+LICEPLA,Louisiana ICE Processing Center,"17544 Tunica Trace, Angola, LA 70712",Angola,West Feliciana,22125,LA,22,30.940609,-91.56848321,New Orleans
+LOUHOLD,Louisville Hold Room,,,,,KY,,,,
+LYOLAIL,Loyola Center for Health,"1211 W Roosevelt Rd, Maywood, IL 60153",Maywood,Cook,17031,IL,17,41.86430301,-87.84693697,Chicago
+LUBBOTX,Lubbock County Jail,"3502 N Holly Ave, Lubbock, TX 79403",Lubbock,Lubbock,48303,TX,48,33.63257513,-101.7955856,Dallas
+LBKHOLD,Lubbock Hold Room,,,,,TX,,,,
+BOPBRO,MDC Brooklyn,"80 29th Street, Brooklyn, NY 11232",Brooklyn,Kings,36047,NY,36,40.66031328,-74.00398013,New York City
+MADISNY,Madison County Jail,"138 North Court Street, Wampsville, NY 13163",Wampsville,Madison,36053,NY,36,43.0797876,-75.7065087,Buffalo
+MADISMS,"Madison County Jail, MS","2935 Highway 51, Canton, MS 39046",Canton,Madison,28089,MS,28,32.59324217,-90.0397719,New Orleans
+MAHONOH,Mahoning County Justice Center,"110 Fifth Avenue, Youngstown, OH 44503",Youngstown,Mahoning,39099,OH,39,41.10426589,-80.65505886,Detroit
+MANATFL,Manatee County Detention-Annex,"14470 Harlee Road, Palmetto, FL 34221",Palmetto,Manatee,12081,FL,12,27.6366807,-82.5399629,Miami
+MANHOLD,Manchester Hold Room,,,,,NH,,,,
+MRMCSCA,Marian Regional Medical Center,"1400 E Church St, Santa Maria, CA 93454",Santa Maria,Santa Barbara,06083,CA,06,34.95102974,-120.4132439,Los Angeles
+MARICOR,Marion County Jail,"4000 Aumsville Highway SE, Salem, OR 97301",Salem,Marion,41047,OR,41,44.89656231,-122.9605171,Seattle
+MARIOFL,Marion County Jail,"3290 NW 10th St, Ocala, FL 34475",Ocala,Marion,12083,FL,12,29.19503591,-82.17477409,Miami
+MARIOIN,Marion County Jail,"675 Justice Way, Indianapolis, IN 46203",Indianapolis,Marion,18097,IN,18,39.7557574,-86.11095438,Chicago
+MARTIFL,Martin County Jail,"800 Southeast Monterey Road, Stuart, FL 34994",Stuart,Martin,12085,FL,12,27.17239299,-80.24191904,Miami
+MWASHVA,Mary Washington Hospital,"1001 Sam Perry Blvd, Fredericksburg, VA 22401",Fredericksburg,Fredericksburg,51630,VA,51,38.31104067,-77.48360637,Washington
+AKMATSU,"Matsu Pretrial, Palmer AK","339 E. Dogwood, Palmer, AK 99645",Palmer,Matanuska-Susitna,02170,AK,02,61.6023381,-149.1094552,Seattle
+MAVERTX,Maverick County Jail,"1051 Balboa Jones Boulevard, Eagle Pass, TX 78852",Eagle Pass,Maverick,48323,TX,48,28.71941236,-100.4599412,San Antonio
+MYOMKMN,Mayo Clinic Health Sys - Mankato,"1025 Marsh Street, Mankato, MN 56001",Mankato,Blue Earth,27013,MN,27,44.1638442,-93.98340045,St Paul
+MCAHOLD,McAllen Hold Room,,,,,TX,,,,
+NEMCCOI,McCook Detention Center,"2309 Us-83 N, Mccook, NE 69001",Mccook,Red Willow,31145,NE,31,40.22811415,-100.6484457,St Paul
+BOPMCR,McCreary US Penitentiary,"330 Federal Way, Pine Knot, KY 42635",Pine Knot,McCreary,21147,KY,21,36.68663433,-84.38791446,Chicago
+MLPHHMI,McLaren Port Huron Hospital,"1221 Pine Grove Avenue, Port Huron, MI 48060",Port Huron,St. Clair,26147,MI,26,42.98666671,-82.42971605,Detroit
+MCCLETX,McLennan County Jail,"3201 E State Hwy 6, Waco, TX 76705",Waco,McLennan,48309,TX,48,31.54986931,-97.08035016,Houston
+BOPRAE,"McRae Correctional Facility, CCA","112 Jim Hammock Dr, Mcrae-Helena, GA 31055",Mcrae-Helena,Telfair,13271,GA,13,32.05030227,-82.8719057,Atlanta
+MEDHOLD,Medford Sub-Office,"3715 International Way, Medford, OR 97504",Medford,Jackson,41029,OR,41,42.37316605,-122.8666184,Seattle
+MHNHHTX,Memorial Hermann NE Hospital,"18951 N Memorial Drive, Humble, TX 77338",Humble,Harris,48201,TX,48,29.99528802,-95.27621598,Houston
+MEMRHFL,Memorial Regional Hospital,"3501 Johnson St, Hollywood, FL 33021",Hollywood,Broward,12011,FL,12,26.01965398,-80.180432,Miami
+MEMHOLD,Memphis Hold Room,,,,,TN,,,,
+MHTFHOH,Mercy Health - Tiffin Hospital,"45 St Lawrence Drive, Tiffin, OH 44883",Tiffin,Seneca,39147,OH,39,41.10415299,-83.21621701,Detroit
+MRYHPMN,Mercy Hospital,"4050 Coon Rapids Blvd, Coon Rapids, MN 55433",Coon Rapids,Anoka,27003,MN,27,45.18306682,-93.36971949,St Paul
+MEHOSCA,Mercy Hospital Downtown Bakersfield,"2215 Truxtun Ave, Bakersfield, CA 93301",Bakersfield,Kern,06029,CA,06,35.37279812,-119.0276222,San Francisco
+MRYHOMO,Mercy Hospital South,"10010 Kennerly Road, Saint Louis, MO 63128",Saint Louis,St. Louis,29189,MO,29,38.50735372,-90.38026964,Chicago
+MMCCRIA,Mercy Medical Center Cedar Rapid,"701 10th St SE, Cedar Rapids, IA 52403",Cedar Rapids,Linn,19113,IA,19,41.97806891,-91.65578114,St Paul
+MESJACO,Mesa County Jail,"215 Rice Street, Grand Junction, CO 81501",Grand Junction,Mesa,08077,CO,08,39.0686798,-108.5735786,Denver
+CACFMES,Mesa Verde ICE Processing Center,"425 Golden State Avenue, Bakersfield, CA 93301",Bakersfield,Kern,06029,CA,06,35.37931836,-119.0065207,San Francisco
+METHOTX,Methodist Hospital,"7700 Floyd Curl Dr, San Antonio, TX 78229",San Antonio,Bexar,48029,TX,48,29.50814961,-98.57256528,San Antonio
+MHMSATX,Methodist Hospital Metropolitan,"1310 Mccullough Ave, San Antonio, TX 78212",San Antonio,Bexar,48029,TX,48,29.44118508,-98.49100232,San Antonio
+MHNSATX,Methodist Hospital Northeast,"12412 Judson Rd, Live Oak, TX 78233",Live Oak,Bexar,48029,TX,48,29.55248942,-98.34807671,San Antonio
+MHSOSTX,Methodist Hospital Stone Oak,"1139 E Sonterra Blvd, San Antonio, TX 78258",San Antonio,Bexar,48029,TX,48,29.61617248,-98.47462324,San Antonio
+MHTSATX,Methodist Hospital Texsan,"6700 W I-10, San Antonio, TX 78201",San Antonio,Bexar,48029,TX,48,29.48980703,-98.54748109,San Antonio
+MSTHSTX,Methodist Specialty Transplant Hos,"8026 Floyd Curl Dr, San Antonio, TX 78229",San Antonio,Bexar,48029,TX,48,29.51361839,-98.57659002,San Antonio
+METROFL,Metro Dade Jail,"5680 Southwest 87th Avenue, Miami, FL 33173",Miami,Miami-Dade,12086,FL,12,25.71542744,-80.33587179,Miami
+MIAHOLD,Miami (Miramar) Hold Room,,,,,FL,,,,
+IBPSMIA,Miami Border Patrol,"15700 Fl-820, Pembroke Pines, FL 33027",Pembroke Pines,Broward,12011,FL,12,26.00720362,-80.35394031,Miami
+INMIAMI,Miami Correctional Facility (McF),"3038 West 850s, Bunker Hill, IN 46914",Bunker Hill,Miami,18103,IN,18,40.64428381,-86.1314789,Chicago
+BOPMIA,Miami Federal Correctional Institution (Former McC),"15801 SW 137th Ave, Miami, FL 33177",Miami,Miami-Dade,12086,FL,12,25.61802646,-80.40923012,Miami
+MSF,Miami Staging Facility,"33 NE 4th St, Miami, FL 33132",Miami,Miami-Dade,12086,FL,12,25.77846074,-80.19313158,Miami
+MIDLATX,Midland Detention Center,"400 S Main Street, Midland, TX 79701",Midland,Midland,48329,TX,48,31.99404968,-102.0748857,El Paso
+MIDMHTX,Midland Memorial Hospital,"400 Rosalind Redfern Grover Parkway, Midland, TX 79701",Midland,Midland,48329,TX,48,31.99675704,-102.09953,El Paso
+MLDHOLD,"Midland, TX Enforcement and Removal Operations Hold Room",,,,,TX,,,,
+,Midwest Regional Reception Center,"100 Highway Terrace, Leavenworth, KS 66048",Leavenworth,Leavenworth,20103,KS,20,39.273128462617,-94.892469902938,Chicago
+GTMOBCU,Migrant Operations Center East,"Avenue C Psc 1005 Box 55, Fpo Ae, CU 09593",Fpo Ae,,,CU,,,,Miami
+GTMODCU,Migrant Operations Center Main Av622,"Avenue C Psc 1005 Box 55, Fpo Ae, CU 09593",Fpo Ae,,,CU,,19.91143841,-75.22266036,Miami
+MILLRAR,Miller County Jail,"2300 East Street, Texarkana, AR 71854",Texarkana,Miller,05091,AR,05,33.40116926,-94.02247496,New Orleans
+MILHOLD,Milwaukee Hold Room,,,,,WI,,,,
+MINICID,Minicassia Detention Center,"1415 Albion Avenue, Burley, ID 83318",Burley,Cassia,16031,ID,16,42.53503506,-113.7911899,Salt Lake City
+MINNESD,Minnehaha County Jail,"305 W 4th St, Sioux Falls, SD 57104",Sioux Falls,Minnehaha,46099,SD,46,43.55340744,-96.72992274,St Paul
+MOAHOLD,Mobile Hold Room,,,,,AL,,,,
+MONMONJ,Monmouth County Jail,"1 Waterworks Road, Freehold, NJ 07728",Freehold,Monmouth,34025,NJ,34,40.26693384,-74.28671933,Newark
+MONROMI,Monroe County Detention-Dorm,"7000 East Dunbar Road, Monroe, MI 48161",Monroe,Monroe,26115,MI,26,41.89557061,-83.3932822,Detroit
+MNROEMI,Monroe County Jail,"7000 East Dunbar Road, Monroe, MI 48161",Monroe,Monroe,26115,MI,26,41.89557061,-83.3932822,Detroit
+MONROFL,Monroe County Jail,"5501 College Road, Key West, FL 33040",Key West,Monroe,12087,FL,12,24.57657206,-81.75136686,Miami
+MNTGMAL,Montgomery City Jail,"320 North Ripley Street, Montgomery, AL 36104",Montgomery,Montgomery,01101,AL,01,32.38156183,-86.29775876,New Orleans
+MONTGNY,Montgomery County Jail,"200 Clark Drive, Fultonville, NY 12072",Fultonville,Montgomery,36057,NY,36,42.93366199,-74.33258678,Buffalo
+MONTGTX,Montgomery County Jail,"1 Criminal Justice Dr, Conroe, TX 77301",Conroe,Montgomery,48339,TX,48,30.33538411,-95.45239176,Houston
+MONTGAL,Montgomery County Mac Sim Butler DF,"250 Mcdonough Street, Montgomery, AL 36103",Montgomery,Montgomery,01101,AL,01,32.37440645,-86.30508269,New Orleans
+MGAHOLD,Montgomery Hold Room,,,,,AL,,,,
+MTGHOLD,Montgomery Hold Room,,,,,TX,,,,
+MTGPCTX,Montgomery Processing Center,"806 Hilbig Road, Conroe, TX 77301",Conroe,Montgomery,48339,TX,48,30.33710098,-95.44269901,Houston
+MSVPCPA,Moshannon Valley Processing Center,"555 Geo Drive, Philipsburg, PA 16866",Philipsburg,Clearfield,42033,PA,42,40.92260818,-78.24169679,Philadelphia
+MLJHOLD,Mount Laurel Hold Room,,,,,NJ,,,,
+MTNITPA,Mount Nittany Medical Center,"155 Wellness Way, State College, PA 16803",State College,Centre,42027,PA,42,40.8191247,-77.84355136,Philadelphia
+MVMCMAZ,Mountain Vista Medical Center,"1301 S Crismon Rd, Mesa, AZ 85209",Mesa,Maricopa,04013,AZ,04,33.39161121,-111.6111617,Phoenix
+MHCHSMI,Munson Healthcare Cadillac Hospital,"400 Hobart St, Cadillac, MI 49601",Cadillac,Wexford,26165,MI,26,44.245567,-85.38951802,Detroit
+MUSCAIA,Muscatine County Jail,"400 Walnut Street, Muscatine, IA 52761",Muscatine,Muscatine,19139,IA,19,41.42433913,-91.04451543,St Paul
+MMMCSMI,Mymichigan Medical Center Sault,"500 Osborn Blvd, Sault Sainte Marie, MI 49783",Sault Sainte Marie,Chippewa,26033,MI,26,46.49812599,-84.35046302,Detroit
+NWRCCMN,NW Regional Corrections Center,"816 Marin Ave., Suite 110, Crookston, MN 56716",Crookston,Polk,27119,MN,27,47.7688529,-96.62850915,St Paul
+NRJDCVA,NW Regional Juvenile Detention Center,"145 Ft Collier Rd, Winchester, VA 22603",Winchester,Frederick,51069,VA,51,39.19961184,-78.14513265,Washington
+NYCHOLD,NYC Hold Room,"26 Federal Plaza 9th Floor, Suite 9-110, New York, NY 10278",New York,New York,36061,NY,36,40.71571691,-74.00438162,New York City
+BOPCNV,Nashville Community Correctional,"701 Broadway St, Suite 124, Nashville, TN 37203",Nashville,Davidson,47037,TN,47,36.15843994,-86.78240643,New Orleans
+NSVHOLD,Nashville Hold Room,,,,,TN,,,,
+NASSANY,Nassau County Correctional Center,"100 Carman Avenue, East Meadow, NY 11554",East Meadow,Nassau,36059,NY,36,40.73516338,-73.55269653,New York City
+NASTRNY,Nassau County ICE Intake,"100 Carman Avenue, East Meadow, NY 11554",East Meadow,Nassau,36059,NY,36,40.73516338,-73.55269653,New York City
+NASSAFL,Nassau County Jail,"76212 Nicholas Cutinha Rd, Yulee, FL 32097",Yulee,Nassau,12089,FL,12,30.62244431,-81.63525504,Miami
+NUMCENY,Nassau Univ Medical Center,"2201 Hempstead Turnpike, East Meadow, NY 11554",East Meadow,Nassau,36059,NY,36,40.72641896,-73.55334328,New York City
+NATROWY,Natrona County Detention Center,"1100 Bruce Lane, Casper, WY 82601",Casper,Natrona,56025,WY,56,42.86303117,-106.3448629,Denver
+NATJVWY,Natrona County Juvenile Detention Center,"1120 Bruce Lane, Casper, WY 82601",Casper,Natrona,56025,WY,56,42.86404709,-106.3452345,Denver
+NLSCOLA,Nelson Coleman Corrections Center,"5061 Highway 3127, Killona, LA 70057",Killona,St. Charles,22089,LA,22,29.991934,-90.50261072,New Orleans
+NVSDCNV,Nevada Southern Detention Center,"2190 E Mesquite Avenue, Pahrump, NV 89060",Pahrump,Nye,32023,NV,32,36.25245773,-115.977029,Salt Lake City
+NWHNVNC,New Hanover County Detention Center,"3950 Juvenile Center Rd, Castle Hayne, NC 28429",Castle Hayne,New Hanover,37129,NC,37,34.32703364,-77.89565863,Atlanta
+NOLHOLD,New Orleans Hold Room,,,,,LA,,,,
+PRESBNY,New York Presbyterian Hospital,"170 William St, New York, NY 10038",New York,New York,36061,NY,36,40.71075893,-74.00513465,New York City
+NEWHOLD,New/INS Os Hold Room,,,,,NJ,,,,
+NBGHOLD,Newburgh Holding,,,,,NY,,,,
+NIAGANY,Niagara County Jail,"5526 Niagara Street Extention, Lockport, NY 14094",Lockport,Niagara,36063,NY,36,43.18030263,-78.73732719,Buffalo
+NORFOVA,Norfolk City Jail,"140 East St, Norfolk, VA 23510",Norfolk,Norfolk,51710,VA,51,36.84462503,-76.28244703,Washington
+NORHOLD,Norfolk Sub-Office Hold,"200 Granby Street Suite 821, Norfolk, VA 23510",Norfolk,Norfolk,51710,VA,51,36.84850338,-76.29086079,Washington
+NBRMCFL,North Broward Medical Center,"201 East Sample Road, Pompano Beach, FL 33060",Pompano Beach,Broward,12011,FL,12,26.27695821,-80.12134193,Miami
+WVNCENT,North Central Regional Jail,"#1 Lois Lane, Greenwood, WV 26415",Greenwood,Doddridge,54017,WV,54,39.28078206,-80.85362371,Philadelphia
+NRLKCMI,North Lake Processing Center,"1805 W 32nd Street, Baldwin, MI 49304",Baldwin,Lake,26085,MI,26,43.928627,-85.83879097,Detroit
+NRPHOLD,North Platte Hold Room,,,,,NE,,,,
+BOPNEO,Northeast Ohio Correctional Center,"2240 Hubbard Road, Youngstown, OH 44505",Youngstown,Mahoning,39099,OH,39,41.131349164588,-80.631522639017,Detroit
+NNVMCNV,Northern Nevada Medical Center,"2375 E Prater Way, Sparks, NV 89434",Sparks,Washoe,32031,NV,32,39.54110713,-119.697335,Salt Lake City
+WVNORTH,Northern Regional Jail,"112 Northern Regional Correctional Dr, Moundsville, WV 26041",Moundsville,Marshall,54051,WV,54,39.90936738,-80.7294205,Philadelphia
+CSCNWWA,Northwest ICE Processing Center (Nwipc),"1623 E J Street, Suite 2, Tacoma, WA 98421",Tacoma,Pierce,53053,WA,53,47.24917683,-122.421692,Seattle
+NWREGVA,Northwest Regional Adult Detention,"141 Fort Collier Road, Winchester, VA 22603",Winchester,Frederick,51069,VA,51,39.1984636,-78.14444106,Washington
+VTSTALB,Northwest State Correctional Center,"3649 Lower Newton Road, Swanton, VT 05488",Swanton,Franklin,50011,VT,50,44.85044608,-73.13328077,Boston
+NWSCFVT,Northwest State Correctional Facility,"3649 Lower Newton Road, Swanton, VT 05488",Swanton,Franklin,50011,VT,50,44.85044608,-73.13328077,Boston
+BOPOAD,Oakdale Federal Detention Center,"2105 E. Whatley Rd., Oakdale, LA",Oakdale,Allen,22003,LA,22,30.82081998271,-92.64290899627,New Orleans
+OAK,Oakdale Federal Detention Center,"2105 E. Whatley Rd., Oakdale, LA 71463",Oakdale,Allen,22003,LA,22,30.82081998,-92.642909,New Orleans
+OAKHOLD,Oakdale Holding Room,,,,,LA,,,,
+OGUHOLD,Ogden Hold Room,"2487 S. 1620 W Unit E, Ogden, UT 84401",Ogden,Weber,49057,UT,49,41.22058827,-112.0191589,Salt Lake City
+OKCHOLD,Oklahoma City Hold Room,"1220 Sovereign Row, Oklahoma City, OK 73108",Oklahoma City,Oklahoma,40109,OK,40,35.4536782,-97.59814012,Dallas
+OKMULOK,Okmulgee County Jail,"315 W 8th St, Okmulgee, OK 74447",Okmulgee,Okmulgee,40111,OK,40,35.62172157,-95.97443932,Dallas
+OLDHAKY,Oldham County Detention Center,"3405 West Highway 146, La Grange, KY 40031",La Grange,Oldham,21185,KY,21,38.38935908,-85.42367734,Chicago
+OMAHOLD,Omaha Field Office Hold,"1717 Ave H, Omaha, NE 68110",Omaha,Douglas,31055,NE,31,41.28062931,-95.90853636,St Paul
+ONSLONC,Onslow County Jail,"717 Court Street, Jacksonville, NC 28540",Jacksonville,Onslow,37133,NC,37,34.75173459,-77.43225086,Atlanta
+OCIRCCA,Orange Count Intake Release Facility,"550 North Flower Street, Santa Ana, CA 92703",Santa Ana,Orange,06059,CA,06,33.7488147,-117.8784021,Los Angeles
+OGCMCCA,Orange County Global Medical Center,"1001 N Tustin Ave, Santa Ana, CA 92705",Santa Ana,Orange,06059,CA,06,33.75444975,-117.8333278,Los Angeles
+ORANGFL,Orange County Jail,"3855 South John Young Parkway, Orlando, FL 32839",Orlando,Orange,12095,FL,12,28.50352437,-81.41685299,Miami
+ORANGNY,Orange County Jail,"110 Wells Farm Road, Goshen, NY 10924",Goshen,Orange,36071,NY,36,41.40424843,-74.36062667,New York City
+OGRMCNY,Orange Regional Medical Center,"707 E Main St, Middletown, NY 10940",Middletown,Orange,36071,NY,36,41.44184139,-74.36814683,New York City
+ORLHOLD,Orlando Hold Room,"9495 Delegates Drive, Orlando, FL 32837",Orlando,Orange,12095,FL,12,28.42818942,-81.40971328,Miami
+OSCEOFL,Osceola County Jail,"402 Simpson Rd, Kissimmee, FL 34744",Kissimmee,Osceola,12097,FL,12,28.29626212,-81.35244938,Miami
+CCASDCA,Otay Mesa Detention Center,"7488 Calzada De La Fuente, San Diego, CA 92154",San Diego,San Diego,06073,CA,06,32.57583662,-116.9155909,San Diego
+OTRPCNM,Otero County Processing Center,"26 Mcgregor Range Road, Chaparral, NM 88081",Chaparral,Otero,35035,NM,35,32.08037214,-106.2817264,El Paso
+OKMHKTX,Otto Kaiser Memorial Hospital,"3349 S Highway 181, Kenedy, TX 78119",Kenedy,Karnes,48255,TX,48,28.85004667,-97.87839944,San Antonio
+OZARKMO,Ozark County Jail,"1818 County Road 806, Gainesville, MO 65655",Gainesville,Ozark,29153,MO,29,36.60009801,-92.448936,Chicago
+PALMBFL,Palm Beach County Jail,"3228 Gun Club Road, West Palm Beach, FL 33406",West Palm Beach,Palm Beach,12099,FL,12,26.67176572,-80.09248303,Miami
+PWHOSFL,Palms West Hospital,"13001 Southern Blvd, Loxahatchee, FL 33470",Loxahatchee,Palm Beach,12099,FL,12,26.68372799,-80.25255064,Miami
+PAMSATX,Pam Health Specialty Hospital 1,"5418 N. Loop 1604 West, San Antonio, TX 78249",San Antonio,Bexar,48029,TX,48,29.59021528,-98.59160477,San Antonio
+PVLYHCA,Paradise Valley Hospital,"2400 E 4th St, National City, CA 91950",National City,San Diego,06073,CA,06,32.68540972,-117.0823869,San Diego
+PKLDHTX,Parkland Hospital,"5200 Harry Hines Blvd, Dallas, TX 75235",Dallas,Dallas,48113,TX,48,32.81173132,-96.83571868,Dallas
+PVHOSIN,Parkview Hospital Randallia,"2200 Randallia Drive, Fort Wayne, IN 46805",Fort Wayne,Allen,18003,IN,18,41.09570202,-85.10979799,Chicago
+PKMEDIN,Parkview Regional Medical Center,"11109 Parkview Plaza Drive, Fort Wayne, IN 46845",Fort Wayne,Allen,18003,IN,18,41.18690098,-85.10086799,Chicago
+PDNHOLD,Pdn Hold Room,,,,,TX,,,,
+PCSHOLD,Pecos Hold Room,,,,,TX,,,,
+MVPNHPA,Penn Highlands Clearfield,"809 Turnpike Ave, Clearfield, PA 16830",Clearfield,Clearfield,42033,PA,42,41.0334042,-78.4498357,Philadelphia
+PENNISD,Pennington County Jail,"307 Saint Joseph St, Rapid City, SD 57701",Rapid City,Pennington,46103,SD,46,44.07876386,-103.221489,St Paul
+AZSPPER,Perryville State Prison,"2105 North Citrus Rd, Goodyear, AZ 85395",Goodyear,Maricopa,04013,AZ,04,33.47137516,-112.4421715,Phoenix
+PHELPMO,Phelps County Jail,"500 W. 2nd Street, Rolla, MO 65401",Rolla,Phelps,29161,MO,29,37.945737,-91.77515504,Chicago
+PHELPNE,Phelps County Jail,"715 5th Avenue, Holdrege, NE 68949",Holdrege,Phelps,31137,NE,31,40.43955352,-99.37063646,St Paul
+PHELSMO,Phelps Health Hospital,"1000 W 10th St, Rolla, MO 65401",Rolla,Phelps,29161,MO,29,37.952848,-91.78592,Chicago
+PHIHOLD,Phi District Office,,,,,PA,,,,
+PHPMHGA,Phoebe Putney Memorial Hospital,"417 W Third Ave, Albany, GA 31701",Albany,Dougherty,13095,GA,13,31.59038707,-84.15756568,Atlanta
+PHOHOLD,Phoenix District Office,,,,,AZ,,,,
+BOPPHX,Phoenix Federal Correctional Institution,"37900 N 45th Ave, Phoenix, AZ 85086",Phoenix,Maricopa,04013,AZ,04,33.83242985,-112.1619896,Phoenix
+PCKNSAL,Pickens County Detention Center,"188 Cemetery St, Carrollton, AL 35447",Carrollton,Pickens,01107,AL,01,33.2603977,-88.09594803,New Orleans
+PCRMMGA,Piedmount Columbus Regional Midtown Mc,"710 Center St, Columbus, GA 31901",Columbus,Muscogee,13215,GA,13,32.48050735,-84.98169032,Atlanta
+PIERCND,Pierce County Jail,"110 Industrial Rd, Rugby, ND 58368",Rugby,Pierce,38069,ND,38,48.37359648,-99.97755087,St Paul
+PIKCOPA,Pike County Correctional Facility,"175 Pike County Blvd, Lords Valley, PA 18428",Lords Valley,Pike,42103,PA,42,41.38907634,-75.07122649,Philadelphia
+PKEHOLD,Pike County Enforcement and Removal Operations Hold Room,,,,,PA,,,,
+PINALAZ,Pinal County Jail,"971 N. Jason Lopez Circle, Florence, AZ 85132",Florence,Pinal,04021,AZ,04,33.04146965,-111.377858,Phoenix
+PINEPLA,Pine Prairie ICE Processing Center,"1133 Hampton Dupre Road, Pine Prairie, LA 70576",Pine Prairie,Evangeline,22039,LA,22,30.78908899,-92.42276602,New Orleans
+PINELFL,Pinellas County Jail,"14400 49th Street North, Clearwater, FL 33762",Clearwater,Pinellas,12103,FL,12,27.90256006,-82.70587478,Miami
+PITHOLD,Pittsburgh Hold Room,,,,,PA,,,,
+PLATTMO,Platte County Jail,"415 Third Street, Platte City, MO 64079",Platte City,Platte,29165,MO,29,39.37166539,-94.78019244,Chicago
+PLATTWY,Platte County Jail,"850 Maple Street, Wheatland, WY 82201",Wheatland,Platte,56031,WY,56,42.05542801,-104.952064,Denver
+PHRCENJ,Plaza Healthcare Rehab Center,"456 Rahway Avenue, Elizabeth, NJ 07202",Elizabeth,Union,34039,NJ,34,40.65702904,-74.22787148,Newark
+PLYMOMA,Plymouth County Correctional Facility,"26 Long Pond Road, Plymouth, MA 02360",Plymouth,Plymouth,25023,MA,25,41.93130887,-70.65133445,Boston
+POLKJFL,Polk County Jail,"2390 Bob Philips Road, Bartow, FL 33830",Bartow,Polk,12105,FL,12,27.88139844,-81.81927419,Miami
+POLKJIA,Polk County Jail,"1985 NE 51st Place, Des Moines, IA 50313",Des Moines,Polk,19153,IA,19,41.65362786,-93.58789616,St Paul
+BOPPOL,Pollock US Penitentiary,"1000 Airbase Rd, Pollock, LA 71467",Pollock,Grant,22043,LA,22,31.46885281,-92.43743997,New Orleans
+PIC,Port Isabel Service Processing Center,"27991 Buena Vista Blvd., Los Fresnos, TX 78566",Los Fresnos,Cameron,48061,TX,48,26.15505562,-97.33831307,Harlingen
+POOHOLD,Portland District Office,"4310 S Macadam Avenue Suite 300, Portland, OR 97239",Portland,Multnomah,41051,OR,41,45.49280392,-122.6726165,Seattle
+POMHOLD,"Portland, ME Hold Room",,,,,ME,,,,
+WVPTMAC,Potomac Highlands Regional Jail,"355 Dolan Drive, Augusta, WV 26704",Augusta,Hampshire,54027,WV,54,39.30234778,-78.64697463,Philadelphia
+POTTAIA,Pottawattamie County Jail,"1400 Big Lake Road, Council Bluffs, IA 51501",Council Bluffs,Pottawattamie,19155,IA,19,41.28441839,-95.86505806,St Paul
+POTTRTX,Potter County Jail,"13100 NE 29th Ave, Amarillo, TX 79111",Amarillo,Potter,48375,TX,48,35.24127386,-101.6666629,Dallas
+PRLDCTX,Prairieland Detention Facility,"1209 Sunflower Lane, Alvarado, TX 76009",Alvarado,Johnson,48251,TX,48,32.42141338,-97.19582779,Dallas
+PRLHOLD,Prairieland Suboffice Hold Room,"1209 Sunflower Ln, Alvarado, TX 76009",Alvarado,Johnson,48251,TX,48,32.42141903,-97.19583542,Dallas
+PRSHANM,Presbyterian Hospital Albuquerque,"1100 Central Ave SE, Albuquerque, NM 87106",Albuquerque,Bernalillo,35001,NM,35,35.08206426,-106.6345973,El Paso
+PWILLVA,Prince William,"9320 Lee Avenue, Manassas, VA 20110",Manassas,Prince William,51153,VA,51,38.75207198,-77.48000919,Washington
+PROHOLD,Prohold,"443 Jefferson Blvd North Suite, Warwick, RI 02886",Warwick,Kent,44003,RI,44,41.73571611,-71.44113855,Boston
+PMMRHMI,Promedica Monroe Regional Hospital,"718 N Macomb St, Monroe, MI 48162",Monroe,Monroe,26115,MI,26,41.92448244,-83.3881912,Detroit
+KPCHOAZ,Promise Hospital,"433 E 6th St, Mesa, AZ 85203",Mesa,Maricopa,04013,AZ,04,33.42551597,-111.8213499,Phoenix
+PRVMDKS,Providence Medical Group,"8929 Parallel Pkwy, Kansas City, KS 66112",Kansas City,Wyandotte,20209,KS,20,39.12730061,-94.7869798,Chicago
+PRUHOLD,Provo Hold Room,,,,,UT,,,,
+PUEBLCO,Pueblo County Jail,"909 Court Street, Pueblo, CO 81003",Pueblo,Pueblo,08101,CO,08,38.27555705,-104.610633,Denver
+PUEHOLD,Pueblo Hold Room,,,,,CO,,,,
+PUTMAFL,Putnam County Jail,"130 Orie Griffin Blvd, Palatka, FL 32177",Palatka,Putnam,12107,FL,12,29.66833365,-81.66179215,Miami
+PUTNMTN,Putnam County Sheriff,"421 E Spring St., Cookeville, TN 38501",Cookeville,Putnam,47141,TN,47,36.16153688,-85.49796141,New Orleans
+QUEMCHI,Queen’s Medical Center,"1301 Punchbowl St, Honolulu, HI 96813",Honolulu,Honolulu,15003,HI,15,21.30787998,-157.8539078,San Francisco
+RDUHOLD,Raleigh Hold Room,,,,,NC,,,,
+RAADCMN,"Ramsey Adult Detention Center Annex, Spm","425 Grove Street, Saint Paul, MN 55101",Saint Paul,Ramsey,27123,MN,27,44.95628917,-93.08610962,St Paul
+RNDLLTX,Randall County Jail,"9100 South Georgia Street, Amarillo, TX 79118",Amarillo,Randall,48381,TX,48,35.11763714,-101.8670628,Dallas
+RPCHOLD,Rapid City Hold Room,,,,,SD,,,,
+RAPPSVA,Rapp Sec Center,"1745 Richmond Hwy, Stafford, VA 22554",Stafford,Stafford,51179,VA,51,38.40682528,-77.42242233,Washington
+RDHOSPA,Reading Hospital,"420 S 5th Avenue, West Reading, PA 19611",West Reading,Berks,42011,PA,42,40.33007455,-75.94916278,Philadelphia
+RDRVHTX,Red River Hospital,"1505 8th St, Wichita Falls, TX 76301",Wichita Falls,Wichita,48485,TX,48,33.90623442,-98.50126889,Dallas
+REDHOLD,Redding Hold Room,,,,,CA,,,,
+RENHOLD,Reno Hold Room,,,,,NV,,,,
+RICHOLD,Richland Hold Room,,,,,WA,,,,
+RCMHOLD,Richmond Sub-Office Hold,"9200 Arboretum Parkway Suite 140, North Chesterfield, VA 23236",North Chesterfield,Chesterfield,51041,VA,51,37.49424235,-77.56860725,Washington
+RWCCMLA,Richwood Correctional Center,"180 Pine Bayou Circle, Monroe, LA 71202",Monroe,Ouachita,22073,LA,22,32.45663028,-92.07881881,New Orleans
+RGRNDTX,Rio Grande Processing Center,"1001 San Rio Blvd, Laredo, TX 78046",Laredo,Webb,48479,TX,48,27.37771898,-99.49008,Harlingen
+RGHOSTX,Rio Grande St. Hospital,"1401 Rangerville Rd., Harlingen, TX 78550",Harlingen,Cameron,48061,TX,48,26.16068299,-97.70724565,Harlingen
+RGS,Rio Grande Valley Staging,"27991 Buena Vista Blvd, Los Fresnos, TX 78566",Los Fresnos,Cameron,48061,TX,48,26.15603231,-97.33778121,Harlingen
+RVBHHTX,Rio Vista Behavioral Health Hospital,"1390 Northwestern Drive, El Paso, TX 79912",El Paso,El Paso,48141,TX,48,31.88017096,-106.5738939,El Paso
+RVRCCLA,River Correctional Center,"26362 Highway 15, Ferriday, LA 71334",Ferriday,Concordia,22029,LA,22,31.59715294,-91.55822753,New Orleans
+RSREGVA,Riverside Regional Jail,"500 Folar Trail, North Prince George, VA 23860",North Prince George,Prince George,51149,VA,51,37.3071009,-77.34100945,Washington
+RONKEVA,Roanoke City Jail,"324 Campbell Ave SW, Roanoke, VA 24016",Roanoke,Roanoke,51770,VA,51,37.2711437,-79.9466271,Washington
+RMKHOLD,Roanoke Sub-Office Hold Room,"103 West Main Street, Salem, VA 24153",Salem,Salem,51775,VA,51,37.29251479,-80.06117989,Washington
+RADDFGA,Robert A Deyton Detention Facility,"11866 Hastings Bridge Rd, Lovejoy, GA 30250",Lovejoy,Clayton,13063,GA,13,33.4341803,-84.30835519,Atlanta
+ROCGHNY,Rochester General Hospital,"1425 Portland Avenue, Rochester, NY 14621",Rochester,Monroe,36055,NY,36,43.19153379,-77.58558839,Buffalo
+ROCKIIL,Rock Island County Jail,"1317 3rd Avenue, Rock Island, IL 61201",Rock Island,Rock Island,17161,IL,17,41.50908189,-90.58091119,Chicago
+RIIHOLD,Rock Island Hold Room,,,,,IL,,,,
+ROCKIVA,Rockingham County Jail,"25 South Liberty Street, Harrisonburg, VA 22801",Harrisonburg,Harrisonburg,51660,VA,51,38.44929957,-78.87077907,Washington
+ROCKINH,Rockingham County Jail,"96 North Road, Brentwood, NH 03833",Brentwood,Rockingham,33015,NH,33,43.01201382,-71.05077908,Boston
+HASKLTX,Rolling Plains Detention Center,"118 County Road 206, Haskell, TX 79521",Haskell,Haskell,48207,TX,48,33.17676916,-99.72180031,Dallas
+RSWHOLD,Roswell Hold Room,,,,,NM,,,,
+SACHOLD,Sacramento Hold,,,,,CA,,,,
+STAHOLD,Saint Albans Hold Room,"64 Gricebrook Road, St. Albans, VT 05478",Saint. Albans,Franklin,50011,VT,50,44.80149468,-73.07339391,Boston
+STJOSCO,Saint Joseph Hospital,"1375 E 19th Ave, Denver, CO 80218",Denver,Denver,08031,CO,08,39.74613845,-104.9714791,Denver
+SAIHOLD,Saipain Hold,,,,,MP,,,,
+SALEMNJ,Salem County Correctional Facility,"125 Cemetery Road, Woodstown, NJ 08098",Woodstown,Salem,34033,NJ,34,39.63012411,-75.35691527,Newark
+SALINNE,Saline County Jail,"911 S Main Street, Wilber, NE 68465",Wilber,Saline,31151,NE,31,40.47505021,-96.96165644,St Paul
+SALHOLD,Salisbury Hold Room,,,,,MD,,,,
+SLCHOLD,Salt Lake City Hold Room,,,,,UT,,,,
+SLSLCUT,Salt Lake County Jail,"3415 South 900 West, Salt Lake City, UT 84119",Salt Lake City,Salt Lake,49035,UT,49,40.69691294,-111.9155301,Salt Lake City
+SAGHOLD,San Angelo Hold Room,,,,,TX,,,,
+SNAHOLD,San Antonio Detention and Removal Operations Hold Room,,,,,TX,,,,
+SBERNCA,San Bernardino County Jail,"630 East Rialto Avenue, San Bernardino, CA 92408",San Bernardino,San Bernardino,06071,CA,06,34.10231198,-117.273646,Los Angeles
+SBDHOLD,San Bernardino Hold Room,,,,,CA,,,,
+SNDCOCA,San Diego County Jail,"1173 Front St, San Diego, CA 92101",San Diego,San Diego,06073,CA,06,32.71749456,-117.164272,San Diego
+SJUHOLD,San Juan Airport Hold Room,,,,,PR,,,,
+SJS,San Juan Staging,"651 Federal Drive, Suite 104, Guaynabo, PR 00965",Guaynabo,Guaynabo,72061,PR,72,18.42354698,-66.11456196,Miami
+SAJHOLD,San Juan Sub-Office Hold Room,"800 Juan Ponce De Leon Avenue, 12th Floor, San Juan, PR 00908",San Juan,San Juan,72127,PR,72,18.45535098,-66.08279203,Miami
+SLRDCAZ,San Luis Regional Detention Center,"406 North Avenue D, San Luis, AZ 85349",San Luis,Yuma,04027,AZ,04,32.48466594,-114.6846373,Phoenix
+SACITCA,Santa Ana City Jail,"62 Civic Center Plaza, Santa Ana, CA 92701",Santa Ana,Orange,06059,CA,06,33.7502121,-117.880568,Los Angeles
+SAAHOLD,Santa Ana Detention and Removal Operations Hold Room,,,,,CA,,,,
+SMAHOLD,Santa Maria Sub Office Enforcement and Removal Operations,,,,,CA,,,,
+SROSAFL,Santa Rosa County Jail,"5755 East Milton Road, Milton, FL 32583",Milton,Santa Rosa,12113,FL,12,30.64349152,-86.97431178,Miami
+SARASFL,Sarasota County Jail,"2020 Main St, Sarasota, FL 34237",Sarasota,Sarasota,12115,FL,12,27.33606348,-82.52949364,Miami
+SARPYNE,Sarpy County Department of Corrections,"1206 Golden Gate Drive, Papillion, NE 68046",Papillion,Sarpy,31153,NE,31,41.14082176,-96.04167677,St Paul
+SAUKCWI,Sauk County Sheriff,"1300 Lange Ct., Baraboo, WI 53913",Baraboo,Sauk,55111,WI,55,43.46156929,-89.7672744,Chicago
+SAVHOLD,Savannah Hold Room,,,,,GA,,,,
+SCOTTIA,Scott County Jail,"400 W 4th St, Davenport, IA 52801",Davenport,Scott,19163,IA,19,41.52386632,-90.57924038,St Paul
+SCOTTNE,Scotts Bluff County Jail,"2522 7th St, Gering, NE 69341",Gering,Scotts Bluff,31157,NE,31,41.83622545,-103.6548715,St Paul
+BOPSET,Seatac Federal Detention Center,"2425 S. 200th Street, Seatac, WA 98198",Seatac,King,53033,WA,53,47.42197684,-122.3015451,Seattle
+SEAHOLD,Seattle Field Office Hold Room,"12500 Tukwila International Boulevard 4th Floor, Seattle, WA 98168",Seattle,King,53033,WA,53,47.49050762,-122.2911876,Seattle
+SEBASAR,Sebastian County Detention Center,"801 South A Street, Fort Smith, AR 72901",Fort Smith,Sebastian,05131,AR,05,35.38250868,-94.42505022,New Orleans
+SMNOLFL,Seminole County Jail,"211 Eslinger Way, Sanford, FL 32773",Sanford,Seminole,12117,FL,12,28.74779273,-81.29824922,Miami
+SENECOH,Seneca County Jail,"3040 South State Route 100, Tiffin, OH 44883",Tiffin,Seneca,39147,OH,39,41.07935461,-83.15365924,Detroit
+SFRHOLD,Sfr Hold Room,,,,,CA,,,,
+SCVMCCA,Sharp Chula Vista Medical Center,"751 Medical Center Ct, Chula Vista, CA 91911",Chula Vista,San Diego,06073,CA,06,32.61893561,-117.0235211,San Diego
+SHERBMN,Sherburne County Jail Services,"13880 Business Center Drive NW, Elk River, MN 55330",Elk River,Sherburne,27141,MN,27,45.3045097,-93.61927716,St Paul
+VVSHOLD,Shreveport Hold Room,,,,,LA,,,,
+SXCHOLD,Sioux City Hold Room,,,,,IA,,,,
+SIOUXIA,Sioux County Jail,"4363 Ironwood Avenue, Orange City, IA 51041",Orange City,Sioux,19167,IA,19,43.01882741,-96.07743013,St Paul
+SFDHOLD,Sioux Falls Hold Room,,,,,SD,,,,
+SNDHOLD,Snd District Staging,"880 Front Street Suite 2242, San Diego, CA 92101",San Diego,San Diego,06073,CA,06,32.71460715,-117.165296,San Diego
+SNJHOLD,Snj Hold Room,"603 San Juan Avenue First Floor, Stockton, CA 95203",Stockton,San Joaquin,06077,CA,06,37.95375697,-121.3211203,San Francisco
+SMRVLTX,Somervell County Sheriff’s Department,"750 Bo Gibbs Blvd, Glen Rose, TX 76043",Glen Rose,Somervell,48425,TX,48,32.25009478,-97.75109712,Houston
+WVSCENT,South Central Regional Jail,"1001 Centre Way, Charleston, WV 25309",Charleston,Kanawha,54039,WV,54,38.31099591,-81.71028615,Philadelphia
+BASILLA,South Louisiana ICE Processing Center,"3843 Stagg Ave, Basile, LA 70515",Basile,Evangeline,22039,LA,22,30.48171312,-92.58121682,New Orleans
+STFRCTX,South Texas Family Residential Center1,"300 El Rancho Way, Dilley, TX 78017",Dilley,Frio,48163,TX,48,28.65785369,-99.20038782,San Antonio
+STCDFTX,South Texas ICE Processing Center,"566 Veterans Drive, Pearsall, TX 78061",Pearsall,Frio,48163,TX,48,28.89486166,-99.12126683,San Antonio
+STDHOLD,South Texas/Pearsall Hold Room,,,,,TX,,,,
+WVSOUTH,Southern Regional Jail,"1200 Airport Rd, Beaver, WV 25813",Beaver,Raleigh,54081,WV,54,37.7710578,-81.11611223,Philadelphia
+SSHNHNY,Southside Hospital Northwell Health,"301 E Main St, Bay Shore, NY 11706",Bay Shore,Suffolk,36103,NY,36,40.72575482,-73.24141704,New York City
+WVSWEST,Southwestern Regional Jail,"1300 Gaston Caperton Dr, Holden, WV 25625",Holden,Logan,54045,WV,54,37.80522495,-82.09571942,Philadelphia
+SPOHOLD,Spokane Hold Room,,,,,WA,,,,
+SPRHONY,Spring Valley Hospital,"5400 S Rainbow Blvd, Las Vegas, NV 89118",Las Vegas,Clark,32003,NY,32,36.09062745,-115.239613,Salt Lake City
+BOPSPG,Springfield Federal Medical Center,"1900 W. Sunshine, Springfield, MO 65807",Springfield,Greene,29077,MO,29,37.17763662,-93.3231892,Chicago
+STCHRLA,St. Charles Parish Jail,"5061 La Highway 3127, Killona, LA 70057",Killona,St. Charles,22089,LA,22,29.991934,-90.50261072,New Orleans
+STCLAMI,St. Clair County Jail,"1170 Michigan Road, Port Huron, MI 48060",Port Huron,St. Clair,26147,MI,26,42.94230557,-82.47943808,Detroit
+STELHOH,St. Elizabeth Youngstown Hospital,"1044 Belmont Avenue, Youngstown, OH 44501",Youngstown,Mahoning,39099,OH,39,41.11381376,-80.65611397,Detroit
+SGUHOLD,"St. George, UT Hold Room",,,,,UT,,,,
+STJONFL,St. John’s County Jail,"3955 Lewis Speedway St., Saint Augustine, FL 32084",Saint Augustine,St. Johns,12109,FL,12,29.94029975,-81.33880221,Miami
+STJHCCA,St. John’s Hospital Camarillo,"2309 Antonio Ave, Camarillo, CA 93010",Camarillo,Ventura,06111,CA,06,34.24360246,-119.0203184,Los Angeles
+STJMCWA,St. Joseph Medical Center,"1717 South J St, Tacoma, WA 98405",Tacoma,Pierce,53053,WA,53,47.24542785,-122.4478638,Seattle
+STJOSAZ,St. Joseph’s Hospital & Medical Center,"350 West Thomas Rd, Phoenix, AZ 85013",Phoenix,Maricopa,04013,AZ,04,33.48092072,-112.0792416,Phoenix
+STLHOLD,St. Louis Hold Room,,,,,MO,,,,
+STLUCFL,St. Lucie County Jail,"900 N. Rock Rd, Fort Pierce, FL 34945",Fort Pierce,St. Lucie,12111,FL,12,27.45346523,-80.40944118,Miami
+SLHTWTX,St. Luke’s Health - the Woodlands,"17200 St Lukes Way, The Woodlands, TX 77384",The Woodlands,Montgomery,48339,TX,48,30.20566754,-95.45833587,Houston
+STMARCA,St. Mary Medical Center,"18300 California 18, Apple Valley, CA 92307",Apple Valley,San Bernardino,06071,CA,06,34.54189778,-117.2655742,Los Angeles
+SMARYMD,St. Mary’s County Detention Center,"41880 Baldridge Street, Leonardtown, MD 20650",Leonardtown,St. Mary's,24037,MD,24,38.30283319,-76.62814991,Baltimore
+STMARAZ,St. Mary’s Hospital,"1601 West Saint Marys Road, Tucson, AZ 85745",Tucson,Pima,04019,AZ,04,32.22820338,-111.0000813,Phoenix
+STGENMO,Ste. Genevieve County Detention Center,"5 Basler Drive, Sainte Genevieve, MO 63670",Sainte Genevieve,Ste. Genevieve,29186,MO,29,37.96605377,-90.05559285,Chicago
+STWRTGA,Stewart Detention Center,"146 Cca Road, Lumpkin, GA 31815",Lumpkin,Stewart,13259,GA,13,32.03560799,-84.77150169,Atlanta
+STK,Stockton Staging Facility,"603 San Juan Avenue, Stockton, CA 95203",Stockton,San Joaquin,06077,CA,06,37.95375697,-121.3211203,San Francisco
+STRAFNH,Strafford County Corrections,"266 County Farm Road, Dover, NH 03820",Dover,Strafford,33017,NH,33,43.21782859,-70.94013597,Boston
+STRMONY,Strong Memorial Hospital,"601 Elmwood Ave, Rochester, NY 14642",Rochester,Monroe,36055,NY,36,43.12283219,-77.62358742,Buffalo
+STUHOLD,Stuart Hold Room,,,,,FL,,,,
+SUFFONY,Suffolk County Correctional Facility,"100 Center Drive, Riverhead, NY 11901",Riverhead,Suffolk,36103,NY,36,40.91445158,-72.67250986,New York City
+SHMCHNV,Summerlin Hospital Medical Center,"657 N Town Center Dr, Las Vegas, NV 89144",Las Vegas,Clark,32003,NV,32,36.18116931,-115.3170879,Salt Lake City
+SUMMIUT,Summit County Jail,"6300 Justice Center Rd, Park City, UT 84098",Park City,Summit,49043,UT,49,40.7208854,-111.479076,Salt Lake City
+SUMTEFL,Sumter County Jail,"219 East Anderson Ave, Bushnell, FL 33513",Bushnell,Sumter,12119,FL,12,28.66270266,-82.10976288,Miami
+SNTRHNY,Sunrise Hospital,"3186 S Maryland Pkwy, Las Vegas, NV 89109",Las Vegas,Clark,32003,NY,32,36.13275003,-115.1358968,Salt Lake City
+SUTMCCA,Sutter Medical Center Sacramento,"1020 29th St #450, Sacramento, CA 95816",Sacramento,Sacramento,06067,CA,06,38.57280314,-121.4685018,San Francisco
+SUWANFL,Suwannee County Jail,"200 Ohio Ave S, Live Oak, FL 32064",Live Oak,Suwannee,12121,FL,12,30.29564082,-82.98506902,Miami
+SWEETWY,Sweetwater County Detention Center,"50140 Us Highway 191 South, Rock Springs, WY 82901",Rock Springs,Sweetwater,56037,WY,56,41.53703632,-109.3002655,Denver
+SYRHOLD,Syracuse Hold Room,,,,,NY,,,,
+CCAHUTX,T Don Hutto Detention Center,"1001 Welch Street, Taylor, TX 76574",Taylor,Williamson,48491,TX,48,30.56495908,-97.41997489,San Antonio
+THPMCTX,THOP Memorial Campus El Paso,"2001 N Oregon St, El Paso, TX 79902",El Paso,El Paso,48141,TX,48,31.77089731,-106.5001404,El Paso
+THPSCTX,THOP Sierra Campus El Paso,"1625 Medical Center Dr, El Paso, TX 79902",El Paso,El Paso,48141,TX,48,31.77760597,-106.4803796,El Paso
+THHMHTX,TX Health Harris Methodist Hospital,"201 Walls Dr, Cleburne, TX 76033",Cleburne,Johnson,48251,TX,48,32.33174348,-97.43840728,Dallas
+THHEBTX,TX Health Methodist Hospital Heb,"1600 Hospital Pkwy, Bedford, TX 76022",Bedford,Tarrant,48439,TX,48,32.83543455,-97.1233219,Dallas
+TACGHWA,Tacoma General Hospital,"315 Mlk Jr Way, Tacoma, WA 98405",Tacoma,Pierce,53053,WA,53,47.25977776,-122.4531703,Seattle
+TALHOLD,Tallahassee Hold Room,,,,,FL,,,,
+TALLAMS,Tallahatchie County Correctional Facility,"19351 Us 49, Tutwiler, MS 38963",Tutwiler,Tallahatchie,28135,MS,28,34.02701222,-90.44625155,New Orleans
+TAMHOLD,Tampa Hold Room,,,,,FL,,,,
+TAYLOTX,Taylor County Adult Detention,"910 South 27th Street, Abilene, TX 79602",Abilene,Taylor,48441,TX,48,32.41693799,-99.73460803,Dallas
+TELLECO,Teller County Jail,"288 Weaverville Road, Divide, CO 80814",Divide,Teller,08119,CO,08,38.94302011,-105.1513653,Denver
+THHHBTX,Tex Health Huguley Hospital,"11801 South Fwy I-35w, Burleson, TX 76028",Burleson,Tarrant,48439,TX,48,32.58679189,-97.31691369,Dallas
+TXAHOLD,Texarkana Hold Room,,,,,AR,,,,
+TVMSATX,Texas Vista Medical Center,"7400 Barlite Blvd, San Antonio, TX 78244",San Antonio,Bexar,48029,TX,48,29.35298822,-98.54591158,San Antonio
+TITUSTX,Titus County Jail,"304 South Van Buren Avenue, Mount Pleasant, TX 75455",Mount Pleasant,Titus,48449,TX,48,33.15478716,-94.9709381,Dallas
+TGREETX,Tom Green County Jail,"4382 N Us Hwy 277, San Angelo, TX 76905",San Angelo,Tom Green,48451,TX,48,31.49783364,-100.3668749,Dallas
+TOOELUT,Tooele County Jail,"1960 S Main St, Tooele, UT 84074",Tooele,Tooele,49045,UT,49,40.49319387,-112.3324999,Salt Lake City
+TOORANM,Torrance County Detention Facility,"209 County Road A049, Estancia, NM 87016",Estancia,Torrance,35057,NM,35,34.76767999,-106.018446,El Paso
+TRRMCNJ,Trinitas Regional Medical Center,"225 Williamson St, Elizabeth, NJ 07202",Elizabeth,Union,34039,NJ,34,40.65906601,-74.21475004,Newark
+BOPTCN,Tucson Federal Correctional Institution,"8901 South Wilmot Road, Tucson, AZ 85706",Tucson,Pima,04019,AZ,04,32.08938687,-110.8566636,Phoenix
+TUCHOLD,Tucson INS Hold Room,,,,,AZ,,,,
+TULCOOK,Tulsa County Jail,"300 North Denver Avenue, Tulsa, OK 74103",Tulsa,Tulsa,40143,OK,40,36.15724099,-95.99931204,Dallas
+TULHOLD,Tulsa Hold Room,,,,,OK,,,,
+TGKJLFL,Turner Guiford Knight (Tgk) Jail,"7000 NW 41st St., Miami, FL 33166",Miami,Miami-Dade,12086,FL,12,25.81029782,-80.31141999,Miami
+TFIHOLD,Twin Falls Hold Room,,,,,ID,,,,
+TBRJLME,Two Bridges Regional Jail,"522 Bath Road, Wiscasset, ME 04578",Wiscasset,Lincoln,23015,ME,23,43.97837246,-69.69871824,Boston
+BOPCAA,US Penitentiary Canaan,"3057 Eric J. Williams Memorial Dr, Waymart, PA 18472",Waymart,Wayne,42127,PA,42,41.5679172,-75.41206133,Philadelphia
+UCHUHCO,Uchealth University Hospital of County,"12605 E 16th Ave, Aurora, CO 80045",Aurora,Adams,08001,CO,08,39.74248973,-104.8416914,Denver
+UCCHIIL,Uchicago Medicine Hospital Chicago,"5841 S Maryland Ave, Chicago, IL 60637",Chicago,Cook,17031,IL,17,41.78843099,-87.60427702,Chicago
+UCHRVIL,Uchicago Medicine Ingalls Memorial,"1 Ingalls Dr, Harvey, IL 60426",Harvey,Cook,17031,IL,17,41.60722401,-87.659354,Chicago
+UHSHONY,Uhs Wilson Medical Center,"30 Harrison St, Johnson City, NY 13790",Johnson City,Broome,36007,NY,36,42.11476098,-75.95951804,Buffalo
+UINTAWY,Uinta County Detention Center,"77 County Road #109, Evanston, WY 82930",Evanston,Uinta,56041,WY,56,41.26930541,-110.9213668,Denver
+UMASSMA,Umass Memorial Medical Center,"55 Lake Ave N, Worcester, MA 01655",Worcester,Worcester,25027,MA,25,42.27756491,-71.7616715,Boston
+UNIONSD,Union County Jail,"209 E Main St Suite #250, Elk Point, SD 57025",Elk Point,Union,46127,SD,46,42.68584986,-96.68255716,St Paul
+UHOSPIN,Union Hospital,"1606 N 7th St, Terre Haute, IN 47804",Terre Haute,Vigo,18167,IN,18,39.485422,-87.40781904,Chicago
+UMEMCNY,United Memorial Medical Center,"127 North St, Batavia, NY 14020",Batavia,Genesee,36037,NY,36,43.00508142,-78.17659681,Buffalo
+UNIHONY,Unity Hospital,"1555 Long Pond Road, Rochester, NY 14626",Rochester,Monroe,36055,NY,36,43.19192954,-77.70551541,Buffalo
+UPSLHIA,Unity Point Health St. Lukes Hospital,"1026 A Ave NE, Cedar Rapids, IA 52402",Cedar Rapids,Linn,19113,IA,19,41.98538438,-91.6604823,St Paul
+UPSLSIA,Unitypoint Health St. Lukes Hospital Sxc,"2720 Stone Park Boulevard, Sioux City, IA 51104",Sioux City,Woodbury,19193,IA,19,42.51900551,-96.40598748,St Paul
+UHGMCOH,Univ Hospital Geauga Medical Center,"13207 Ravenna Rd, Chardon, OH 44024",Chardon,Geauga,39055,OH,39,41.50878585,-81.18971573,Detroit
+UNMEDMD,Univ of Maryland Medical Center,"22 S Greene St, Baltimore, MD 21201",Baltimore,Baltimore,24510,MD,24,39.28810428,-76.62472205,Baltimore
+UCSDHCA,University California San Diego Hospital,"4520 Executive Dr, San Diego, CA 92121",San Diego,San Diego,06073,CA,06,32.87519985,-117.2148794,San Diego
+UNIVHNJ,University Hospital,"150 Bergen Street, Newark, NJ 07103",Newark,Essex,34013,NJ,34,40.74063899,-74.19087603,Newark
+UVHSATX,University Hospital,"4502 Medical Dr, San Antonio, TX 78229",San Antonio,Bexar,48029,TX,48,29.50705674,-98.57813556,San Antonio
+UMCLVNV,University Medical Center,"1800 W Charleston Blvd, Las Vegas, NV 89102",Las Vegas,Clark,32003,NV,32,36.16038225,-115.1674545,Salt Lake City
+UMCEPTX,University Medical Center of El Paso,"4815 Alameda Ave, El Paso, TX 79905",El Paso,El Paso,48141,TX,48,31.7713296,-106.4340021,El Paso
+UMIAHFL,University of Miami Hospital,"1400 NW 12th Avenue, Miami, FL 33136",Miami,Miami-Dade,12086,FL,12,25.78835029,-80.21564345,Miami
+UNMHANM,University of New Mexico Hospital,"2211 Lomas Blvd NE, Albuquerque, NM 87106",Albuquerque,Bernalillo,35001,NM,35,35.08786337,-106.6185127,El Paso
+UPMCPPA,Upmc Presbyterian Hospital,"200 Lothrop St, Pittsburgh, PA 15213",Pittsburgh,Allegheny,42003,PA,42,40.44224705,-79.96092873,Philadelphia
+URSLATX,Ursula Centralized Processing Center,"3700 W Ursula Ave, Mcallen, TX 78503",Mcallen,Hidalgo,48215,TX,48,26.15905836,-98.27020363,Harlingen
+UTAHCUT,Utah County Jail,"3075 North Main Street, Spanish Fork, UT 84660",Spanish Fork,Utah,49049,UT,49,40.14931516,-111.6592909,Salt Lake City
+UVACVVA,Uva Univ Hospital Center,"1215 Lee St, Charlottesville, VA 22908",Charlottesville,Charlottesville,51540,VA,51,38.0310571,-78.49851008,Washington
+UVALDTX,Uvalde County Jail,"121 E Nopal, Uvalde, TX 78801",Uvalde,Uvalde,48463,TX,48,29.21130057,-99.78564569,San Antonio
+VTDCORR,VT. Department of Corrections,"103 South Main Street, Waterbury, VT 05676",Waterbury,Washington,50023,VT,50,44.33372564,-72.75238596,Boston
+VALVETX,Val Verde Detention Center,"253 Farm To Market 2523, Del Rio, TX 78840",Del Rio,Val Verde,48465,TX,48,29.37315993,-100.8478472,San Antonio
+VBHOSTX,Valley Baptist Hospital,"2101 Pease St, Harlingen, TX 78550",Harlingen,Cameron,48061,TX,48,26.17445998,-97.67072497,Harlingen
+VWHMCAZ,Valleywise Health Medical Center,"2601 E Roosevelt St, Phoenix, AZ 85008",Phoenix,Maricopa,04013,AZ,04,33.45754045,-112.025579,Phoenix
+VCUHOVA,Vcu Health Tappahannock Hospital,"618 Hospital Road, Tappahannock, VA 22560",Tappahannock,Essex,51057,VA,51,37.90130269,-76.87888516,Washington
+VENTUCA,Ventura County Jail,"800 South Victoria Avenue, Ventura, CA 93009",Ventura,Ventura,06111,CA,06,34.26848745,-119.2114051,Los Angeles
+VENHOLD,Ventura Custody Case,"321 Cortez Circle, Camarillo, CA 93012",Camarillo,Ventura,06111,CA,06,34.21409975,-118.9948304,Los Angeles
+VVGMCCA,Victor Valley Global Medical Center,"15248 Eleventh Street, Victorville, CA 92395",Victorville,San Bernardino,06071,CA,06,34.52817234,-117.2939222,Los Angeles
+VICTOTX,Victoria County Jail,"101 North Glass Street, Victoria, TX 77901",Victoria,Victoria,48469,TX,48,28.80026713,-97.0083268,Houston
+VIRBEVA,Virginia Beach,"2501 James Madison Boulevard, Virginia Beach, VA 23456",Virginia Beach,Virginia Beach,51810,VA,51,36.75324963,-76.06190081,Washington
+VPREGVA,Virginia Peninsula Regional Jail,"9320 Merrimac Trail, Williamsburg, VA 23185",Williamsburg,James City,51095,VA,51,37.21660857,-76.60350921,Washington
+VRK,Vrk Prcs,"201 Varick Street, New York, NY 10014",New York,New York,36061,NY,36,40.72807334,-74.00559633,New York City
+WCTHOLD,Waco Detention and Removal Operations Hold Room,,,,,TX,,,,
+WAKULFL,Wakulla County Jail,"15 Oak Street, Crawfordville, FL 32327",Crawfordville,Wakulla,12129,FL,12,30.19656538,-84.37729408,Miami
+WALTNFL,Walton County DOC,"691 Institution Rd., Defuniak Springs, FL 32433",Defuniak Springs,Walton,12131,FL,12,30.7780307,-86.10312887,Miami
+WLTSOFL,Walton County Jail,"40 Sheriff Cir, Defuniak Springs, FL 32433",Defuniak Springs,Walton,12131,FL,12,30.78346025,-86.1039943,Miami
+WARDCND,Ward County Jail,"204 Front St, Minot, ND 58702",Minot,Ward,38101,ND,38,48.23365612,-101.2873442,St Paul
+NYWASHC,Washington Correctional,"72 Lock 11 Rd, Comstock, NY 12821",Comstock,Washington,36115,NY,36,43.46521437,-73.43226744,Buffalo
+WASHIMD,Washington County Detention,"500 Western Maryland Parkway, Hagerstown, MD 21740",Hagerstown,Washington,24043,MD,24,39.63950317,-77.76189888,Baltimore
+WAJAIMN,Washington County Jail,"14900 North 62st. Street, Stillwater, MN 55082",Stillwater,Washington,27163,MN,27,45.0380172,-92.80288302,St Paul
+WASHCUT,Washington County Jail,"750 South 5300 West, Hurricane, UT 84737",Hurricane,Washington,49053,UT,49,37.15838619,-113.4122214,Salt Lake City
+WASHIAR,Washington County Jail,"1155 West Clydesdale Drive, Fayetteville, AR 72701",Fayetteville,Washington,05143,AR,05,36.03353592,-94.17746959,New Orleans
+WASHOLD,Washington Field Office,"14797 Murdock Street, Chantilly, VA 20151",Chantilly,Fairfax,51059,VA,51,38.91143006,-77.45867867,Washington
+WASHONV,Washoe County Jail,"911 E Parr Blvd, Reno, NV 89512",Reno,Washoe,32031,NV,32,39.57384441,-119.8110119,Salt Lake City
+WAUKEWI,Waukesha County Jail,"515 W Moreland Blvd, Waukesha, WI 53188",Waukesha,Waukesha,55133,WI,55,43.02223576,-88.22965085,Chicago
+WEBCOTX,Webb County Jail,"1000 San Agustin Ave, Laredo, TX 78040",Laredo,Webb,48479,TX,48,27.50796861,-99.50523886,Harlingen
+WEBERUT,Weber County Jail,"1400 Depot Dr, Ogden, UT 84404",Ogden,Weber,49057,UT,49,41.24036286,-111.9935134,Salt Lake City
+WNTHOLD,Wenatchee Hold Room,,,,,WA,,,,
+WWDHDNH,Wentworth Douglas Hospital,"789 Central Ave, Dover, NH 03820",Dover,Strafford,33017,NH,33,43.21340901,-70.87359603,Boston
+WKBHMFL,West Kendall Baptist Hospital,"15955 SW 96th Terrace, Miami, FL 33196",Miami,Miami-Dade,12086,FL,12,25.67808087,-80.45628462,Miami
+WMDBHFL,West Miami Dade Baptist Health Emergency,"14150 SW 136th St, Miami, FL 33186",Miami,Miami-Dade,12086,FL,12,25.64000251,-80.42243548,Miami
+TNWESDF,West Tennessee Detention Facility,"6299 Finde Naifeh Drive, Mason, TN 38049",Mason,Tipton,47167,TN,47,35.40742552,-89.54861067,New Orleans
+WVWESTR,Western Regional Jail,"1 O'hanlon Place, Barboursville, WV 25504",Barboursville,Cabell,54011,WV,54,38.418957,-82.29305146,Philadelphia
+WVIRGVA,Western Virginia Regional Jail,"5885 W River Rd, Salem, VA 24153",Salem,Roanoke,51161,VA,51,37.25088418,-80.17034186,Washington
+WESHOLD,Westminster Custody,,,,,CA,,,,
+WMLNDPA,Westmoreland County Jail,"2 North Main Street, Greensburg, PA 15601",Greensburg,Westmoreland,42129,PA,42,40.30276321,-79.54461724,Philadelphia
+WMHOSCA,White Memorial Hospital,"1720 E Cesar Chavez, Los Angeles, CA 90033",Los Angeles,Los Angeles,06037,CA,06,34.04931669,-118.2178375,Los Angeles
+,Wichita County Jail,"2815 Central Fwy, Wichita Falls, TX 76302",Wichita Falls,Wichita,48485,TX,48,33.88454222,-98.44014177,Dallas
+WICHOLD,Wichita Hold Room,,,,,KS,,,,
+WPOHOLD,Williamsport Hold Room,,,,,PA,,,,
+WILSOTX,Wilson County Jail,"800 10th St Unit 4, Floresville, TX 78114",Floresville,Wilson,48493,TX,48,29.14815731,-98.15761162,San Antonio
+GTMOACU,Windward Holding Facility,"Avenue C Psc 1005 Box 55, Fpo Ae, CU 09593",Fpo Ae,,,CU,,,,Miami
+LAWINCI,Winn Correctional Center,"180 Cca Blvd, Winnfield, LA 71483",Winnfield,Winn,22127,LA,22,31.85046438,-92.78139171,New Orleans
+WOODBIA,Woodbury County Jail,"3701 28th St, Sioux City, IA 51105",Sioux City,Woodbury,19193,IA,19,42.52061602,-96.35358368,St Paul
+WOODFKY,Woodford County Sheriff/Jail,"204 Beasley Rd, Versailles, KY 40383",Versailles,Woodford,21239,KY,21,38.04795649,-84.75795972,Chicago
+WORCEMD,Worcester County Jail,"5022 Joyner Road, Snow Hill, MD 21863",Snow Hill,Worcester,24047,MD,24,38.17003656,-75.37565444,Baltimore
+UBRKHWV,Wvu Medicine Berkeley Medical Center,"2500 Hospital Dr, Martinsburg, WV 25401",Martinsburg,Berkeley,54003,WV,54,39.47649468,-77.98042649,Philadelphia
+WYATTRI,Wyatt Detention Facility,"950 High Street, Central Falls, RI 02863",Central Falls,Providence,44007,RI,44,41.8923362,-71.3840132,Boston
+YAKHOLD,Yakima Sub-Office,"3701 River Road, Yakima, WA 98902",Yakima,Yakima,53077,WA,53,46.61861971,-120.558072,Seattle
+YELLOMT,Yellowstone County Jail,"3165 King Avenue East, Billings, MT 59101",Billings,Yellowstone,30111,MT,30,45.75579292,-108.5009179,Salt Lake City
+YORCOSC,York County Detention Center,"1675 York Hwy #3-A, York, SC 29745",York,York,45091,SC,45,34.98239828,-81.19973823,Atlanta
+YORCOPA,York County Prison,"3401 Concord Road, York, PA 17402",York,York,42133,PA,42,39.98573989,-76.66609663,Philadelphia
+YRKHOLD,York Hold Room,"1605 Clugston Road, York, PA 17404",York,York,42133,PA,42,39.9849929,-76.75795911,Philadelphia
+YUMHOLD,Yuma Hold Room,,,,,AZ,,,,
+YRMDCAZ,Yuma Regional Medical Center,"2400 S Avenue A, Yuma, AZ 85364",Yuma,Yuma,04027,AZ,04,32.68316965,-114.6334572,Phoenix
