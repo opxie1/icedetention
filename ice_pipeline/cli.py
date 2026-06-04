@@ -178,6 +178,7 @@ def _cmd_aggregate_stays(args: argparse.Namespace) -> int:
         fips_csv=Path(args.fips_csv) if args.fips_csv else None,
         out_dir=Path(args.out_dir or config.PROCESSED_DIR),
         refs_dir=Path(args.refs_dir or config.REFERENCES_DIR),
+        cutoff_book_in=args.cutoff_book_in or "",
     )
     print("Stays aggregation complete.")
     print(f"  stays loaded     : {stats['stays_total']:,}")
@@ -293,6 +294,15 @@ def build_parser() -> argparse.ArgumentParser:
     asp.add_argument("--fips-csv", default=None)
     asp.add_argument("--out-dir", default=None)
     asp.add_argument("--refs-dir", default=None)
+    asp.add_argument(
+        "--cutoff-book-in", default="2023-12-01",
+        help=(
+            "ISO date; keep only stays with book_in >= this. Default "
+            "'2023-12-01' avoids overlap with the FOIA panel (whose FY23 "
+            "extract actually contains book-ins through Nov 2023). Pass "
+            "empty string to include everything."
+        ),
+    )
     asp.set_defaults(func=_cmd_aggregate_stays)
 
     ae_all = sub.add_parser(

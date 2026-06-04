@@ -66,6 +66,7 @@ def aggregate_stays(
     fips_csv: Path | None = None,
     out_dir: Path = config.PROCESSED_DIR,
     refs_dir: Path = config.REFERENCES_DIR,
+    cutoff_book_in: str = "2023-12-01",
 ) -> dict:
     if fips_csv is None:
         candidates = sorted(refs_dir.glob("fips*state*.csv")) + sorted(
@@ -84,6 +85,22 @@ def aggregate_stays(
     s["book_in"] = pd.to_datetime(
         s["book_in_date_time_first"], errors="coerce", utc=True
     )
+    s["book_out"] = pd.to_datetime(
+        s["book_out_date_time_last"], errors="coerce", utc=True
+    )
+    s["stay_days"] = (
+        (s["book_out"] - s["book_in"]).dt.total_seconds() / 86400
+    ).clip(lower=0)
+
+    if cutoff_book_in:
+        cutoff = pd.Timestamp(cutoff_book_in, tz="UTC")
+        before = len(s)
+        s = s[s["book_in"] >= cutoff].copy()
+        log.info(
+            "applied cutoff book_in >= %s: kept %d / %d stays",
+            cutoff_book_in, len(s), before,
+        )
+
     s["year"] = s["book_in"].dt.year.astype("Int64")
     s["year_month"] = s["book_in"].dt.strftime("%Y-%m")
     s["state_abbr"] = s["state_longest"].fillna("").astype(str).str.strip().str.upper()
@@ -125,6 +142,7 @@ def aggregate_stays(
         n_stays=("stay_ID", "size"),
         n_unique_persons=("unique_identifier", "nunique"),
         n_stints_total=("n_stints", "sum"),
+        total_days=("stay_days", "sum"),
     ).reset_index().sort_values(["state_abbr", "county_name", "year"])
 
     month_panel = mapped.groupby(
@@ -134,6 +152,7 @@ def aggregate_stays(
         n_stays=("stay_ID", "size"),
         n_unique_persons=("unique_identifier", "nunique"),
         n_stints_total=("n_stints", "sum"),
+        total_days=("stay_days", "sum"),
     ).reset_index().sort_values(["state_abbr", "county_name", "year_month"])
 
     unmapped_summary = unmapped.groupby(
