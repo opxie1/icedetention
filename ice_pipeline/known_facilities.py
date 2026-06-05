@@ -1013,7 +1013,7 @@ KNOWN_FACILITY_CODES: dict[str, tuple[str, str]] = {
     "PAVHRPR": ("PR", "San Juan"),
     "HOSPSPR": ("PR", "San Juan"),
     "PRVEGAL": ("PR", "Vega Alta"),
-    "AIRHOPR": ("PR", "Carolina"),
+    "AIRHOPR": ("PR", "San Juan"),
     "SAJHOLD": ("PR", "San Juan"),
     "SJUHOLD": ("PR", "San Juan"),
     "GUDOCHG": ("GU", "Guam"),

@@ -49,6 +49,8 @@ print(f"  episodes:   {mapped_eps:,}/{total_eps:,} "
       f"({100*mapped_eps/total_eps:.2f}%)")
 print()
 
-print("=== 5. Open questions still awaiting Catalina ===")
-print("  - AIRPORT HOTEL, SAJ. (80 episodes): Carolina or San Juan?")
-print("  - Stays parquet: option (a) keep, (b) build FY23+ extension, (c) splice?")
+print("=== 5. Catalina's instructions, status ===")
+print("  - SJU airport hold room -> San Juan: applied")
+print("  - Airport Hotel, SAJ. -> San Juan (treat 'San Juan airport' as the area): applied")
+print("  - DDP facility list as authoritative: applied")
+print("  - DDP stays panel (Dec 2023+, no FOIA overlap): applied")
