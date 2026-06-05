@@ -63,10 +63,11 @@ The `year` column is **calendar year of book-in**.
 4. **City keyword** lookup from a curated table of major ICE cities.
 5. **State-only fallback** if nothing else works.
 
-**Override.** Per Prof. Amuedo-Dorantes' instruction, "San Juan Airport
-Hold Room" (facility code `SJUHOLD`) is attributed to **San Juan
-Municipio (72127)** rather than Carolina Municipio where the airport
-physically sits.
+**Override.** Per Prof. Amuedo-Dorantes' instruction ("you can assign
+the San Juan airport to San Juan"), both ICE facilities at the San Juan
+airport — "San Juan Airport Hold Room" (`SJUHOLD`) and "Airport Hotel,
+SAJ." (`AIRHOPR`) — are attributed to **San Juan Municipio (72127)**
+rather than Carolina Municipio where the airport physically sits.
 
 **Coverage.** 1,098 of 1,141 distinct facility codes resolved (96.2%);
 8,455,174 of 8,458,563 episodes (99.96%). The 43 unresolved facilities
