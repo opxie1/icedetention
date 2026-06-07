@@ -69,8 +69,8 @@ airport — "San Juan Airport Hold Room" (`SJUHOLD`) and "Airport Hotel,
 SAJ." (`AIRHOPR`) — are attributed to **San Juan Municipio (72127)**
 rather than Carolina Municipio where the airport physically sits.
 
-**Coverage.** 1,098 of 1,141 distinct facility codes resolved (96.2%);
-8,455,174 of 8,458,563 episodes (99.96%). The 43 unresolved facilities
+**Coverage.** 1,099 of 1,141 distinct facility codes resolved (96.3%);
+8,455,175 of 8,458,563 episodes (99.96%). The 42 unresolved facilities
 are listed in `facilities_need_county.csv` in the `for review` folder.
 
 **Columns.**
@@ -146,12 +146,29 @@ cutoff is one month later than the federal-fiscal-year boundary.)
 If you need stays from before Dec 2023, re-run with
 `--cutoff-book-in ""` to include everything.
 
-**County assignment.** DDP provides pre-resolved `state_longest` and
-`county_longest` for each stay (the state and county where the person
-spent the most time during the stay). We look up the 5-digit FIPS by
-joining `(state, county_longest)` against the FIPS reference. About
-93% of stays resolve; the remainder (≈71k) have a state but blank
-county in the DDP source — these are in `unmapped_stays.csv`.
+**County assignment.** Two-stage:
+
+1. **DDP-provided geography.** DDP supplies pre-resolved
+   `state_longest` and `county_longest` for each stay (the state and
+   county where the person spent the most time during the stay). We
+   look up the 5-digit FIPS by joining `(state, county_longest)`
+   against the Census 2020 national county reference.
+2. **Facility-code rescue.** For stays where DDP left `county_longest`
+   blank (~44k stays after the Dec 2023 cutoff), we look up the stay's
+   `detention_facility_code_longest` against the FOIA detention
+   facility crosswalk built in step 1 of the detention panel. This
+   recovers ~96.9% of the DDP-blank stays (≈42.8k) by reusing the
+   county we already resolved for that facility through the FOIA
+   pipeline (DDP → hardcoded → deterministic county-name → city
+   keyword chain).
+
+Final coverage: **749,142 of 750,531 stays mapped (99.82%)**. The
+remaining 1,389 stays are listed in `unmapped_stays.csv`; they fall
+into three buckets — (a) Guantanamo Bay (Cuba — `CU`, 101 stays, no
+US county applies), (b) hold rooms with no resolvable facility county
+(e.g. `SMAHOLD`, `NEWHOLD` — DDP blank, FOIA pipeline could not place
+them either), and (c) a handful of state-only DDP rows with no
+facility code we could match.
 
 **Columns.**
 - `county_fips`, `county_name`, `state_abbr`, `state_name`

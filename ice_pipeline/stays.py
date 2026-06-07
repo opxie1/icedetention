@@ -15,6 +15,7 @@ log = logging.getLogger(__name__)
 STAYS_YEAR_PANEL_FILENAME = "county_year_stays_panel.csv"
 STAYS_MONTH_PANEL_FILENAME = "county_month_stays_panel.csv"
 STAYS_UNMAPPED_FILENAME = "unmapped_stays.csv"
+FACILITY_CROSSWALK_FILENAME = "facility_crosswalk.csv"
 
 
 _STATE_NAME = {
@@ -58,6 +59,19 @@ def _build_fips_lookup(fips_csv: Path) -> dict[tuple[str, str], tuple[str, str]]
         cn_compact = norm_compact(r["county_name"])
         lookup[(sa, cn_norm)] = (r["fips"], r["county_name"])
         lookup[(sa, cn_compact)] = (r["fips"], r["county_name"])
+        # VA independent cities (and a few in MO, NV) appear in the FIPS file
+        # as "X city" but in DDP/FOIA as bare "X". Register the bare form if
+        # not already taken by another county in the same state.
+        bare = cn_norm
+        if bare.endswith(" city"):
+            stripped = bare[:-5].strip()
+            if stripped and (sa, stripped) not in lookup:
+                lookup[(sa, stripped)] = (r["fips"], r["county_name"])
+        bare_c = cn_compact
+        if bare_c.endswith("city"):
+            stripped_c = bare_c[:-4]
+            if stripped_c and (sa, stripped_c) not in lookup:
+                lookup[(sa, stripped_c)] = (r["fips"], r["county_name"])
     return lookup
 
 
@@ -126,6 +140,37 @@ def aggregate_stays(
     resolved = s.apply(_resolve, axis=1, result_type="expand")
     s["county_fips"] = resolved[0]
     s["county_name"] = resolved[1]
+
+    cw_path = out_dir / FACILITY_CROSSWALK_FILENAME
+    if cw_path.exists():
+        cw = pd.read_csv(cw_path, dtype=str).fillna("")
+        fac2fips = dict(zip(cw["facility_code"], cw["county_fips"]))
+        fac2cnty = dict(zip(cw["facility_code"], cw["county_name"]))
+        fac2st = dict(zip(cw["facility_code"], cw["state_abbr"]))
+        need = s["county_fips"] == ""
+        fac = s.loc[need, "detention_facility_code_longest"].astype(str)
+        rescued_fips = fac.map(fac2fips).fillna("")
+        rescued_cnty = fac.map(fac2cnty).fillna("")
+        rescued_st = fac.map(fac2st).fillna("")
+        valid = rescued_fips.str.len() == 5
+        idx = fac.index[valid]
+        s.loc[idx, "county_fips"] = rescued_fips[valid].values
+        s.loc[idx, "county_name"] = rescued_cnty[valid].values
+        empty_state = s.loc[idx, "state_abbr"] == ""
+        es_idx = idx[empty_state.values]
+        s.loc[es_idx, "state_abbr"] = rescued_st.loc[es_idx].values
+        s.loc[es_idx, "state_name"] = (
+            s.loc[es_idx, "state_abbr"].map(_STATE_NAME).fillna("").values
+        )
+        log.info(
+            "rescued %d / %d blank-county stays via FOIA facility crosswalk",
+            int(valid.sum()), int(need.sum()),
+        )
+    else:
+        log.info(
+            "no %s found at %s; skipping facility-code rescue",
+            FACILITY_CROSSWALK_FILENAME, out_dir,
+        )
 
     unmapped_mask = (s["county_fips"] == "") | s["year"].isna()
     mapped = s[~unmapped_mask].copy()

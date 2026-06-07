@@ -1535,9 +1535,21 @@ _DECORATION_RE = re.compile(
 )
 
 
+def _fold_ascii(s: str) -> str:
+    """Strip diacritics so 'Doña Ana' matches 'Dona Ana', 'Manatí' matches
+    'Manati', etc. Canonical-decompose then drop combining marks (Mn).
+    """
+    import unicodedata
+    return "".join(
+        c for c in unicodedata.normalize("NFD", s)
+        if unicodedata.category(c) != "Mn"
+    )
+
+
 def norm_county(s: str) -> str:
     if s is None:
         return ""
+    s = _fold_ascii(s)
     s = s.strip().lower().replace(".", "").replace(",", "")
     s = " ".join(s.split())
     prev = None
