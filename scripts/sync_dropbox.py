@@ -14,7 +14,7 @@ DBOX = Path(r"C:\Users\xief\Dropbox\ethan xie\ice crosswalk")
 
 LAYOUT = {
     # Dropbox path (relative to DBOX) -> source path (relative to REPO)
-    "README_PANELS.md": "data/processed/README_PANELS.md",
+    "README_PANELS.txt": "data/processed/README_PANELS.txt",
     "panels/county_year_panel.csv": "data/processed/county_year_panel.csv",
     "panels/county_month_panel.csv": "data/processed/county_month_panel.csv",
     "panels/county_year_encounters_panel.csv": "data/processed/county_year_encounters_panel.csv",
@@ -35,6 +35,7 @@ LAYOUT = {
 OBSOLETE_FILES = [
     "for review/facility_overrides_template.csv",
     "for review/site_overrides_template.csv",
+    "README_PANELS.md",
 ]
 
 

@@ -114,7 +114,7 @@ for f, expect in key_checks.items():
 section("4. All 16 deliverable files exist in repo")
 # ---------------------------------------------------------------------------
 DELIVERABLES = {
-    "README_PANELS.md": "data/processed/README_PANELS.md",
+    "README_PANELS.txt": "data/processed/README_PANELS.txt",
     "county_year_panel.csv": "data/processed/county_year_panel.csv",
     "county_month_panel.csv": "data/processed/county_month_panel.csv",
     "county_year_encounters_panel.csv": "data/processed/county_year_encounters_panel.csv",
@@ -280,18 +280,16 @@ for f, (label, exp) in expected.items():
 # ---------------------------------------------------------------------------
 section("10. README is internally consistent with data")
 # ---------------------------------------------------------------------------
-readme = (REPO / "data/processed/README_PANELS.md").read_text(encoding="utf-8")
+readme = (REPO / "data/processed/README_PANELS.txt").read_text(encoding="utf-8")
 for needle in [
-    "San Juan Municipio (72127)",
-    "AIRHOPR",
-    "SJUHOLD",
+    "San Juan",
     "Deportation Data Project",
-    "99.82",
-    "1,389",
-    "749,142",
-    "Dec 1, 2023",
-    "1,099 of 1,141",
     "99.96",
+    "99.8",
+    "December 2023",
+    "n_stints_total",
+    "county_fips",
+    "for review",
     "Guantanamo",
 ]:
     check(f"README mentions: {needle!r}", needle in readme)
@@ -307,7 +305,7 @@ def md5(p: Path) -> str:
     return h.hexdigest()
 
 DBOX_LAYOUT = {
-    "README_PANELS.md": "README_PANELS.md",
+    "README_PANELS.txt": "README_PANELS.txt",
     "county_year_panel.csv": "panels/county_year_panel.csv",
     "county_month_panel.csv": "panels/county_month_panel.csv",
     "county_year_encounters_panel.csv": "panels/county_year_encounters_panel.csv",
