@@ -15,6 +15,8 @@ DBOX = Path(r"C:\Users\xief\Dropbox\ethan xie\ice crosswalk")
 LAYOUT = {
     # Dropbox path (relative to DBOX) -> source path (relative to REPO)
     "README_PANELS.txt": "data/processed/README_PANELS.txt",
+    "panels/county_year_detention_combined.csv": "data/processed/county_year_detention_combined.csv",
+    "panels/county_month_detention_combined.csv": "data/processed/county_month_detention_combined.csv",
     "panels/county_year_panel.csv": "data/processed/county_year_panel.csv",
     "panels/county_month_panel.csv": "data/processed/county_month_panel.csv",
     "panels/county_year_encounters_panel.csv": "data/processed/county_year_encounters_panel.csv",
