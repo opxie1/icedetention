@@ -156,11 +156,16 @@ def aggregate_stays(
         idx = fac.index[valid]
         s.loc[idx, "county_fips"] = rescued_fips[valid].values
         s.loc[idx, "county_name"] = rescued_cnty[valid].values
-        empty_state = s.loc[idx, "state_abbr"] == ""
-        es_idx = idx[empty_state.values]
-        s.loc[es_idx, "state_abbr"] = rescued_st.loc[es_idx].values
-        s.loc[es_idx, "state_name"] = (
-            s.loc[es_idx, "state_abbr"].map(_STATE_NAME).fillna("").values
+        # The rescued facility's 5-digit FIPS uniquely determines its state,
+        # so the crosswalk state governs. Overwrite any DDP state_longest that
+        # disagrees (e.g. DDP labelled a Maryland facility as Colorado).
+        new_state = rescued_st[valid]
+        has_state = new_state != ""
+        st_idx = idx[has_state.values]
+        s.loc[st_idx, "state_abbr"] = new_state[has_state].values
+        s.loc[st_idx, "state_name"] = (
+            pd.Series(new_state[has_state].values, index=st_idx)
+            .map(_STATE_NAME).fillna("").values
         )
         log.info(
             "rescued %d / %d blank-county stays via FOIA facility crosswalk",
