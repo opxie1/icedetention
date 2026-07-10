@@ -26,3 +26,4 @@ build/
 Thumbs.db
 references/_census_national_county2020.txt
 references/fips_state_county.csv.bak_truncated
+references/census_api_key.txt

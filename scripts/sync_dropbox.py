@@ -32,6 +32,9 @@ LAYOUT = {
     "crosswalks/unmapped_stays.csv": "data/processed/unmapped_stays.csv",
     "for review/facilities_need_county.csv": "references/facilities_need_county.csv",
     "for review/sites_need_county.csv": "references/sites_need_county.csv",
+    "population/county_year_population.csv": "data/processed/county_year_population.csv",
+    "population/county_year_detention_population.csv": "data/processed/county_year_detention_population.csv",
+    "population/county_month_detention_population.csv": "data/processed/county_month_detention_population.csv",
 }
 
 OBSOLETE_FILES = [
