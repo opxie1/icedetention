@@ -37,9 +37,7 @@ def section(name: str) -> None:
     print("=" * 70)
 
 
-# ---------------------------------------------------------------------------
 section("1. Source data files")
-# ---------------------------------------------------------------------------
 DOWNLOADS = Path(r"C:\Users\xief\Downloads")
 for name in [
     "detention-stays_filtered_20260528_033200.parquet",
@@ -57,9 +55,7 @@ check(
 ero = list(DOWNLOADS.glob("2025-ICLI-00019_2024-ICFO-39357_ERO Encounters_*"))
 check("ERO Encounters workbook", len(ero) >= 1)
 
-# ---------------------------------------------------------------------------
 section("2. Pipeline modules import cleanly")
-# ---------------------------------------------------------------------------
 for mod in [
     "ice_pipeline.config",
     "ice_pipeline.known_facilities",
@@ -76,9 +72,7 @@ for mod in [
     except Exception as e:
         check(f"import {mod}", False, str(e))
 
-# ---------------------------------------------------------------------------
 section("3. FIPS reference is clean (no truncation)")
-# ---------------------------------------------------------------------------
 fips = pd.read_csv(REPO / "references/fips_state_county.csv", dtype={"fips": str})
 check("FIPS file has ~3235 rows", abs(len(fips) - 3235) < 5, f"{len(fips)} rows")
 check(
@@ -110,9 +104,7 @@ for f, expect in key_checks.items():
     ok = expect.lower() in actual.lower()
     check(f"FIPS {f} contains {expect!r}", ok, f"got {actual!r}")
 
-# ---------------------------------------------------------------------------
 section("4. All 16 deliverable files exist in repo")
-# ---------------------------------------------------------------------------
 DELIVERABLES = {
     "README_PANELS.txt": "data/processed/README_PANELS.txt",
     "county_year_panel.csv": "data/processed/county_year_panel.csv",
@@ -136,9 +128,7 @@ for fn, rel in DELIVERABLES.items():
     ok = p.is_file() and p.stat().st_size > 0
     check(f"repo file: {fn}", ok, f"{p.stat().st_size if p.exists() else 0} B")
 
-# ---------------------------------------------------------------------------
 section("5. CSV files are valid and have expected columns")
-# ---------------------------------------------------------------------------
 PANEL_COLS_DETENTION = {
     "county_fips", "county_name", "state_abbr", "state_name",
     "n_episodes", "n_unique_persons", "detention_days",
@@ -190,9 +180,7 @@ for fn in ["county_year_encounters_panel.csv", "county_month_encounters_panel.cs
         f"missing={missing}" if missing else f"{len(df):,} rows",
     )
 
-# ---------------------------------------------------------------------------
 section("6. Coverage matches README claims")
-# ---------------------------------------------------------------------------
 cw = pd.read_csv(REPO / "data/processed/facility_crosswalk.csv", dtype=str).fillna("")
 mapped = cw[cw["county_fips"] != ""]
 total_eps = cw["n_episodes"].astype(int).sum()
@@ -227,9 +215,7 @@ check(
     f"got {mapped_stays:,}",
 )
 
-# ---------------------------------------------------------------------------
 section("7. Splice integrity (no FOIA/stays overlap)")
-# ---------------------------------------------------------------------------
 det_mo = pd.read_csv(REPO / "data/processed/county_month_panel.csv")
 st_mo = pd.read_csv(REPO / "data/processed/county_month_stays_panel.csv")
 det_months = set(det_mo["year_month"])
@@ -240,9 +226,7 @@ check("FOIA last month = 2023-11", max(det_months) == "2023-11", f"got {max(det_
 check("Stays first month = 2023-12", min(st_months) == "2023-12", f"got {min(st_months)}")
 check("Stays last month >= 2026-03", max(st_months) >= "2026-03", f"got {max(st_months)}")
 
-# ---------------------------------------------------------------------------
 section("8. Catalina's overrides applied")
-# ---------------------------------------------------------------------------
 sjs_rows = cw[cw["facility_code"].isin(["SJUHOLD", "AIRHOPR"])]
 all_sj = (sjs_rows["county_fips"] == "72127").all() and len(sjs_rows) == 2
 check(
@@ -251,15 +235,12 @@ check(
     sjs_rows[["facility_code", "county_name", "county_fips"]].to_string(index=False),
 )
 
-# Carolina PR should now be empty
 yr_det = pd.read_csv(REPO / "data/processed/county_year_panel.csv", dtype={"county_fips": str})
 yr_det["county_fips"] = yr_det["county_fips"].str.zfill(5)
 carolina = yr_det[yr_det["county_fips"] == "72031"]["n_episodes"].sum()
 check("Carolina PR (72031) has 0 episodes", carolina == 0, f"got {carolina}")
 
-# ---------------------------------------------------------------------------
 section("9. DDP corrections reflected in panel totals")
-# ---------------------------------------------------------------------------
 expected = {
     "48061": ("Cameron TX (RGV Staging here)", 763_472),
     "48215": ("Hidalgo TX (RGV used to live here)", 77_645),
@@ -277,9 +258,7 @@ for f, (label, exp) in expected.items():
         f"got {got:,}",
     )
 
-# ---------------------------------------------------------------------------
 section("10. README is internally consistent with data")
-# ---------------------------------------------------------------------------
 readme = (REPO / "data/processed/README_PANELS.txt").read_text(encoding="utf-8")
 for needle in [
     "San Juan",
@@ -294,9 +273,7 @@ for needle in [
 ]:
     check(f"README mentions: {needle!r}", needle in readme)
 
-# ---------------------------------------------------------------------------
 section("11. Dropbox <-> repo md5 match (all 16 files)")
-# ---------------------------------------------------------------------------
 def md5(p: Path) -> str:
     h = hashlib.md5()
     with p.open("rb") as f:
@@ -331,16 +308,13 @@ for fn, repo_rel in DELIVERABLES.items():
     same = md5(repo_p) == md5(dbox_p)
     check(f"Dropbox = repo md5: {fn}", same)
 
-# Check obsolete files are gone
 for orphan in [
     "for review/facility_overrides_template.csv",
     "for review/site_overrides_template.csv",
 ]:
     check(f"obsolete file removed: {orphan}", not (DBOX / orphan).exists())
 
-# ---------------------------------------------------------------------------
 section("12. Repo junk scan (loose stray files)")
-# ---------------------------------------------------------------------------
 junk_patterns = ["'", "{", "}", "%s", "str", "San"]
 junk_found = []
 for p in REPO.iterdir():
@@ -348,9 +322,7 @@ for p in REPO.iterdir():
         junk_found.append(p.name)
 check("no junk files in repo root", not junk_found, f"found {junk_found}")
 
-# ---------------------------------------------------------------------------
 section("13. Git state")
-# ---------------------------------------------------------------------------
 r = subprocess.run(
     ["git", "-C", str(REPO), "status", "--porcelain"],
     capture_output=True, text=True,
@@ -378,9 +350,7 @@ r3 = subprocess.run(
 ahead = (r3.stdout.strip() or "0")
 check("repo is pushed (0 commits ahead of origin)", ahead == "0", f"ahead by {ahead}")
 
-# ---------------------------------------------------------------------------
 section("14. Encounters integrity")
-# ---------------------------------------------------------------------------
 yr_enc = pd.read_csv(REPO / "data/processed/county_year_encounters_panel.csv", dtype={"county_fips": str})
 yr_enc["year"] = yr_enc["year"].astype(int) if yr_enc["year"].dtype != "int64" else yr_enc["year"]
 check(
@@ -395,7 +365,6 @@ check(
     f"min = {mo_enc['year_month'].min()}",
 )
 
-# ---------------------------------------------------------------------------
 print()
 print("=" * 70)
 fails = [r for r in results if r[0] == "FAIL"]

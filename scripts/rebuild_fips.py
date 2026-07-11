@@ -61,7 +61,6 @@ def main() -> None:
         w.writerows(rows)
     print(f"wrote {DST} ({len(rows)} rows)")
 
-    # Sanity check: Matanuska-Susitna and the previously broken ones
     keys = {
         "02170": "Matanuska-Susitna",
         "02020": "Anchorage",

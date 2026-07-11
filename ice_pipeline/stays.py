@@ -59,9 +59,6 @@ def _build_fips_lookup(fips_csv: Path) -> dict[tuple[str, str], tuple[str, str]]
         cn_compact = norm_compact(r["county_name"])
         lookup[(sa, cn_norm)] = (r["fips"], r["county_name"])
         lookup[(sa, cn_compact)] = (r["fips"], r["county_name"])
-        # VA independent cities (and a few in MO, NV) appear in the FIPS file
-        # as "X city" but in DDP/FOIA as bare "X". Register the bare form if
-        # not already taken by another county in the same state.
         bare = cn_norm
         if bare.endswith(" city"):
             stripped = bare[:-5].strip()
@@ -156,9 +153,6 @@ def aggregate_stays(
         idx = fac.index[valid]
         s.loc[idx, "county_fips"] = rescued_fips[valid].values
         s.loc[idx, "county_name"] = rescued_cnty[valid].values
-        # The rescued facility's 5-digit FIPS uniquely determines its state,
-        # so the crosswalk state governs. Overwrite any DDP state_longest that
-        # disagrees (e.g. DDP labelled a Maryland facility as Colorado).
         new_state = rescued_st[valid]
         has_state = new_state != ""
         st_idx = idx[has_state.values]

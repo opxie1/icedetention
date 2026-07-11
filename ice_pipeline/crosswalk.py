@@ -386,7 +386,7 @@ def build_crosswalk(
 
     needs_review = cw[
         (cw["county_fips"].astype(str).str.strip() == "")
-        | (cw["unusual_flag"] == True)  # noqa: E712
+        | (cw["unusual_flag"] == True)
         | (cw["resolution_source"] == "unknown")
     ].copy()
     review_path = out_dir / REVIEW_FILENAME

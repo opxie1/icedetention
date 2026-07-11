@@ -74,7 +74,6 @@ def build_year() -> None:
                   "detained_days"] + NATIVE
     stacked = pd.concat([foia[cols], ddp[cols]], ignore_index=True)
 
-    # Collapse to one row per county-year. Only 2023 has two source rows.
     def _agg(g: pd.DataFrame) -> pd.Series:
         srcs = list(dict.fromkeys(g["source"]))
         source = MIXED_SRC if len(srcs) > 1 else srcs[0]

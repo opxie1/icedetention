@@ -146,15 +146,12 @@ def build_acs() -> tuple[pd.DataFrame, pd.DataFrame]:
                 "b05001": acs_pull(y, "NAME,B05001_001E,B05001_006E,B05001_006M", key),
             }
             cache.write_text(json.dumps(data), encoding="utf-8")
-        # PR publishes citizenship in the PR-specific table B05001PR; the
-        # standard B05001 is null for all 78 municipios in every vintage.
         if "b05001pr" not in data:
             print(f"  [pull] ACS {y} B05001PR (Puerto Rico)")
             data["b05001pr"] = acs_pull(
                 y, "NAME,B05001PR_001E,B05001PR_006E,B05001PR_006M", key,
                 geo="for=county:*&in=state:72")
             cache.write_text(json.dumps(data), encoding="utf-8")
-        # Substitute PR rows in b05001 with the PR-table values.
         hdr05, *recs05 = data["b05001"]
         non_pr = [r for r in recs05 if r[hdr05.index("state")] != "72"]
         hdrpr, *recspr = data["b05001pr"]
@@ -221,8 +218,6 @@ def main() -> None:
              .merge(hisp, on=["county_fips", "year"], how="left")
              .merge(ncit, on=["county_fips", "year"], how="left"))
 
-    # PR (72xxx) has no PEP national-file totals: use the ACS total (B05001PR
-    # and B03002 agree exactly on the PR universe), flagged.
     pr = panel["county_fips"].str.startswith("72") & panel["pop_total"].isna()
     panel.loc[pr, "pop_total"] = panel.loc[pr, "acs_total_b05001"].fillna(
         panel.loc[pr, "acs_total_b03002"])
@@ -245,9 +240,6 @@ def main() -> None:
     panel = panel.merge(fipsref.rename(columns={"fips": "county_fips"}),
                         on="county_fips", how="left")
 
-    # CT appears under BOTH geography bases (legacy counties 09001-09015 and
-    # planning regions 09110-09190, the Census basis from 2022 on). Flag them
-    # so users filter one basis before any statewide/national aggregation.
     ct_legacy = panel["county_fips"].isin(
         [f"090{n:02d}" for n in range(1, 16, 2)])
     ct_newreg = panel["county_fips"].str.startswith("091")
