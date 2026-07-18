@@ -36,6 +36,8 @@ LAYOUT = {
     "population/county_month_detention_population.csv": "data/processed/county_month_detention_population.csv",
     "balanced panel/county_month_detention_population_balanced.csv": "data/processed/county_month_detention_population_balanced.csv",
     "balanced panel/county_year_detention_population_balanced.csv": "data/processed/county_year_detention_population_balanced.csv",
+    "enforcement measures/county_enforcement_measures.csv": "data/processed/county_enforcement_measures.csv",
+    "enforcement measures/county_month_enforcement_detail.csv": "data/processed/county_month_enforcement_detail.csv",
 }
 
 OBSOLETE_FILES = [
