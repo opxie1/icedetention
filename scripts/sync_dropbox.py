@@ -38,6 +38,8 @@ LAYOUT = {
     "balanced panel/county_year_detention_population_balanced.csv": "data/processed/county_year_detention_population_balanced.csv",
     "enforcement measures/county_enforcement_measures.csv": "data/processed/county_enforcement_measures.csv",
     "enforcement measures/county_month_enforcement_detail.csv": "data/processed/county_month_enforcement_detail.csv",
+    "enforcement measures/county_month_daily_activity.csv": "data/processed/county_month_daily_activity.csv",
+    "enforcement measures/county_daily_intermittency_summary.csv": "data/processed/county_daily_intermittency_summary.csv",
 }
 
 OBSOLETE_FILES = [
