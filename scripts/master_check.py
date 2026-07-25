@@ -196,6 +196,120 @@ check("no unexpected modified tracked files pre-commit",
           for l in g.stdout.splitlines()),
       f"{len(g.stdout.splitlines())} entries in git status")
 
+
+section("H. Polo-Muro (Jul 17): balanced panel")
+uni = pd.read_csv(REPO / "references/balanced_panel_universe.csv", dtype={"county5": str})
+uni["county5"] = uni["county5"].str.zfill(5)
+uni["ym"] = uni["year"].astype(str) + "-" + uni["month"].astype(str).str.zfill(2)
+bm = pd.read_csv(PROC / "county_month_detention_population_balanced.csv",
+                 dtype={"county_fips": str}, low_memory=False)
+bm["county_fips"] = bm["county_fips"].str.zfill(5)
+check("balanced grid == his .rds grid exactly",
+      set(zip(bm.county_fips, bm.year_month)) == set(zip(uni.county5, uni.ym)),
+      f"{len(bm):,} rows, {bm.county_fips.nunique()} counties x {bm.year_month.nunique()} months")
+check("no duplicate (county, month)", bm.duplicated(["county_fips", "year_month"]).sum() == 0)
+check("zero-filled county-months present", int((bm.n_detained == 0).sum()) > 500_000,
+      f"{int((bm.n_detained==0).sum()):,} zero rows")
+check("beyond-data months left NA not zero",
+      bm[bm.year_month > "2026-03"].n_detained.isna().all()
+      and bm[bm.year_month <= "2026-03"].n_detained.notna().all())
+check("population on 100% of rows", bm.pop_total.notna().all(),
+      f"{100*bm.pop_total.notna().mean():.2f}%")
+src_comb = pd.read_csv(PROC / "county_month_detention_combined.csv", dtype={"county_fips": str})
+src_comb["county_fips"] = src_comb["county_fips"].str.zfill(5)
+terr_n = src_comb[src_comb.county_fips.isin(["66010", "69110", "78030"])].n_detained.sum()
+check("totals reconcile (balanced + territories = source)",
+      int(bm.n_detained.sum()) + int(terr_n) == int(src_comb.n_detained.sum()),
+      f"{int(bm.n_detained.sum()):,} + {int(terr_n):,} = {int(src_comb.n_detained.sum()):,}")
+sm = src_comb.merge(bm[["county_fips", "year_month", "n_detained"]],
+                    on=["county_fips", "year_month"], how="left", suffixes=("_s", "_b"))
+sm = sm[~sm.county_fips.isin(["66010", "69110", "78030"])]
+check("every original detention row preserved with identical count",
+      sm.n_detained_b.notna().all() and np.allclose(sm.n_detained_s, sm.n_detained_b))
+by = pd.read_csv(PROC / "county_year_detention_population_balanced.csv", dtype={"county_fips": str})
+check("yearly balanced unique (county, year)", by.duplicated(["county_fips", "year"]).sum() == 0,
+      f"{len(by):,} rows")
+
+section("I. Amuedo-Dorantes (Jul 17): enforcement measures")
+em = pd.read_csv(PROC / "county_enforcement_measures.csv", dtype={"county_fips": str})
+em["county_fips"] = em["county_fips"].str.zfill(5)
+for c in ["intensity_excess", "intensity_sd", "longest_streak", "n_spike_episodes",
+          "spike_fragmentation", "spike_frequency"]:
+    check(f"measure column present: {c}", c in em.columns)
+t1 = pd.read_csv(REPO / "analysis/task1_spikes/table_spike_summary_by_county.csv",
+                 dtype={"county_fips": str})
+t1["county_fips"] = t1["county_fips"].str.zfill(5)
+j = em.merge(t1, on="county_fips", suffixes=("_n", "_t"))
+check("spike stats match Task 1 on all shared counties",
+      (j.n_spike_months_n == j.n_spike_months_t).all()
+      and (j.longest_streak_n == j.longest_streak_t).all(),
+      f"{len(j)} counties compared")
+check("intensities non-negative and finite",
+      (em.intensity_excess >= 0).all() and (em.intensity_sd >= 0).all()
+      and np.isfinite(em.intensity_sd).all())
+check("standardized intensity bounded (z-cap works)", em.intensity_sd.max() < 1000,
+      f"max {em.intensity_sd.max():.1f}")
+fr = em.spike_fragmentation.dropna()
+check("fragmentation within (0,1]", fr.between(0, 1).all(),
+      f"{fr.min():.3f}..{fr.max():.3f}")
+
+section("J. Amuedo-Dorantes (Jul 25): day-level intermittency")
+da = pd.read_csv(PROC / "county_month_daily_activity.csv", dtype={"county_fips": str})
+da["county_fips"] = da["county_fips"].str.zfill(5)
+for c in ["active_days", "max_consecutive_active_days", "n_active_runs", "span_days"]:
+    check(f"daily column present: {c}", c in da.columns)
+foia_p = pd.read_csv(PROC / "county_month_panel.csv", dtype={"county_fips": str})
+foia_p["county_fips"] = foia_p["county_fips"].str.zfill(5)
+fj = da[da.year_month <= "2023-11"].merge(
+    foia_p[["county_fips", "year_month", "n_episodes"]],
+    on=["county_fips", "year_month"], how="outer", indicator=True)
+check("FOIA daily reconstruction matches panel episodes exactly",
+      (fj._merge == "both").all() and np.allclose(fj.n_bookins, fj.n_episodes),
+      f"{len(fj):,} county-months")
+st_p = pd.read_csv(PROC / "county_month_stays_panel.csv", dtype={"county_fips": str})
+st_p["county_fips"] = st_p["county_fips"].str.zfill(5)
+dj = da[da.year_month >= "2023-12"].merge(
+    st_p[["county_fips", "year_month", "n_stays"]],
+    on=["county_fips", "year_month"], how="outer", indicator=True)
+check("DDP daily reconstruction matches panel stays exactly",
+      (dj._merge == "both").all() and np.allclose(dj.n_bookins, dj.n_stays),
+      f"{len(dj):,} county-months")
+check("active_days <= days_in_month", (da.active_days <= da.days_in_month).all())
+check("active_days <= n_bookins", (da.active_days <= da.n_bookins).all())
+check("longest run <= active_days", (da.max_consecutive_active_days <= da.active_days).all())
+check("1 <= clusters <= active_days",
+      (da.n_active_runs >= 1).all() and (da.n_active_runs <= da.active_days).all())
+check("distinguishes solid-block from scattered months",
+      bool((da.max_consecutive_active_days >= 5).any())
+      and bool((da[da.active_days >= 5].n_active_runs >= 5).any()))
+ds = pd.read_csv(PROC / "county_daily_intermittency_summary.csv", dtype={"county_fips": str})
+check("daily summary covers all active counties", len(ds) == 635, f"{len(ds)} counties")
+
+section("K. Dropbox: newest deliverables synced")
+NEW = {
+    "balanced panel/county_month_detention_population_balanced.csv":
+        PROC / "county_month_detention_population_balanced.csv",
+    "balanced panel/county_year_detention_population_balanced.csv":
+        PROC / "county_year_detention_population_balanced.csv",
+    "enforcement measures/county_enforcement_measures.csv":
+        PROC / "county_enforcement_measures.csv",
+    "enforcement measures/county_month_enforcement_detail.csv":
+        PROC / "county_month_enforcement_detail.csv",
+    "enforcement measures/county_month_daily_activity.csv":
+        PROC / "county_month_daily_activity.csv",
+    "enforcement measures/county_daily_intermittency_summary.csv":
+        PROC / "county_daily_intermittency_summary.csv",
+}
+bad_new = [r for r, s in NEW.items()
+           if not ((DBOX / r).is_file() and md5(DBOX / r) == md5(s))]
+check(f"all {len(NEW)} newest files in Dropbox and md5-identical", not bad_new,
+      f"mismatches: {bad_new}" if bad_new else "")
+rm_txt = (PROC / "README_PANELS.txt").read_text(encoding="utf-8")
+for needle in ["balanced panel", "enforcement measures", "active_days",
+               "max_consecutive_active_days", "intensity_excess"]:
+    check(f"README documents: {needle}", needle in rm_txt)
+check("README in Dropbox matches repo",
+      md5(DBOX / "README_PANELS.txt") == md5(PROC / "README_PANELS.txt"))
 print(f"\n{'='*70}")
 fails = results.count("FAIL")
 print(f"SUMMARY: {results.count('PASS')} PASS, {fails} FAIL of {len(results)}")
