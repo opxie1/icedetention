@@ -265,11 +265,10 @@ nearly flat court area cannot produce a runaway figure.
 PARTIAL MONTHS
 Two months are incomplete and are flagged in the partial_month column.
 November 2023 is where the FOIA file stops partway through, and March
-2026 is where the newer data currently ends, with records only through
-the 11th. Both would read as sharp collapses if plotted, so the figures
-leave them out while the panel keeps them, flagged. February 2026 is
-structurally complete but may still be revised upward, since recent
-months in the newer source can lag.
+2026 is where the newer data ends, with the last record on March 11.
+Both would read as sharp collapses if plotted, so the figures leave
+them out while the panel keeps them, flagged. Every earlier month,
+February 2026 included, sits fully inside the data window.
 
 
 SOURCE CHANGE IN DECEMBER 2023

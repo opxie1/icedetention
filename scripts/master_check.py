@@ -310,6 +310,44 @@ for needle in ["balanced panel", "enforcement measures", "active_days",
     check(f"README documents: {needle}", needle in rm_txt)
 check("README in Dropbox matches repo",
       md5(DBOX / "README_PANELS.txt") == md5(PROC / "README_PANELS.txt"))
+
+section("L. Court-area prep (Aug): exposure file ready, aggregation gated")
+ex = pd.read_csv(PROC / "county_month_exposure.csv",
+                 dtype={"county_fips": str}, low_memory=False)
+ex["county_fips"] = ex["county_fips"].str.zfill(5)
+for c_ in ["n_detained", "pop_total", "detained_per_100k", "spike",
+           "excess", "excess_sd", "partial_month"]:
+    check(f"exposure column present: {c_}", c_ in ex.columns)
+check("exposure file is the full balanced grid",
+      len(ex) == 557_233 and ex.county_fips.nunique() == 3221,
+      f"{len(ex):,} rows, {ex.county_fips.nunique()} counties")
+check("no duplicate (county, month)", ex.duplicated(["county_fips", "year_month"]).sum() == 0)
+check("population on 100% of rows", ex.pop_total.notna().all())
+check("partial months flagged (2023-11, 2026-03)",
+      set(ex[ex.partial_month].year_month.unique()) == {"2023-11", "2026-03"})
+check("exposure totals match combined panel",
+      int(ex.n_detained.sum()) == int(bm.n_detained.sum()),
+      f"{int(ex.n_detained.sum()):,}")
+check("exposure file synced to Dropbox",
+      md5(DBOX / "enforcement measures/county_month_exposure.csv")
+      == md5(PROC / "county_month_exposure.csv"))
+check("README documents the exposure file",
+      "county_month_exposure.csv" in (PROC / "README_PANELS.txt").read_text(encoding="utf-8"))
+court_src = (REPO / "scripts/build_court_exposure.py").read_text(encoding="utf-8")
+for want in ["n_detained", "detained_per_100k", "court_spike", "court_excess",
+             "court_excess_sd"]:
+    check(f"court panel will carry: {want}", f'"{want}"' in court_src)
+for fig in ["fig1_court_ranked_exposure.png", "fig2_central_valley_vs_national.png",
+            "fig3_court_time_series.png", "documentation_note.txt"]:
+    check(f"court script produces: {fig}", fig in court_src)
+for elem in ["UNIT OF OBSERVATION", "DATE RANGE", "DENOMINATOR", "SPIKE DEFINITION",
+             "SOURCE CHANGE IN DECEMBER 2023", "COUNTY TO COURT AREA"]:
+    check(f"doc note covers: {elem}", elem in court_src)
+check("no fabricated court crosswalk present",
+      not list((REPO / "references").glob("*court*"))
+      and not list((REPO / "analysis" / "court_exposure").glob("*.csv")),
+      "correctly waiting on Prof. Polo-Muro")
+
 print(f"\n{'='*70}")
 fails = results.count("FAIL")
 print(f"SUMMARY: {results.count('PASS')} PASS, {fails} FAIL of {len(results)}")
