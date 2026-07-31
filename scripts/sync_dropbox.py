@@ -40,6 +40,7 @@ LAYOUT = {
     "enforcement measures/county_month_enforcement_detail.csv": "data/processed/county_month_enforcement_detail.csv",
     "enforcement measures/county_month_daily_activity.csv": "data/processed/county_month_daily_activity.csv",
     "enforcement measures/county_daily_intermittency_summary.csv": "data/processed/county_daily_intermittency_summary.csv",
+    "enforcement measures/county_month_exposure.csv": "data/processed/county_month_exposure.csv",
 }
 
 OBSOLETE_FILES = [
