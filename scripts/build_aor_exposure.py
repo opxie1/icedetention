@@ -53,6 +53,17 @@ xw = xw.dropna(subset=["GEOID"]).copy()
 xw["county_fips"] = xw["GEOID"].astype(str).str.zfill(5)
 xw["aor"] = norm_aor(xw["area_of_responsibility_name"])
 xw = xw[["county_fips", "aor"]].drop_duplicates()
+
+CT_LEGACY = ["09001", "09003", "09005", "09007", "09009", "09011", "09013", "09015"]
+ct_aor = xw.loc[xw.county_fips.str.startswith("091"), "aor"].unique()
+if len(ct_aor) == 1 and not set(CT_LEGACY) & set(xw.county_fips):
+    xw = pd.concat([xw, pd.DataFrame({"county_fips": CT_LEGACY, "aor": ct_aor[0]})],
+                   ignore_index=True)
+    print(f"  added Connecticut's 8 legacy counties -> {ct_aor[0]} AOR "
+          f"(the crosswalk lists CT only as its 9 post-2022 planning regions, "
+          f"but our detention data uses the legacy counties; all of "
+          f"Connecticut sits in the same AOR either way)")
+
 xw.to_csv(REFS / "county_aor_crosswalk.csv", index=False)
 print(f"  {xw.county_fips.nunique():,} counties -> {xw.aor.nunique()} AORs")
 
@@ -151,7 +162,6 @@ cv_n = xw[xw.aor.isin(cv_aor)].county_fips.nunique()
 print(f"  Central Valley -> {cv_aor} AOR ({cv_n} counties total)")
 print(f"  wrote aor_exposure_summary.csv: {len(summ)} AORs")
 
-no_aor = ar_unmatched = None
 print("\n=== figures ===")
 import matplotlib
 matplotlib.use("Agg")
@@ -264,6 +274,14 @@ partial_month column and left out of the figures. Both detentions and
 arrests stop partway through March 2026.
 
 ASSUMPTIONS AND WHAT IS LEFT OUT
+Connecticut appears in the crosswalk only as its nine post-2022
+planning regions, while the detention data uses the state's eight
+historical counties. Since all of Connecticut belongs to the Boston
+area either way, the historical counties were added to the crosswalk
+pointing at Boston. Without that step the whole state, about 3.6
+million residents, drops out and Boston's rate per resident is
+overstated by roughly half.
+
 Counties missing from the crosswalk hold {int(lost):,} detentions.
 About one percent of arrests carry no area of responsibility, and a
 further 80 are recorded under headquarters, which has no counties

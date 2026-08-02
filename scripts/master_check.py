@@ -348,6 +348,61 @@ check("no fabricated court crosswalk present",
       and not list((REPO / "analysis" / "court_exposure").glob("*.csv")),
       "correctly waiting on Prof. Polo-Muro")
 
+
+section("M. Polo-Muro AOR files (Aug): court-area exposure built")
+AOUT = REPO / "analysis" / "aor_exposure"
+ap = pd.read_csv(AOUT / "aor_month_exposure.csv")
+axw = pd.read_csv(REPO / "references/county_aor_crosswalk.csv", dtype={"county_fips": str})
+axw["county_fips"] = axw["county_fips"].str.zfill(5)
+cexp = pd.read_csv(PROC / "county_month_exposure.csv",
+                   dtype={"county_fips": str}, low_memory=False)
+cexp["county_fips"] = cexp["county_fips"].str.zfill(5)
+cexp = cexp[cexp.year_month <= "2026-03"]
+check("AOR panel built", len(ap) == 25 * 171, f"{len(ap):,} rows, {ap.aor.nunique()} AORs")
+check("unique (aor, month)", ap.duplicated(["aor", "year_month"]).sum() == 0)
+check("every detention preserved into AOR panel",
+      np.isclose(ap.n_detained.sum(), cexp.n_detained.sum()),
+      f"{ap.n_detained.sum():,.0f}")
+CT_LEGACY = {"09001", "09003", "09005", "09007", "09009", "09011", "09013", "09015"}
+check("Connecticut legacy counties mapped (crosswalk ships planning regions only)",
+      CT_LEGACY <= set(axw.county_fips)
+      and set(axw[axw.county_fips.isin(CT_LEGACY)].aor) == {"Boston"})
+check("Boston population includes Connecticut",
+      ap[ap.aor == "Boston"].pop_total.max() > 15e6,
+      f"{ap[ap.aor=='Boston'].pop_total.max():,.0f}")
+check("no county dropped between exposure file and AOR panel",
+      set(cexp.county_fips) <= set(axw.county_fips))
+check("arrests blank before Oct 2022, not zero",
+      ap[ap.year_month < "2022-10"].n_arrests.isna().all())
+check("arrest spikes begin after 12 months of history",
+      ap[ap.arr_spike.notna()].year_month.min() == "2023-10")
+check("spike flags are 0/1",
+      ap.det_spike.dropna().isin([0, 1]).all() and ap.arr_spike.dropna().isin([0, 1]).all())
+check("standardized intensity capped",
+      max(ap.arr_excess_sd.max(), ap.det_excess_sd.max()) <= 10.0001)
+check("partial months flagged and excluded from figures",
+      set(ap[ap.partial_month].year_month.unique()) == {"2023-11", "2026-03"})
+check("Central Valley resolves to San Francisco AOR",
+      set(axw[axw.county_fips.isin(
+          ["06019", "06029", "06067", "06077", "06107"])].aor) == {"San Francisco"})
+for f in ["aor_month_exposure.csv", "aor_exposure_summary.csv",
+          "fig1_aor_ranked_exposure.png", "fig2_central_valley_vs_national.png",
+          "fig3_aor_time_series.png", "documentation_note.txt"]:
+    check(f"deliverable: {f}", (AOUT / f).is_file() and (AOUT / f).stat().st_size > 1000)
+dn = (AOUT / "documentation_note.txt").read_text(encoding="utf-8")
+for elem in ["UNIT OF OBSERVATION", "DATE RANGE", "DENOMINATOR", "SPIKE DEFINITION",
+             "SOURCE CHANGE IN DECEMBER 2023", "PARTIAL MONTHS",
+             "ASSUMPTIONS AND WHAT IS LEFT OUT"]:
+    check(f"doc note covers: {elem}", elem in dn)
+check("doc note explains the Connecticut adjustment", "Connecticut" in dn)
+check("doc note states Central Valley cannot be isolated",
+      "cannot be separated" in dn or "Bay Area" in dn)
+bad_aor = [f for f in ["aor_month_exposure.csv", "aor_exposure_summary.csv",
+                       "fig1_aor_ranked_exposure.png",
+                       "fig2_central_valley_vs_national.png",
+                       "fig3_aor_time_series.png", "documentation_note.txt"]
+           if md5(AOUT / f) != md5(DBOX / "court exposure" / f)]
+check("all 6 AOR deliverables synced to Dropbox", not bad_aor, str(bad_aor))
 print(f"\n{'='*70}")
 fails = results.count("FAIL")
 print(f"SUMMARY: {results.count('PASS')} PASS, {fails} FAIL of {len(results)}")
