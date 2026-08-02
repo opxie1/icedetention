@@ -8,9 +8,6 @@ county-level datasets: I map each detention facility to its state and
 county, flag unusual sites such as hotels, hospitals, and hold rooms, and
 aggregate counts by county over time.
 
-I am Ethan Xie (The Charter School of Wilmington, Delaware),
-xief@udel.edu.
-
 ## The data
 
 The pipeline handles three sources and combines two of them.
