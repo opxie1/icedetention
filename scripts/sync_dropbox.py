@@ -41,6 +41,12 @@ LAYOUT = {
     "enforcement measures/county_month_daily_activity.csv": "data/processed/county_month_daily_activity.csv",
     "enforcement measures/county_daily_intermittency_summary.csv": "data/processed/county_daily_intermittency_summary.csv",
     "enforcement measures/county_month_exposure.csv": "data/processed/county_month_exposure.csv",
+    "court exposure/aor_month_exposure.csv": "analysis/aor_exposure/aor_month_exposure.csv",
+    "court exposure/aor_exposure_summary.csv": "analysis/aor_exposure/aor_exposure_summary.csv",
+    "court exposure/fig1_aor_ranked_exposure.png": "analysis/aor_exposure/fig1_aor_ranked_exposure.png",
+    "court exposure/fig2_central_valley_vs_national.png": "analysis/aor_exposure/fig2_central_valley_vs_national.png",
+    "court exposure/fig3_aor_time_series.png": "analysis/aor_exposure/fig3_aor_time_series.png",
+    "court exposure/documentation_note.txt": "analysis/aor_exposure/documentation_note.txt",
 }
 
 OBSOLETE_FILES = [
